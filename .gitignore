@@ -3,3 +3,5 @@
 ################################################################################
 
 /.vs
+/src/QAToolKit.Engine.Bombardier/obj
+/test/QAToolKit.Engine.Bombardier.Test/obj
