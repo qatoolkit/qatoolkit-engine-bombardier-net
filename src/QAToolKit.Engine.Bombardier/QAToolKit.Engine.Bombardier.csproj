@@ -25,4 +25,9 @@
 		<None Include="..\..\qatoolkit-64x64.png" Pack="true" PackagePath="\" />
 		<None Include="..\..\LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
+		<PackageReference Include="QAToolKit.Core" Version="0.1.0" />
+	</ItemGroup>
 </Project>
