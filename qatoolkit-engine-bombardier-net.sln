@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QAToolKit.Engine.Bombardier", "src\QAToolKit.Engine.Bombardier\QAToolKit.Engine.Bombardier.csproj", "{EDE9264C-A8DA-4A7B-AB25-805F2A7BCC33}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QAToolKit.Engine.Bombardier.Test", "test\QAToolKit.Engine.Bombardier.Test\QAToolKit.Engine.Bombardier.Test.csproj", "{EA933817-BCEF-4B47-BFAD-BC7F5D87E69F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QAToolKit.Engine.Bombardier.Test", "src\QAToolKit.Engine.Bombardier.Test\QAToolKit.Engine.Bombardier.Test.csproj", "{EA933817-BCEF-4B47-BFAD-BC7F5D87E69F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
