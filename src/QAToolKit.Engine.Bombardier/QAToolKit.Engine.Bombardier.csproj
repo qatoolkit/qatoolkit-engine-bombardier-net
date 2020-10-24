@@ -3,7 +3,6 @@
 	<PropertyGroup>
 		<TargetFramework>netstandard2.1</TargetFramework>
 		<LangVersion>latest</LangVersion>
-
 		<!-- NuGet Metadata -->
 		<IsPackable>true</IsPackable>
 		<PackageVersion>$(Version)</PackageVersion>
@@ -29,5 +28,22 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
 		<PackageReference Include="QAToolKit.Core" Version="0.1.0" />
+	</ItemGroup>
+
+	<Import Project="..\..\QAToolKit.Engine.Bombardier.targets" />
+
+	<ItemGroup>
+		<None Include="$(SolutionDir)bombardier\linux\bombardier">
+			<Pack>true</Pack>
+			<PackagePath>build\bombardier\linux</PackagePath>
+		</None>
+		<None Include="$(SolutionDir)bombardier\win\bombardier.exe">
+			<Pack>true</Pack>
+			<PackagePath>build\bombardier\win</PackagePath>
+		</None>
+		<None Include="..\..\QAToolKit.Engine.Bombardier.targets">
+			<Pack>true</Pack>
+			<PackagePath>build</PackagePath>
+		</None>
 	</ItemGroup>
 </Project>
