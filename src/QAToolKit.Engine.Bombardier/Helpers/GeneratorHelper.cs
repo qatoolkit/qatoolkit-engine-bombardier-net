@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Text.Json;
 
 namespace QAToolKit.Engine.Bombardier.Helpers
 {
@@ -49,29 +50,16 @@ namespace QAToolKit.Engine.Bombardier.Helpers
         /// <param name="request"></param>
         /// <param name="replacementValues"></param>
         /// <returns></returns>
-        internal static string GenerateUrlParameters(HttpTestRequest request, ReplacementValue[] replacementValues)
+        internal static string GenerateUrlParameters(HttpTestRequest request)
         {
             var path = request.Path;
-            foreach (var value in replacementValues)
-            {
-                path = path.Replace("{" + value.Key + "}", value.Value);
-            }
 
             var queryParameters = new Dictionary<string, string>();
 
             //add query parameters
-            foreach (var parameter in request.Parameters)
+            foreach (var parameter in request.Parameters.Where(p => p.Value != null))
             {
-                foreach (var value in replacementValues)
-                {
-                    if (parameter.Name == value.Key)
-                    {
-                        if (!queryParameters.ContainsKey(parameter.Name) && !path.Contains(value.Value))
-                        {
-                            queryParameters.Add(parameter.Name, value.Value);
-                        }
-                    }
-                }
+                queryParameters.Add(parameter.Name, parameter.Value);
             }
 
             return new Uri(new Uri(request.BasePath), QueryHelpers.AddQueryString(path, queryParameters)).ToString();
@@ -83,7 +71,7 @@ namespace QAToolKit.Engine.Bombardier.Helpers
         /// <param name="request"></param>
         /// <param name="replacementValues"></param>
         /// <returns></returns>
-        internal static string GenerateJsonBody(HttpTestRequest request, ReplacementValue[] replacementValues)
+        internal static string GenerateJsonBody(HttpTestRequest request)
         {
             if (request.Method == HttpMethod.Get)
             {
@@ -91,12 +79,10 @@ namespace QAToolKit.Engine.Bombardier.Helpers
             }
             else
             {
-                var replacementValue = replacementValues.FirstOrDefault(r => r.Key == request.RequestBody.Name);
-
-                File.WriteAllText($"{request.RequestBody.Name}.json", replacementValue.Value);
-
-                if (replacementValue != null)
+                if (request.RequestBody.Properties.Count > 0)
                 {
+                    File.WriteAllText($"{request.RequestBody.Name}.json", JsonSerializer.Serialize(request.RequestBody.Properties));
+
                     return $"-f \"{request.RequestBody.Name}.json\" ";
                 }
                 else

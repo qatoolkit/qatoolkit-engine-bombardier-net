@@ -46,11 +46,11 @@ namespace QAToolKit.Engine.Bombardier
                     _bombardierOptions.AdministratorAccessToken, _bombardierOptions.ApiKey);
 
                 scriptBuilder.AppendLine($"{bombardierFullPath} " +
-                    $"-m {request.Method.ToString().ToUpper()} {GeneratorHelper.GenerateUrlParameters(request, _bombardierOptions.ReplacementValues)} " +
+                    $"-m {request.Method.ToString().ToUpper()} {GeneratorHelper.GenerateUrlParameters(request)} " +
                     $"-c {_bombardierOptions.BombardierConcurrentUsers} " +
                     $"{authHeader}" +
                     $"{GeneratorHelper.GenerateContentTypeHeader(request)}" +
-                    $"{GeneratorHelper.GenerateJsonBody(request, _bombardierOptions.ReplacementValues)}" +
+                    $"{GeneratorHelper.GenerateJsonBody(request)}" +
                     $"--{(Convert.ToBoolean(_bombardierOptions.BombardierUseHttp2) ? "http2" : "http1")} " +
                     $"--timeout={_bombardierOptions.BombardierTimeout}s " +
                     $"--duration={_bombardierOptions.BombardierDuration}s " +
