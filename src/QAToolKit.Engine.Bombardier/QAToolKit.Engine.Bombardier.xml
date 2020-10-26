@@ -1,0 +1,147 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>QAToolKit.Engine.Bombardier</name>
+    </assembly>
+    <members>
+        <member name="T:QAToolKit.Engine.Bombardier.BombardierGeneratorOptions">
+            <summary>
+            Bombardier generator options
+            </summary>
+        </member>
+        <member name="P:QAToolKit.Engine.Bombardier.BombardierGeneratorOptions.AccessTokens">
+            <summary>
+            A list of Oauth2 access tokens
+            </summary>
+        </member>
+        <member name="P:QAToolKit.Engine.Bombardier.BombardierGeneratorOptions.ApiKey">
+            <summary>
+            Custom ApiKey sent as a ApiKey HTTP Header
+            </summary>
+        </member>
+        <member name="P:QAToolKit.Engine.Bombardier.BombardierGeneratorOptions.UserName">
+            <summary>
+            Basic Authentication user name
+            </summary>
+        </member>
+        <member name="P:QAToolKit.Engine.Bombardier.BombardierGeneratorOptions.Password">
+            <summary>
+            Basic Authentication password
+            </summary>
+        </member>
+        <member name="P:QAToolKit.Engine.Bombardier.BombardierGeneratorOptions.BombardierConcurrentUsers">
+            <summary>
+            Bombardier concurrent users options
+            </summary>
+        </member>
+        <member name="P:QAToolKit.Engine.Bombardier.BombardierGeneratorOptions.BombardierTimeout">
+            <summary>
+            Bombardier request timeout
+            </summary>
+        </member>
+        <member name="P:QAToolKit.Engine.Bombardier.BombardierGeneratorOptions.BombardierDuration">
+            <summary>
+            Bombardier test runner duration
+            </summary>
+        </member>
+        <member name="P:QAToolKit.Engine.Bombardier.BombardierGeneratorOptions.BombardierRateLimit">
+            <summary>
+            Bombardier rate limiting per second
+            </summary>
+        </member>
+        <member name="P:QAToolKit.Engine.Bombardier.BombardierGeneratorOptions.BombardierUseHttp2">
+            <summary>
+            Bombardier use HTTP2 protocol
+            </summary>
+        </member>
+        <member name="P:QAToolKit.Engine.Bombardier.BombardierGeneratorOptions.TestType">
+            <summary>
+            What is the type of the test
+            </summary>
+        </member>
+        <member name="M:QAToolKit.Engine.Bombardier.BombardierGeneratorOptions.AddOAuth2Token(System.String,QAToolKit.Core.Models.AuthenticationType)">
+            <summary>
+            Add Oauth2 token to the bombardier generator
+            </summary>
+            <param name="token"></param>
+            <param name="authenticationType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:QAToolKit.Engine.Bombardier.BombardierGeneratorOptions.AddApiKey(System.String)">
+            <summary>
+            Add api key to the bombardier generator
+            </summary>
+            <param name="apiKey"></param>
+            <returns></returns>
+        </member>
+        <member name="M:QAToolKit.Engine.Bombardier.BombardierGeneratorOptions.AddBasicAuthentication(System.String,System.String)">
+            <summary>
+            Add basic authentication to Bombardier generator
+            </summary>
+            <param name="userName"></param>
+            <param name="password"></param>
+            <returns></returns>
+        </member>
+        <member name="T:QAToolKit.Engine.Bombardier.BombardierOutputOptions">
+            <summary>
+            Bombardier output options
+            </summary>
+        </member>
+        <member name="P:QAToolKit.Engine.Bombardier.BombardierOutputOptions.ObfuscateAuthenticationHeader">
+            <summary>
+            Obfuscate authentication header in the results output
+            </summary>
+        </member>
+        <member name="M:QAToolKit.Engine.Bombardier.BombardierTestsGenerator.Generate(System.Collections.Generic.IList{QAToolKit.Core.Models.HttpTestRequest})">
+            <summary>
+            Generate a Bombardier script from requests
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:QAToolKit.Engine.Bombardier.BombardierTestsRunner.Run">
+            <summary>
+            Run Bombardier tests
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:QAToolKit.Engine.Bombardier.Helpers.GeneratorHelper.GenerateRateLimit(System.Int32)">
+            <summary>
+            Generate Rate limit for request.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:QAToolKit.Engine.Bombardier.Helpers.GeneratorHelper.GenerateContentTypeHeader(QAToolKit.Core.Models.HttpTestRequest)">
+            <summary>
+            Generate content type header
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:QAToolKit.Engine.Bombardier.Helpers.GeneratorHelper.GenerateUrlParameters(QAToolKit.Core.Models.HttpTestRequest)">
+            <summary>
+            Generate and replace URL parameters with replacement values
+            </summary>
+            <param name="request"></param>
+            <param name="replacementValues"></param>
+            <returns></returns>
+        </member>
+        <member name="M:QAToolKit.Engine.Bombardier.Helpers.GeneratorHelper.GenerateJsonBody(QAToolKit.Core.Models.HttpTestRequest)">
+            <summary>
+            Generate JSON body
+            </summary>
+            <param name="request"></param>
+            <param name="replacementValues"></param>
+            <returns></returns>
+        </member>
+        <member name="M:QAToolKit.Engine.Bombardier.Helpers.GeneratorHelper.GenerateAuthHeader(QAToolKit.Core.Models.HttpTestRequest,QAToolKit.Engine.Bombardier.BombardierGeneratorOptions)">
+            <summary>
+            Generate Authentication header for HTTP request
+            </summary>
+            <param name="request"></param>
+            <param name="customerAccessToken"></param>
+            <param name="administratorAccessToken"></param>
+            <param name="apiKey"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

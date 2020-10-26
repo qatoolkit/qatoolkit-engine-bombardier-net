@@ -101,7 +101,7 @@ namespace QAToolKit.Engine.Bombardier.Helpers
         /// <param name="administratorAccessToken"></param>
         /// <param name="apiKey"></param>
         /// <returns></returns>
-        internal static string GenerateAuthHeader(HttpTestRequest request, BombardierOptions bombardierOptions)
+        internal static string GenerateAuthHeader(HttpTestRequest request, BombardierGeneratorOptions bombardierOptions)
         {
             //Check if Swagger operation description contains certain auth tags
             string authHeader;
@@ -152,7 +152,7 @@ namespace QAToolKit.Engine.Bombardier.Helpers
             return authHeader;
         }
 
-        private static string GetBasicAuthenticationHeader(BombardierOptions bombardierOptions)
+        private static string GetBasicAuthenticationHeader(BombardierGeneratorOptions bombardierOptions)
         {
             string authHeader;
 
@@ -170,7 +170,7 @@ namespace QAToolKit.Engine.Bombardier.Helpers
             return authHeader;
         }
 
-        private static string GetApiKeyAuthenticationHeader(BombardierOptions bombardierOptions)
+        private static string GetApiKeyAuthenticationHeader(BombardierGeneratorOptions bombardierOptions)
         {
             string authHeader;
 

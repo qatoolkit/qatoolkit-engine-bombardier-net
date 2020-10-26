@@ -13,10 +13,21 @@ namespace QAToolKit.Engine.Bombardier
     public class BombardierTestsRunner
     {
         private readonly IList<BombardierTest> _bombardierTests;
+        private readonly BombardierOutputOptions _bombardierParserOptions;
 
-        public BombardierTestsRunner(IList<BombardierTest> bombardierTests)
+        public BombardierTestsRunner(IList<BombardierTest> bombardierTests, Action<BombardierOutputOptions> options)
         {
             _bombardierTests = bombardierTests;
+            _bombardierParserOptions = new BombardierOutputOptions();
+
+            if (options == null)
+            {
+                _bombardierParserOptions.ObfuscateAuthenticationHeader = true;
+            }
+            else
+            {
+                options?.Invoke(_bombardierParserOptions);
+            }
         }
 
         /// <summary>
@@ -104,7 +115,7 @@ namespace QAToolKit.Engine.Bombardier
 
                 var str = sb.ToString();
 
-                results.Command = command;
+                results.Command = ObfuscateAuthenticationHeader(command);
                 results.Counter1xx = Convert.ToInt32(StringHelper.RemoveAllNonNumericChars(StringHelper.Between(str, "1xx - ", ",")));
                 results.Counter2xx = Convert.ToInt32(StringHelper.RemoveAllNonNumericChars(StringHelper.Between(str, "2xx - ", ",")));
                 results.Counter3xx = Convert.ToInt32(StringHelper.RemoveAllNonNumericChars(StringHelper.Between(str, "3xx - ", ",")));
@@ -156,6 +167,18 @@ namespace QAToolKit.Engine.Bombardier
             }
 
             return digit;
+        }
+
+        private string ObfuscateAuthenticationHeader(string command)
+        {
+            if (_bombardierParserOptions.ObfuscateAuthenticationHeader)
+            {
+                var result = StringHelper.ObfuscateStringBetween(command, "-H \"ApiKey:", "\"", " *** hidden *** ");
+                result = StringHelper.ObfuscateStringBetween(result, "-H \"Authorization:", "\"", " *** hidden *** ");
+                return result;
+            }
+
+            return command;
         }
     }
 }

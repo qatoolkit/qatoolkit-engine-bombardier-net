@@ -32,7 +32,11 @@ var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
 var bombardierTests = await bombardierTestsGenerator.Generate(requests);
 
 //Run Bombardier Tests
-var bombardierTestsRunner = new BombardierTestsRunner(bombardierTests.ToList());
+var bombardierTestsRunner = new BombardierTestsRunner(bombardierTests.ToList(),
+    options =>
+    {
+        options.ObfuscateAuthenticationHeader = false;
+    });
 var bombardierResults = await bombardierTestsRunner.Run();
 ```
 
@@ -92,7 +96,7 @@ TO-DO
 
 ## TO-DO
 
-- results obfuscation (authentication headers)
+N/A
 
 ## License
 
