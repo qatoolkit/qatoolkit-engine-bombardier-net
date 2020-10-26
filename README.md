@@ -90,6 +90,10 @@ You can set 5 Bombardier properties:
 - `BombardierUseHttp2`: Use HTTP2?
 - `BombardierRateLimit`: Rate limit Bombardier tests per second. Use this depending on the type of test you want to perform and should not be used with `BombardierDuration`.
 
+#### 3. Obfuscate Auth tokens for Bombardier output
+
+Output is obfuscated by default, but you can turn it off with `options.ObfuscateAuthenticationHeader = false;` in `BombardierTestsRunner` options.
+
 ## How to use
 
 TO-DO
