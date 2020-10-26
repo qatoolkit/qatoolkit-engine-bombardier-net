@@ -1,5 +1,4 @@
-﻿using QAToolKit.Core.Helpers;
-using QAToolKit.Core.Interfaces;
+﻿using QAToolKit.Core.Interfaces;
 using QAToolKit.Core.Models;
 using QAToolKit.Engine.Bombardier.Helpers;
 using System;
@@ -23,7 +22,7 @@ namespace QAToolKit.Engine.Bombardier
         }
 
         /// <summary>
-        /// Generate a Bombardier script
+        /// Generate a Bombardier script from requests
         /// </summary>
         /// <returns></returns>
         public async Task<IEnumerable<BombardierTest>> Generate(IList<HttpTestRequest> restRequests)

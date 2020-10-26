@@ -136,7 +136,7 @@ namespace QAToolKit.Engine.Bombardier.Helpers
             return authHeader;
         }
 
-        internal static string GetOauth2AuthenticationHeader(Dictionary<AuthenticationType, string> accessTokens, AuthenticationType authenticationType)
+        private static string GetOauth2AuthenticationHeader(Dictionary<AuthenticationType, string> accessTokens, AuthenticationType authenticationType)
         {
             string authHeader;
             if (accessTokens.ContainsKey(authenticationType))
@@ -146,13 +146,13 @@ namespace QAToolKit.Engine.Bombardier.Helpers
             }
             else
             {
-                throw new Exception("One of the access token is missing.");
+                throw new Exception($"One of the access token is missing (AuthenticationType {authenticationType.Value()} required).");
             }
 
             return authHeader;
         }
 
-        internal static string GetBasicAuthenticationHeader(BombardierOptions bombardierOptions)
+        private static string GetBasicAuthenticationHeader(BombardierOptions bombardierOptions)
         {
             string authHeader;
 
@@ -164,13 +164,13 @@ namespace QAToolKit.Engine.Bombardier.Helpers
             }
             else
             {
-                authHeader = String.Empty;
+                throw new Exception($"User name and password for basic authentication are missing and are required).");
             }
 
             return authHeader;
         }
 
-        internal static string GetApiKeyAuthenticationHeader(BombardierOptions bombardierOptions)
+        private static string GetApiKeyAuthenticationHeader(BombardierOptions bombardierOptions)
         {
             string authHeader;
 
@@ -180,7 +180,7 @@ namespace QAToolKit.Engine.Bombardier.Helpers
             }
             else
             {
-                authHeader = String.Empty;
+                throw new Exception($"Api Key is missing and is required.");
             }
 
             return authHeader;

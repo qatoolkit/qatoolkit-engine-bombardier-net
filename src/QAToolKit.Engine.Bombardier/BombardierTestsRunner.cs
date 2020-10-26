@@ -19,6 +19,10 @@ namespace QAToolKit.Engine.Bombardier
             _bombardierTests = bombardierTests;
         }
 
+        /// <summary>
+        /// Run Bombardier tests
+        /// </summary>
+        /// <returns></returns>
         public async Task<IList<BombardierResult>> Run()
         {
             var bombardierResult = new List<BombardierResult>();
