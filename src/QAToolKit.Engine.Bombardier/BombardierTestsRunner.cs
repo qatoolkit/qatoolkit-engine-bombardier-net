@@ -15,7 +15,7 @@ namespace QAToolKit.Engine.Bombardier
         private readonly IList<BombardierTest> _bombardierTests;
         private readonly BombardierOutputOptions _bombardierParserOptions;
 
-        public BombardierTestsRunner(IList<BombardierTest> bombardierTests, Action<BombardierOutputOptions> options)
+        public BombardierTestsRunner(IList<BombardierTest> bombardierTests, Action<BombardierOutputOptions> options = null)
         {
             _bombardierTests = bombardierTests;
             _bombardierParserOptions = new BombardierOutputOptions();
