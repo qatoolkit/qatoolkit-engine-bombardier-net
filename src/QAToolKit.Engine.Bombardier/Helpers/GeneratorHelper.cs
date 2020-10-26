@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 
 namespace QAToolKit.Engine.Bombardier.Helpers
@@ -100,7 +101,7 @@ namespace QAToolKit.Engine.Bombardier.Helpers
         /// <param name="administratorAccessToken"></param>
         /// <param name="apiKey"></param>
         /// <returns></returns>
-        internal static string GenerateAuthHeader(HttpTestRequest request, string customerAccessToken, string administratorAccessToken, string apiKey)
+        internal static string GenerateAuthHeader(HttpTestRequest request, BombardierOptions bombardierOptions)
         {
             //Check if Swagger operation description contains certain auth tags
             string authHeader;
@@ -108,24 +109,78 @@ namespace QAToolKit.Engine.Bombardier.Helpers
             {
                 if (request.Description.Contains(AuthenticationType.Customer.Value()) && !request.Description.Contains(AuthenticationType.Administrator.Value()))
                 {
-                    authHeader = $"-H \"Authorization: Bearer {customerAccessToken}\" ";
+                    authHeader = GetOauth2AuthenticationHeader(bombardierOptions.AccessTokens, AuthenticationType.Customer);
                 }
                 else if (!request.Description.Contains(AuthenticationType.Customer.Value()) && request.Description.Contains(AuthenticationType.Administrator.Value()))
                 {
-                    authHeader = $"-H \"Authorization: Bearer {administratorAccessToken}\" ";
+                    authHeader = GetOauth2AuthenticationHeader(bombardierOptions.AccessTokens, AuthenticationType.Administrator);
                 }
                 else
                 {
-                    authHeader = $"-H \"Authorization: Bearer {customerAccessToken}\" ";
+                    authHeader = GetOauth2AuthenticationHeader(bombardierOptions.AccessTokens, AuthenticationType.Customer);
                 }
             }
             else if (request.Description.Contains(AuthenticationType.ApiKey.Value()))
             {
-                authHeader = $"-H \"ApiKey: {apiKey}\" ";
+                authHeader = GetApiKeyAuthenticationHeader(bombardierOptions);
+            }
+            else if (request.Description.Contains(AuthenticationType.Basic.Value()))
+            {
+                authHeader = GetBasicAuthenticationHeader(bombardierOptions);
             }
             else
             {
-                authHeader = "";
+                authHeader = String.Empty;
+            }
+
+            return authHeader;
+        }
+
+        internal static string GetOauth2AuthenticationHeader(Dictionary<AuthenticationType, string> accessTokens, AuthenticationType authenticationType)
+        {
+            string authHeader;
+            if (accessTokens.ContainsKey(authenticationType))
+            {
+                accessTokens.TryGetValue(authenticationType, out var value);
+                authHeader = $"-H \"Authorization: Bearer {value}\" ";
+            }
+            else
+            {
+                throw new Exception("One of the access token is missing.");
+            }
+
+            return authHeader;
+        }
+
+        internal static string GetBasicAuthenticationHeader(BombardierOptions bombardierOptions)
+        {
+            string authHeader;
+
+            if (string.IsNullOrEmpty(bombardierOptions.UserName) && string.IsNullOrEmpty(bombardierOptions.Password))
+            {
+                string credentials = Convert.ToBase64String(ASCIIEncoding.ASCII.GetBytes(bombardierOptions.UserName + ":" + bombardierOptions.Password));
+
+                authHeader = $"-H \"Authorization: Basic {credentials}\" ";
+            }
+            else
+            {
+                authHeader = String.Empty;
+            }
+
+            return authHeader;
+        }
+
+        internal static string GetApiKeyAuthenticationHeader(BombardierOptions bombardierOptions)
+        {
+            string authHeader;
+
+            if (string.IsNullOrEmpty(bombardierOptions.ApiKey))
+            {
+                authHeader = $"-H \"ApiKey: {bombardierOptions.ApiKey}\" ";
+            }
+            else
+            {
+                authHeader = String.Empty;
             }
 
             return authHeader;

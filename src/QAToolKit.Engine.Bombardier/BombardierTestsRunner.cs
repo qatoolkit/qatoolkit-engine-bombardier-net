@@ -33,6 +33,7 @@ namespace QAToolKit.Engine.Bombardier
 
         private async Task<BombardierResult> Run(string testCommand)
         {
+            var testStart = DateTime.Now;
             var indexOfDelimiter = testCommand.IndexOf("-m");
             var bombardierExecutable = testCommand
                 .Substring(0, indexOfDelimiter - 1);
@@ -66,7 +67,8 @@ namespace QAToolKit.Engine.Bombardier
             //Delete temp files
             DeleteBodyFile(bombardierArguments);
 
-            var parsedBombardierOutput = ParseOutput(bombardrierOutput, bombardierArguments);
+            var testStop = DateTime.Now;
+            var parsedBombardierOutput = ParseOutput(bombardrierOutput, bombardierArguments, testStart, testStop);
 
             return parsedBombardierOutput;
         }
@@ -85,11 +87,16 @@ namespace QAToolKit.Engine.Bombardier
             catch { }
         }
 
-        private BombardierResult ParseOutput(StringBuilder sb, string command)
+        private BombardierResult ParseOutput(StringBuilder sb, string command, DateTime testStart, DateTime testStop)
         {
             try
             {
-                var results = new BombardierResult();
+                var results = new BombardierResult
+                {
+                    TestStart = testStart,
+                    TestStop = testStop,
+                    Duration = testStop.Subtract(testStart).TotalSeconds
+                };
 
                 var str = sb.ToString();
 

@@ -1,9 +1,11 @@
-﻿using QAToolKit.Core.Interfaces;
+﻿using QAToolKit.Core.Helpers;
+using QAToolKit.Core.Interfaces;
 using QAToolKit.Core.Models;
 using QAToolKit.Engine.Bombardier.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,10 +42,9 @@ namespace QAToolKit.Engine.Bombardier
                 bombardierFullPath = Path.Combine("./bombardier", "linux", "bombardier");
             }
 
-            foreach (var request in restRequests)
+            foreach (var request in restRequests.Where(request => request.TestTypes.Contains(_bombardierOptions.TestType)))
             {
-                string authHeader = GeneratorHelper.GenerateAuthHeader(request, _bombardierOptions.CustomerAccessToken,
-                    _bombardierOptions.AdministratorAccessToken, _bombardierOptions.ApiKey);
+                string authHeader = GeneratorHelper.GenerateAuthHeader(request, _bombardierOptions);
 
                 scriptBuilder.AppendLine($"{bombardierFullPath} " +
                     $"-m {request.Method.ToString().ToUpper()} {GeneratorHelper.GenerateUrlParameters(request)} " +

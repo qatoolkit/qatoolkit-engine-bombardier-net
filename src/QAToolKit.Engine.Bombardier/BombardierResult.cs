@@ -1,9 +1,13 @@
 ﻿using QAToolKit.Core.Interfaces;
+using System;
 
 namespace QAToolKit.Engine.Bombardier
 {
     public class BombardierResult : ILoadTestResult
     {
+        public DateTime TestStart { get; set; }
+        public DateTime TestStop { get; set; }
+        public double Duration { get; set; }
         public string Command { get; set; }
         public int Counter1xx { get; set; }
         public int Counter2xx { get; set; }
