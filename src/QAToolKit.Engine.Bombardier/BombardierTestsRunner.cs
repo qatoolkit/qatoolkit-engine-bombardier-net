@@ -10,11 +10,19 @@ using System.Threading.Tasks;
 
 namespace QAToolKit.Engine.Bombardier
 {
+    /// <summary>
+    /// Bombardier test runner
+    /// </summary>
     public class BombardierTestsRunner
     {
         private readonly IList<BombardierTest> _bombardierTests;
         private readonly BombardierOutputOptions _bombardierParserOptions;
 
+        /// <summary>
+        /// Bombardier test runner constructor
+        /// </summary>
+        /// <param name="bombardierTests"></param>
+        /// <param name="options"></param>
         public BombardierTestsRunner(IList<BombardierTest> bombardierTests, Action<BombardierOutputOptions> options = null)
         {
             _bombardierTests = bombardierTests;

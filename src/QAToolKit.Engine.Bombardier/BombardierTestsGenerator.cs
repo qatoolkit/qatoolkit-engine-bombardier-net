@@ -11,10 +11,17 @@ using System.Threading.Tasks;
 
 namespace QAToolKit.Engine.Bombardier
 {
+    /// <summary>
+    /// Bombardier test generator
+    /// </summary>
     public class BombardierTestsGenerator : IGenerator<IList<HttpTestRequest>, IEnumerable<BombardierTest>>
     {
         private readonly BombardierGeneratorOptions _bombardierGeneratorOptions;
 
+        /// <summary>
+        /// Bombardier test generator constructor
+        /// </summary>
+        /// <param name="options"></param>
         public BombardierTestsGenerator(Action<BombardierGeneratorOptions> options)
         {
             _bombardierGeneratorOptions = new BombardierGeneratorOptions();

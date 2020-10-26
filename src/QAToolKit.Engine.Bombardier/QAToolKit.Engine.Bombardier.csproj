@@ -3,6 +3,7 @@
 	<PropertyGroup>
 		<TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.1</TargetFrameworks>
 		<LangVersion>latest</LangVersion>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<!-- NuGet Metadata -->
 		<IsPackable>true</IsPackable>
 		<PackageVersion>$(Version)</PackageVersion>
@@ -18,6 +19,10 @@
 		<RepositoryUrl>https://github.com/qatoolkit/qatoolkit-engine-bombardier-net</RepositoryUrl>
 		<PackageTags>qatoolkit-core-net;.net;c#;f#;load-tests;bombardier;dotnet;netstandard</PackageTags>
 		<Configurations>Debug;Release;Debug With Project References</Configurations>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>

@@ -49,7 +49,6 @@ namespace QAToolKit.Engine.Bombardier.Helpers
         /// Generate and replace URL parameters with replacement values
         /// </summary>
         /// <param name="request"></param>
-        /// <param name="replacementValues"></param>
         /// <returns></returns>
         internal static string GenerateUrlParameters(HttpTestRequest request)
         {
@@ -70,7 +69,6 @@ namespace QAToolKit.Engine.Bombardier.Helpers
         /// Generate JSON body
         /// </summary>
         /// <param name="request"></param>
-        /// <param name="replacementValues"></param>
         /// <returns></returns>
         internal static string GenerateJsonBody(HttpTestRequest request)
         {
@@ -97,9 +95,7 @@ namespace QAToolKit.Engine.Bombardier.Helpers
         /// Generate Authentication header for HTTP request
         /// </summary>
         /// <param name="request"></param>
-        /// <param name="customerAccessToken"></param>
-        /// <param name="administratorAccessToken"></param>
-        /// <param name="apiKey"></param>
+        /// <param name="bombardierOptions"></param>
         /// <returns></returns>
         internal static string GenerateAuthHeader(HttpTestRequest request, BombardierGeneratorOptions bombardierOptions)
         {
