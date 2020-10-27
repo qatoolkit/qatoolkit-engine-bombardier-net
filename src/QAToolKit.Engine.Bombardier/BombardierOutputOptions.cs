@@ -1,4 +1,7 @@
-﻿namespace QAToolKit.Engine.Bombardier
+﻿using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("QAToolKit.Engine.Bombardier.Test")]
+namespace QAToolKit.Engine.Bombardier
 {
     /// <summary>
     /// Bombardier output options

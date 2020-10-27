@@ -4,7 +4,6 @@ using QAToolKit.Engine.Bombardier.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,7 +36,7 @@ namespace QAToolKit.Engine.Bombardier
             var bombardierTests = new List<BombardierTest>();
             var scriptBuilder = new StringBuilder();
 
-            var bombardierFullPath = String.Empty;
+            string bombardierFullPath;
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
@@ -66,8 +65,8 @@ namespace QAToolKit.Engine.Bombardier
 
                 bombardierTests.Add(new BombardierTest()
                 {
-                    Url = request.Path,
-                    Method = request.Method.ToString(),
+                    Url = new Uri(request.Path, UriKind.RelativeOrAbsolute),
+                    Method = request.Method,
                     Command = scriptBuilder.ToString()
                 });
             }
