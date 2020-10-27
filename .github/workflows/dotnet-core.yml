@@ -2,14 +2,17 @@ name: Build .NET Library
 
 on:
   push:
-    branches: [ main ]
   pull_request:
-    branches: [ main ]
+  release:
+    types:
+      - published
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
 
     steps:
     - uses: actions/checkout@v2
@@ -31,6 +34,7 @@ jobs:
         # A file, directory or wildcard pattern that describes what to upload
         path: src/QAToolKit.Engine.Bombardier/bin/
   deploy:
+    name: Pack and Push Nuget
     needs: build
     if: github.event_name == 'release'
     runs-on: ubuntu-latest
