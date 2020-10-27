@@ -45,6 +45,14 @@ namespace QAToolKit.Engine.Bombardier
         /// </summary>
         public bool BombardierUseHttp2 { get; set; }
         /// <summary>
+        /// Use http or https protocols, default is false.
+        /// </summary>
+        public bool BombardierInsecure { get; set; } = false;
+        /// <summary>
+        /// Set request body content type for Bombardier tests, default is 'application/json'
+        /// </summary>
+        public string BombardierBodyContentType { get; set; } = "application/json";
+        /// <summary>
         /// What is the type of the test
         /// </summary>
         internal TestType TestType { get; } = TestType.LoadTest;

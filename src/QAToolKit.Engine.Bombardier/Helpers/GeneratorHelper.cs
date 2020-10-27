@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.WebUtilities;
+using QAToolKit.Core.Helpers;
 using QAToolKit.Core.Models;
 using System;
 using System.Collections.Generic;
@@ -22,26 +23,34 @@ namespace QAToolKit.Engine.Bombardier.Helpers
             {
                 return $"--rate={rateLimit}";
             }
-            else
-            {
-                return "";
-            }
+
+            return String.Empty;
         }
 
         /// <summary>
         /// Generate content type header
         /// </summary>
         /// <param name="request"></param>
+        /// <param name="useContentType"></param>
         /// <returns></returns>
-        internal static string GenerateContentTypeHeader(HttpTestRequest request)
+        internal static string GenerateContentTypeHeader(HttpTestRequest request, string useContentType)
         {
             if (request.Method == HttpMethod.Get)
             {
-                return "";
+                return String.Empty;
             }
             else
             {
-                return "-H \"Content-Type: application/json\" ";
+                var contentType = request.RequestBodies.FirstOrDefault(content => content.ContentType == useContentType);
+
+                if (contentType != null)
+                {
+                    return $"-H \"Content-Type: {contentType.ContentType}\" ";
+                }
+                else
+                {
+                    throw new Exception($"Content type header '{useContentType}' not found in the HttpTestRequest.");
+                }
             }
         }
 
@@ -52,8 +61,6 @@ namespace QAToolKit.Engine.Bombardier.Helpers
         /// <returns></returns>
         internal static string GenerateUrlParameters(HttpTestRequest request)
         {
-            var path = request.Path;
-
             var queryParameters = new Dictionary<string, string>();
 
             //add query parameters
@@ -62,15 +69,19 @@ namespace QAToolKit.Engine.Bombardier.Helpers
                 queryParameters.Add(parameter.Name, parameter.Value);
             }
 
-            return new Uri(new Uri(request.BasePath), QueryHelpers.AddQueryString(path, queryParameters)).ToString();
+            var baseUrl = new Uri($"{request.BasePath}{request.Path}").ToString();
+            var url = QueryHelpers.AddQueryString(baseUrl, queryParameters).ToString();
+
+            return url;
         }
 
         /// <summary>
         /// Generate JSON body
         /// </summary>
         /// <param name="request"></param>
+        /// <param name="useContentType"></param>
         /// <returns></returns>
-        internal static string GenerateJsonBody(HttpTestRequest request)
+        internal static string GenerateJsonBody(HttpTestRequest request, string useContentType)
         {
             if (request.Method == HttpMethod.Get)
             {
@@ -78,17 +89,42 @@ namespace QAToolKit.Engine.Bombardier.Helpers
             }
             else
             {
-                if (request.RequestBody.Properties.Count > 0)
-                {
-                    File.WriteAllText($"{request.RequestBody.Name}.json", JsonSerializer.Serialize(request.RequestBody.Properties));
+                var useRequest = request.RequestBodies.FirstOrDefault(content => content.ContentType == useContentType);
 
-                    return $"-f \"{request.RequestBody.Name}.json\" ";
+                if (useRequest == null)
+                {
+                    throw new Exception($"Request body content type '{useContentType}' not found in the HttpTestRequest.");
+                }
+
+                var fileName = $"{Guid.NewGuid()}.json";
+
+                if (useRequest.Properties.Count > 0)
+                {
+                    File.WriteAllText(fileName, JsonSerializer.Serialize(useRequest.Properties));
+
+                    return $"-f \"{fileName}\" ";
                 }
                 else
                 {
                     return String.Empty;
                 }
             }
+        }
+
+
+        /// <summary>
+        /// Generate Insecure Bombardier switch
+        /// </summary>
+        /// <param name="bombardierOptions"></param>
+        /// <returns></returns>
+        public static string GenerateInsecureSwitch(BombardierGeneratorOptions bombardierOptions)
+        {
+            if (bombardierOptions.BombardierInsecure)
+            {
+                return "--insecure";
+            }
+
+            return String.Empty;
         }
 
         /// <summary>

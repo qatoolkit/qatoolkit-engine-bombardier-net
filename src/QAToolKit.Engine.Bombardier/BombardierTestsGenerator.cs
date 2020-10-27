@@ -48,7 +48,7 @@ namespace QAToolKit.Engine.Bombardier
                 bombardierFullPath = Path.Combine("./bombardier", "linux", "bombardier");
             }
 
-            foreach (var request in restRequests.Where(request => request.TestTypes.Contains(_bombardierGeneratorOptions.TestType)))
+            foreach (var request in restRequests)
             {
                 string authHeader = GeneratorHelper.GenerateAuthHeader(request, _bombardierGeneratorOptions);
 
@@ -56,11 +56,12 @@ namespace QAToolKit.Engine.Bombardier
                     $"-m {request.Method.ToString().ToUpper()} {GeneratorHelper.GenerateUrlParameters(request)} " +
                     $"-c {_bombardierGeneratorOptions.BombardierConcurrentUsers} " +
                     $"{authHeader}" +
-                    $"{GeneratorHelper.GenerateContentTypeHeader(request)}" +
-                    $"{GeneratorHelper.GenerateJsonBody(request)}" +
+                    $"{GeneratorHelper.GenerateContentTypeHeader(request, _bombardierGeneratorOptions.BombardierBodyContentType)}" +
+                    $"{GeneratorHelper.GenerateJsonBody(request, _bombardierGeneratorOptions.BombardierBodyContentType)}" +
                     $"--{(Convert.ToBoolean(_bombardierGeneratorOptions.BombardierUseHttp2) ? "http2" : "http1")} " +
                     $"--timeout={_bombardierGeneratorOptions.BombardierTimeout}s " +
                     $"--duration={_bombardierGeneratorOptions.BombardierDuration}s " +
+                    $"{GeneratorHelper.GenerateInsecureSwitch(_bombardierGeneratorOptions)}" +
                     $"{GeneratorHelper.GenerateRateLimit(_bombardierGeneratorOptions.BombardierRateLimit)}");
 
                 bombardierTests.Add(new BombardierTest()

@@ -19,4 +19,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\QAToolKit.Engine.Bombardier\QAToolKit.Engine.Bombardier.csproj" />
+  </ItemGroup>
+
 </Project>
