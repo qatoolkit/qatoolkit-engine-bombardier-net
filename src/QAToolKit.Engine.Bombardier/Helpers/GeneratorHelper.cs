@@ -32,7 +32,7 @@ namespace QAToolKit.Engine.Bombardier.Helpers
         /// <param name="request"></param>
         /// <param name="useContentType"></param>
         /// <returns></returns>
-        internal static string GenerateContentTypeHeader(HttpTestRequest request, string useContentType)
+        internal static string GenerateContentTypeHeader(HttpRequest request, ContentType.Enumeration useContentType)
         {
             if (request.Method == HttpMethod.Get)
             {
@@ -40,15 +40,15 @@ namespace QAToolKit.Engine.Bombardier.Helpers
             }
             else
             {
-                var contentType = request.RequestBodies.FirstOrDefault(content => content.ContentType == useContentType);
+                var contentType = request.RequestBodies.FirstOrDefault(content => content.ContentType == ContentType.Enumeration.Json);
 
                 if (contentType != null)
                 {
-                    return $"-H \"Content-Type: {contentType.ContentType}\" ";
+                    return $"-H \"Content-Type: {ContentType.From(contentType.ContentType).Value()}\" ";
                 }
                 else
                 {
-                    throw new Exception($"Content type header '{useContentType}' not found in the HttpTestRequest.");
+                    throw new Exception($"Content type header '{useContentType}' not found in the HttpRequest.");
                 }
             }
         }
@@ -58,7 +58,7 @@ namespace QAToolKit.Engine.Bombardier.Helpers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        internal static string GenerateUrlParameters(HttpTestRequest request)
+        internal static string GenerateUrlParameters(HttpRequest request)
         {
             var queryParameters = new Dictionary<string, string>();
 
@@ -80,7 +80,7 @@ namespace QAToolKit.Engine.Bombardier.Helpers
         /// <param name="request"></param>
         /// <param name="useContentType"></param>
         /// <returns></returns>
-        internal static string GenerateJsonBody(HttpTestRequest request, string useContentType)
+        internal static string GenerateJsonBody(HttpRequest request, ContentType.Enumeration useContentType)
         {
             if (request.Method == HttpMethod.Get)
             {
@@ -88,14 +88,17 @@ namespace QAToolKit.Engine.Bombardier.Helpers
             }
             else
             {
-                var useRequest = request.RequestBodies.FirstOrDefault(content => content.ContentType == useContentType);
+                var useRequest = request.RequestBodies.FirstOrDefault(content => content.ContentType == ContentType.Enumeration.Json);
 
                 if (useRequest == null)
                 {
-                    throw new Exception($"Request body content type '{useContentType}' not found in the HttpTestRequest.");
+                    throw new Exception($"Request body content type '{useContentType}' not found in the HttpRequest.");
                 }
 
-                var fileName = $"{Guid.NewGuid()}.json";
+                return $"-f \"{JsonSerializer.Serialize(useRequest.Properties)}\" ";
+
+
+               /* var fileName = $"{Guid.NewGuid()}.json";
 
                 if (useRequest.Properties.Count > 0)
                 {
@@ -106,7 +109,7 @@ namespace QAToolKit.Engine.Bombardier.Helpers
                 else
                 {
                     return String.Empty;
-                }
+                }*/
             }
         }
 
@@ -132,7 +135,7 @@ namespace QAToolKit.Engine.Bombardier.Helpers
         /// <param name="request"></param>
         /// <param name="bombardierOptions"></param>
         /// <returns></returns>
-        internal static string GenerateAuthHeader(HttpTestRequest request, BombardierGeneratorOptions bombardierOptions)
+        internal static string GenerateAuthHeader(HttpRequest request, BombardierGeneratorOptions bombardierOptions)
         {
             //Check if Swagger operation description contains certain auth tags
             string authHeader;

@@ -92,7 +92,7 @@
             Obfuscate authentication header in the results output
             </summary>
         </member>
-        <member name="M:QAToolKit.Engine.Bombardier.BombardierTestsGenerator.Generate(System.Collections.Generic.IList{QAToolKit.Core.Models.HttpTestRequest})">
+        <member name="M:QAToolKit.Engine.Bombardier.BombardierTestsGenerator.Generate(System.Collections.Generic.IList{QAToolKit.Core.Models.HttpRequest})">
             <summary>
             Generate a Bombardier script from requests
             </summary>
@@ -110,14 +110,14 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:QAToolKit.Engine.Bombardier.Helpers.GeneratorHelper.GenerateContentTypeHeader(QAToolKit.Core.Models.HttpTestRequest)">
+        <member name="M:QAToolKit.Engine.Bombardier.Helpers.GeneratorHelper.GenerateContentTypeHeader(QAToolKit.Core.Models.HttpRequest)">
             <summary>
             Generate content type header
             </summary>
             <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:QAToolKit.Engine.Bombardier.Helpers.GeneratorHelper.GenerateUrlParameters(QAToolKit.Core.Models.HttpTestRequest)">
+        <member name="M:QAToolKit.Engine.Bombardier.Helpers.GeneratorHelper.GenerateUrlParameters(QAToolKit.Core.Models.HttpRequest)">
             <summary>
             Generate and replace URL parameters with replacement values
             </summary>
@@ -125,7 +125,7 @@
             <param name="replacementValues"></param>
             <returns></returns>
         </member>
-        <member name="M:QAToolKit.Engine.Bombardier.Helpers.GeneratorHelper.GenerateJsonBody(QAToolKit.Core.Models.HttpTestRequest)">
+        <member name="M:QAToolKit.Engine.Bombardier.Helpers.GeneratorHelper.GenerateJsonBody(QAToolKit.Core.Models.HttpRequest)">
             <summary>
             Generate JSON body
             </summary>
@@ -133,7 +133,7 @@
             <param name="replacementValues"></param>
             <returns></returns>
         </member>
-        <member name="M:QAToolKit.Engine.Bombardier.Helpers.GeneratorHelper.GenerateAuthHeader(QAToolKit.Core.Models.HttpTestRequest,QAToolKit.Engine.Bombardier.BombardierGeneratorOptions)">
+        <member name="M:QAToolKit.Engine.Bombardier.Helpers.GeneratorHelper.GenerateAuthHeader(QAToolKit.Core.Models.HttpRequest,QAToolKit.Engine.Bombardier.BombardierGeneratorOptions)">
             <summary>
             Generate Authentication header for HTTP request
             </summary>

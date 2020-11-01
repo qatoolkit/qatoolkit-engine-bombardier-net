@@ -53,7 +53,7 @@ namespace QAToolKit.Engine.Bombardier
         /// <summary>
         /// Set request body content type for Bombardier tests, default is 'application/json'
         /// </summary>
-        public string BombardierBodyContentType { get; set; } = "application/json";
+        public ContentType.Enumeration BombardierBodyContentType { get; set; } = ContentType.Enumeration.Json;
         /// <summary>
         /// What is the type of the test
         /// </summary>

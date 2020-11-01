@@ -13,7 +13,7 @@ namespace QAToolKit.Engine.Bombardier
     /// <summary>
     /// Bombardier test generator
     /// </summary>
-    public class BombardierTestsGenerator : IGenerator<IList<HttpTestRequest>, IEnumerable<BombardierTest>>
+    public class BombardierTestsGenerator : IGenerator<IList<HttpRequest>, IEnumerable<BombardierTest>>
     {
         private readonly BombardierGeneratorOptions _bombardierGeneratorOptions;
 
@@ -31,7 +31,7 @@ namespace QAToolKit.Engine.Bombardier
         /// Generate a Bombardier script from requests
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<BombardierTest>> Generate(IList<HttpTestRequest> restRequests)
+        public async Task<IEnumerable<BombardierTest>> Generate(IList<HttpRequest> restRequests)
         {
             var bombardierTests = new List<BombardierTest>();
             var scriptBuilder = new StringBuilder();
