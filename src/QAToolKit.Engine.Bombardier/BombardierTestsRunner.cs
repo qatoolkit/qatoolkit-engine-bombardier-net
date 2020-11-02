@@ -138,24 +138,13 @@ namespace QAToolKit.Engine.Bombardier
             CultureInfo cultures = new CultureInfo("en-US");
             var digitString = Regex.Match(latency, @"\d+.\d+");
             var unitString = Regex.Replace(latency, @"\d+.\d+", "");
-            decimal digit;
-
-            switch (unitString)
+            var digit = unitString switch
             {
-                case "s":
-                    digit = Convert.ToDecimal(digitString.Value, cultures) * 1000;
-                    break;
-                case "ms":
-                    digit = Convert.ToDecimal(digitString.Value, cultures);
-                    break;
-                case "us":
-                    digit = Convert.ToDecimal(digitString.Value, cultures) / 1000;
-                    break;
-                default:
-                    digit = Convert.ToDecimal(digitString.Value, cultures);
-                    break;
-            }
-
+                "s" => Convert.ToDecimal(digitString.Value, cultures) * 1000,
+                "ms" => Convert.ToDecimal(digitString.Value, cultures),
+                "us" => Convert.ToDecimal(digitString.Value, cultures) / 1000,
+                _ => Convert.ToDecimal(digitString.Value, cultures),
+            };
             return digit;
         }
 

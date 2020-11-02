@@ -76,6 +76,16 @@ namespace QAToolKit.Engine.Bombardier.Test
                 options.BombardierTimeout = 30;
                 options.BombardierUseHttp2 = true;
                 options.BombardierNumberOfTotalRequests = 1;
+                options.AddReplacementValues(new ReplacementValue[] {
+                    new ReplacementValue(){
+                        Key = "id",
+                        Value = 1241451
+                    },
+                    new ReplacementValue(){
+                        Key = "name",
+                        Value = "MJ"
+                    }
+                });
             });
 
             var content = File.ReadAllText("Assets/addPet.json");

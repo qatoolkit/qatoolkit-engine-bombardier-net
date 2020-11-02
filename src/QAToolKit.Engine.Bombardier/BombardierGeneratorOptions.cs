@@ -62,6 +62,21 @@ namespace QAToolKit.Engine.Bombardier
         /// What is the type of the test
         /// </summary>
         internal TestType TestType { get; } = TestType.LoadTest;
+        /// <summary>
+        /// Key/value pairs of replacement values
+        /// </summary>
+        internal ReplacementValue[] ReplacementValues { get; private set; }
+
+        /// <summary>
+        /// Use replacement values
+        /// </summary>
+        /// <param name="replacementValues"></param>
+        /// <returns></returns>
+        public BombardierGeneratorOptions AddReplacementValues(ReplacementValue[] replacementValues)
+        {
+            ReplacementValues = replacementValues;
+            return this;
+        }
 
         /// <summary>
         /// Add Oauth2 token to the bombardier generator

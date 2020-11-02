@@ -60,6 +60,16 @@ namespace QAToolKit.Engine.Bombardier.Test
                 options.BombardierTimeout = 30;
                 options.BombardierUseHttp2 = true;
                 options.BombardierInsecure = true;
+                options.AddReplacementValues(new ReplacementValue[] {
+                    new ReplacementValue(){
+                        Key = "id",
+                        Value = 1000
+                    },
+                    new ReplacementValue(){
+                        Key = "name",
+                        Value = "MJ"
+                    }
+                });
             });
 
             var content = File.ReadAllText("Assets/getPetById.json");
@@ -248,6 +258,66 @@ namespace QAToolKit.Engine.Bombardier.Test
             Assert.Contains($" -m GET https://petstore3.swagger.io/api/v3/pet/10 -c 3 --http2 --timeout=30s --duration=5s", bombardierTests.FirstOrDefault().Command);
             Assert.Equal(HttpMethod.Get, bombardierTests.FirstOrDefault().Method);
             Assert.Equal("/pet/10", bombardierTests.FirstOrDefault().Url.ToString());
+        }
+
+        [Fact]
+        public async Task GenerateBombardierTestPostTest_Successfull()
+        {
+
+            var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
+            {
+                options.AddReplacementValues(new ReplacementValue[] {
+                    new ReplacementValue(){
+                        Key = "id",
+                        Value = 1000
+                    },
+                    new ReplacementValue(){
+                        Key = "name",
+                        Value = "MJ"
+                    }
+                });
+            });
+
+            var content = File.ReadAllText("Assets/addPet.json");
+            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+
+            var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
+
+            Assert.NotNull(bombardierTests);
+            Assert.Single(bombardierTests);
+            Assert.Contains($@" -m POST https://petstore3.swagger.io/api/v3/pet -c 3 -H ""Content-Type: application/json"" -b ""{{\""id\"":1000,\""name\"":\""MJ\""}}"" --http2 --timeout=30s --duration=5s", bombardierTests.FirstOrDefault().Command);
+            Assert.Equal(HttpMethod.Post, bombardierTests.FirstOrDefault().Method);
+            Assert.Equal("/pet", bombardierTests.FirstOrDefault().Url.ToString());
+        }
+
+        [Fact]
+        public async Task GenerateBombardierTestPostWithExampleValuesTest_Successfull()
+        {
+
+            var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
+            {
+                options.AddReplacementValues(new ReplacementValue[] {
+                    new ReplacementValue(){
+                        Key = "companyId",
+                        Value = "1241451"
+                    },
+                    new ReplacementValue(){
+                        Key = "companyName",
+                        Value = "MJ"
+                    }
+                });
+            });
+
+            var content = File.ReadAllText("Assets/addPet.json");
+            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+
+            var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
+
+            Assert.NotNull(bombardierTests);
+            Assert.Single(bombardierTests);
+            Assert.Contains($@" -m POST https://petstore3.swagger.io/api/v3/pet -c 3 -H ""Content-Type: application/json"" -b ""{{\""id\"":999,\""name\"":\""my pet 999\""}}"" --http2 --timeout=30s --duration=5s", bombardierTests.FirstOrDefault().Command);
+            Assert.Equal(HttpMethod.Post, bombardierTests.FirstOrDefault().Method);
+            Assert.Equal("/pet", bombardierTests.FirstOrDefault().Url.ToString());
         }
     }
 }

@@ -93,5 +93,23 @@ namespace QAToolKit.Engine.Bombardier.Helpers
         {
             return $" -c {bombardierGeneratorOptions.BombardierConcurrentUsers}";
         }
+
+        /// <summary>
+        /// Generate bombardier payload body switch
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="bombardierGeneratorOptions"></param>
+        /// <returns></returns>
+        internal static object GenerateBodySwitch(HttpRequest request, BombardierGeneratorOptions bombardierGeneratorOptions)
+        {
+            var body = HttpBodyHelper.GenerateHttpRequestBody(request, bombardierGeneratorOptions.BombardierBodyContentType, bombardierGeneratorOptions.ReplacementValues);
+
+            if (string.IsNullOrEmpty(body))
+            {
+                return String.Empty;
+            }
+
+            return $" -b \"{body.Replace(@"""", @"\""")}\"";
+        }
     }
 }

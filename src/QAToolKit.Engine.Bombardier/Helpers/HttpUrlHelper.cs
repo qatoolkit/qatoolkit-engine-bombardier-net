@@ -1,4 +1,5 @@
-﻿using QAToolKit.Core.Models;
+﻿using QAToolKit.Core.HttpRequestTools;
+using QAToolKit.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,22 +17,38 @@ namespace QAToolKit.Engine.Bombardier.Helpers
         /// Generate and replace URL parameters with replacement values
         /// </summary>
         /// <param name="request"></param>
+        /// <param name="bombardierGeneratorOptions"></param>
         /// <returns></returns>
-        internal static string GenerateUrlParameters(HttpRequest request)
+        internal static string GenerateUrlParameters(HttpRequest request, BombardierGeneratorOptions bombardierGeneratorOptions)
         {
             var queryParameters = new Dictionary<string, string>();
 
             //add query parameters
-            foreach (var parameter in request.Parameters.Where(p => p.Value != null))
+            foreach (var parameter in request.Parameters.Where(p => p.Value != null).Where(l => l.Location == Location.Query))
             {
                 queryParameters.Add(parameter.Name, parameter.Value);
             }
 
             var baseUrl = new Uri($"{request.BasePath}{request.Path}").ToString();
 
-
-
             var url = AddQueryString(baseUrl, queryParameters).ToString();
+
+            // var replacer = new HttpRequestDataReplacer(request, bombardierGeneratorOptions.ReplacementValues);
+
+            //url = replacer.ReplaceUrlParameters();
+
+            if (bombardierGeneratorOptions.ReplacementValues != null)
+            {
+                foreach (var replacementValue in bombardierGeneratorOptions.ReplacementValues)
+                {
+                    var type = replacementValue.Value.GetType();
+
+                    if (url.Contains("{" + replacementValue.Key + "}") && type.Equals(typeof(string)))
+                    {
+                        url = url.Replace("{" + replacementValue.Key + "}", (string)replacementValue.Value);
+                    }
+                }
+            }
 
             return url;
         }

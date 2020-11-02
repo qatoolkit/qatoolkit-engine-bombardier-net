@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using QAToolKit.Core.HttpRequestTools;
 using QAToolKit.Core.Models;
 using System;
+using System.Collections;
 using System.Linq;
 using System.Net.Http;
 
@@ -18,8 +20,9 @@ namespace QAToolKit.Engine.Bombardier.Helpers
         /// </summary>
         /// <param name="request"></param>
         /// <param name="useContentType"></param>
+        /// <param name="replacementValues"></param>
         /// <returns></returns>
-        internal static string GenerateJsonBody(HttpRequest request, ContentType.Enumeration useContentType)
+        internal static string GenerateHttpRequestBody(HttpRequest request, ContentType.Enumeration useContentType, ReplacementValue[] replacementValues)
         {
             if (request.Method == HttpMethod.Get)
             {
@@ -27,100 +30,18 @@ namespace QAToolKit.Engine.Bombardier.Helpers
             }
             else
             {
-                var useRequest = request.RequestBodies.FirstOrDefault(content => content.ContentType == ContentType.Enumeration.Json);
+                if (useContentType != ContentType.Enumeration.Json)
+                    useContentType = ContentType.Enumeration.Json;
+
+                var useRequest = request.RequestBodies.FirstOrDefault(content => content.ContentType == useContentType);
 
                 if (useRequest == null)
-                {
-                    //throw new Exception($"Request body content type '{useContentType}' not found in the HttpRequest.");
                     return String.Empty;
-                }
 
-                //generate JSON body from HttpRequest object
-                var body = GenerateBodyJsonString(useRequest);
+                var replacer = new HttpRequestDataReplacer(request, replacementValues);
 
-                return $" -b \"{body.Replace(@"""", @"\""")}\"";
+                return replacer.ReplaceRequestBodyModel(useContentType).ToString();
             }
-        }
-
-        //TODO: extend to support arrays, enums, object arrays
-        private static string GenerateBodyJsonString(RequestBody requestBody)
-        {
-            JObject obj = new JObject();
-            foreach (var property in requestBody.Properties)
-            {
-                var propertyType = GetSimplePropertyType(property);
-                var propertyName = GetPropertyName(property);
-                if (propertyType == null)
-                {
-                    //not supported yet
-                    var complextType = GetComplexPropertyType(property);
-
-
-                    //      obj.Add(new JProperty(propertyName, Convert.ChangeType(property.Value, propertyType)));
-                }
-                else
-                {
-                    obj.Add(new JProperty(propertyName, Convert.ChangeType(property.Value, propertyType)));
-                }
-            }
-
-            return obj.ToString(Formatting.None);
-        }
-
-        private static string GetPropertyName(Property property)
-        {
-            return property.Name;
-        }
-
-        private static Type GetSimplePropertyType(Property property)
-        {
-            switch (property.Type)
-            {
-                case "integer":
-                    if (property.Format == "int64")
-                    {
-                        return typeof(long);
-                    }
-                    else
-                    {
-                        return typeof(int);
-                    }
-                case "string":
-                    return typeof(string);
-                default:
-                    return null;
-            }
-        }
-
-        private static Type GetComplexPropertyType(Property property)
-        {
-            switch (property.Type)
-            {
-                case "object":
-                    /*if (type.Equals(typeof(string)))
-                    {
-                        // if (property.Value != null)
-                        //    property.Value = Faker.Lorem.Sentence(1);
-                    }
-                    */
-                    break;
-                case "array":
-                    foreach (var prop in property.Properties)
-                    {
-                        // prop.Value = Faker.Lorem.Sentence(1);
-                    }
-                    break;
-                case "enum":
-                    foreach (var prop in property.Properties)
-                    {
-                        // prop.Value = Faker.Lorem.Sentence(1);
-                    }
-                    break;
-                default:
-                    throw new Exception($"{property.Type} not valid type.");
-            }
-
-            return null;
         }
     }
 }

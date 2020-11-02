@@ -50,11 +50,11 @@ namespace QAToolKit.Engine.Bombardier
             foreach (var request in restRequests)
             {
                 scriptBuilder.AppendLine($"{bombardierFullPath} " +
-                    $"-m {request.Method.ToString().ToUpper()} {HttpUrlHelper.GenerateUrlParameters(request)}" +
+                    $"-m {request.Method.ToString().ToUpper()} {HttpUrlHelper.GenerateUrlParameters(request, _bombardierGeneratorOptions)}" +
                     $"{BombardierSwitchGeneratorHelper.GenerateConcurrentSwitch(request, _bombardierGeneratorOptions)}" +
                     $"{AuthorizationHeaderHelper.GenerateAuthHeader(request, _bombardierGeneratorOptions)}" +
                     $"{ContentTypeHeaderHelper.GenerateContentTypeHeader(request, _bombardierGeneratorOptions.BombardierBodyContentType)}" +
-                    $"{HttpBodyHelper.GenerateJsonBody(request, _bombardierGeneratorOptions.BombardierBodyContentType)}" +
+                    $"{BombardierSwitchGeneratorHelper.GenerateBodySwitch(request, _bombardierGeneratorOptions)}" +
                     $"{BombardierSwitchGeneratorHelper.GenerateHttpProtocolSwitch(_bombardierGeneratorOptions)}" +
                     $"{BombardierSwitchGeneratorHelper.GenerateTimeoutSwitch(_bombardierGeneratorOptions)}" +
                     $"{BombardierSwitchGeneratorHelper.GenerateDurationSwitch(_bombardierGeneratorOptions)}" +
