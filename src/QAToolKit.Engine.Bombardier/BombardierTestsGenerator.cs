@@ -50,17 +50,17 @@ namespace QAToolKit.Engine.Bombardier
             foreach (var request in restRequests)
             {
                 scriptBuilder.AppendLine($"{bombardierFullPath} " +
-                    $"-m {request.Method.ToString().ToUpper()} {GeneratorHelper.GenerateUrlParameters(request)}" +
-                    $"{GeneratorHelper.GenerateConcurrentSwitch(request, _bombardierGeneratorOptions)}" +
-                    $"{GeneratorHelper.GenerateAuthHeader(request, _bombardierGeneratorOptions)}" +
-                    $"{GeneratorHelper.GenerateContentTypeHeader(request, _bombardierGeneratorOptions.BombardierBodyContentType)}" +
-                    $"{GeneratorHelper.GenerateJsonBody(request, _bombardierGeneratorOptions.BombardierBodyContentType)}" +
-                    $"{GeneratorHelper.GenerateHttpProtocolSwitch(_bombardierGeneratorOptions)}" +
-                    $"{GeneratorHelper.GenerateTimeoutSwitch(_bombardierGeneratorOptions)}" +
-                    $"{GeneratorHelper.GenerateDurationSwitch(_bombardierGeneratorOptions)}" +
-                    $"{GeneratorHelper.GenerateInsecureSwitch(_bombardierGeneratorOptions)}" +
-                    $"{GeneratorHelper.GenerateRateLimitSwitch(_bombardierGeneratorOptions)}" +
-                    $"{GeneratorHelper.GenerateTotalRequestsSwitch(_bombardierGeneratorOptions)}");
+                    $"-m {request.Method.ToString().ToUpper()} {HttpUrlHelper.GenerateUrlParameters(request)}" +
+                    $"{BombardierSwitchGeneratorHelper.GenerateConcurrentSwitch(request, _bombardierGeneratorOptions)}" +
+                    $"{AuthorizationHeaderHelper.GenerateAuthHeader(request, _bombardierGeneratorOptions)}" +
+                    $"{ContentTypeHeaderHelper.GenerateContentTypeHeader(request, _bombardierGeneratorOptions.BombardierBodyContentType)}" +
+                    $"{HttpBodyHelper.GenerateJsonBody(request, _bombardierGeneratorOptions.BombardierBodyContentType)}" +
+                    $"{BombardierSwitchGeneratorHelper.GenerateHttpProtocolSwitch(_bombardierGeneratorOptions)}" +
+                    $"{BombardierSwitchGeneratorHelper.GenerateTimeoutSwitch(_bombardierGeneratorOptions)}" +
+                    $"{BombardierSwitchGeneratorHelper.GenerateDurationSwitch(_bombardierGeneratorOptions)}" +
+                    $"{BombardierSwitchGeneratorHelper.GenerateInsecureSwitch(_bombardierGeneratorOptions)}" +
+                    $"{BombardierSwitchGeneratorHelper.GenerateRateLimitSwitch(_bombardierGeneratorOptions)}" +
+                    $"{BombardierSwitchGeneratorHelper.GenerateTotalRequestsSwitch(_bombardierGeneratorOptions)}");
 
                 bombardierTests.Add(new BombardierTest()
                 {
