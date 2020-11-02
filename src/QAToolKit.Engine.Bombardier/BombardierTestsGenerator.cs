@@ -21,7 +21,7 @@ namespace QAToolKit.Engine.Bombardier
         /// Bombardier test generator constructor
         /// </summary>
         /// <param name="options"></param>
-        public BombardierTestsGenerator(Action<BombardierGeneratorOptions> options)
+        public BombardierTestsGenerator(Action<BombardierGeneratorOptions> options = null)
         {
             _bombardierGeneratorOptions = new BombardierGeneratorOptions();
             options?.Invoke(_bombardierGeneratorOptions);
@@ -49,19 +49,18 @@ namespace QAToolKit.Engine.Bombardier
 
             foreach (var request in restRequests)
             {
-                string authHeader = GeneratorHelper.GenerateAuthHeader(request, _bombardierGeneratorOptions);
-
                 scriptBuilder.AppendLine($"{bombardierFullPath} " +
-                    $"-m {request.Method.ToString().ToUpper()} {GeneratorHelper.GenerateUrlParameters(request)} " +
-                    $"-c {_bombardierGeneratorOptions.BombardierConcurrentUsers} " +
-                    $"{authHeader}" +
+                    $"-m {request.Method.ToString().ToUpper()} {GeneratorHelper.GenerateUrlParameters(request)}" +
+                    $"{GeneratorHelper.GenerateConcurrentSwitch(request, _bombardierGeneratorOptions)}" +
+                    $"{GeneratorHelper.GenerateAuthHeader(request, _bombardierGeneratorOptions)}" +
                     $"{GeneratorHelper.GenerateContentTypeHeader(request, _bombardierGeneratorOptions.BombardierBodyContentType)}" +
                     $"{GeneratorHelper.GenerateJsonBody(request, _bombardierGeneratorOptions.BombardierBodyContentType)}" +
-                    $"--{(Convert.ToBoolean(_bombardierGeneratorOptions.BombardierUseHttp2) ? "http2" : "http1")} " +
-                    $"--timeout={_bombardierGeneratorOptions.BombardierTimeout}s " +
-                    $"--duration={_bombardierGeneratorOptions.BombardierDuration}s " +
+                    $"{GeneratorHelper.GenerateHttpProtocolSwitch(_bombardierGeneratorOptions)}" +
+                    $"{GeneratorHelper.GenerateTimeoutSwitch(_bombardierGeneratorOptions)}" +
+                    $"{GeneratorHelper.GenerateDurationSwitch(_bombardierGeneratorOptions)}" +
                     $"{GeneratorHelper.GenerateInsecureSwitch(_bombardierGeneratorOptions)}" +
-                    $"{GeneratorHelper.GenerateRateLimit(_bombardierGeneratorOptions.BombardierRateLimit)}");
+                    $"{GeneratorHelper.GenerateRateLimitSwitch(_bombardierGeneratorOptions)}" +
+                    $"{GeneratorHelper.GenerateTotalRequestsSwitch(_bombardierGeneratorOptions)}");
 
                 bombardierTests.Add(new BombardierTest()
                 {

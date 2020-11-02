@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
@@ -118,6 +119,133 @@ namespace QAToolKit.Engine.Bombardier.Test
             Assert.NotNull(bombardierTests);
             Assert.Single(bombardierTests);
             Assert.Contains(" -m GET https://petstore3.swagger.io/api/v3/pet/10 -c 1 --http2 --timeout=30s --duration=1s --rate=20", bombardierTests.FirstOrDefault().Command);
+            Assert.Equal(HttpMethod.Get, bombardierTests.FirstOrDefault().Method);
+            Assert.Equal("/pet/10", bombardierTests.FirstOrDefault().Url.ToString());
+        }
+
+        [Fact]
+        public async Task GenerateBombardierTestWithOptionsVariation5Test_Successfull()
+        {
+
+            var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
+            {
+                options.BombardierConcurrentUsers = 1;
+                options.BombardierDuration = 1;
+                options.BombardierTimeout = 30;
+                options.BombardierUseHttp2 = true;
+                options.BombardierRateLimit = 20;
+                options.BombardierNumberOfTotalRequests = 22;
+            });
+
+            var content = File.ReadAllText("Assets/getPetById.json");
+            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+
+            var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
+
+            Assert.NotNull(bombardierTests);
+            Assert.Single(bombardierTests);
+            Assert.Contains(" -m GET https://petstore3.swagger.io/api/v3/pet/10 -c 1 --http2 --timeout=30s --duration=1s --rate=20 --requests=22", bombardierTests.FirstOrDefault().Command);
+            Assert.Equal(HttpMethod.Get, bombardierTests.FirstOrDefault().Method);
+            Assert.Equal("/pet/10", bombardierTests.FirstOrDefault().Url.ToString());
+        }
+
+        [Fact]
+        public async Task GenerateBombardierTestWithOptionsApiKeyTest_Successfull()
+        {
+
+            var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
+            {
+                options.AddApiKey("1234");
+                options.BombardierConcurrentUsers = 1;
+                options.BombardierDuration = 1;
+                options.BombardierTimeout = 30;
+                options.BombardierUseHttp2 = true;
+                options.BombardierRateLimit = 20;
+                options.BombardierNumberOfTotalRequests = 22;
+            });
+
+            var content = File.ReadAllText("Assets/getPetById.json");
+            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+
+            var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
+
+            Assert.NotNull(bombardierTests);
+            Assert.Single(bombardierTests);
+            Assert.Contains(" -m GET https://petstore3.swagger.io/api/v3/pet/10 -c 1 -H \"ApiKey: 1234\" --http2 --timeout=30s --duration=1s --rate=20 --requests=22", bombardierTests.FirstOrDefault().Command);
+            Assert.Equal(HttpMethod.Get, bombardierTests.FirstOrDefault().Method);
+            Assert.Equal("/pet/10", bombardierTests.FirstOrDefault().Url.ToString());
+        }
+
+        [Fact]
+        public async Task GenerateBombardierTestWithOptionsBasicAuthTest_Successfull()
+        {
+
+            var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
+            {
+                options.AddBasicAuthentication("user", "pass");
+                options.BombardierConcurrentUsers = 1;
+                options.BombardierDuration = 1;
+                options.BombardierTimeout = 30;
+                options.BombardierUseHttp2 = true;
+                options.BombardierRateLimit = 20;
+                options.BombardierNumberOfTotalRequests = 22;
+            });
+
+            var content = File.ReadAllText("Assets/getPetById.json");
+            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+
+            var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
+
+            var authHeader = Convert.ToBase64String(ASCIIEncoding.ASCII.GetBytes("user:pass"));
+
+            Assert.NotNull(bombardierTests);
+            Assert.Single(bombardierTests);
+            Assert.Contains($" -m GET https://petstore3.swagger.io/api/v3/pet/10 -c 1 -H \"Authorization: Basic {authHeader}\" --http2 --timeout=30s --duration=1s --rate=20 --requests=22", bombardierTests.FirstOrDefault().Command);
+            Assert.Equal(HttpMethod.Get, bombardierTests.FirstOrDefault().Method);
+            Assert.Equal("/pet/10", bombardierTests.FirstOrDefault().Url.ToString());
+        }
+
+        [Fact]
+        public async Task GenerateBombardierTestWithOptionsOAuth2Test_Successfull()
+        {
+
+            var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
+            {
+                options.AddOAuth2Token("1234567890", AuthenticationType.Customer);
+                options.BombardierConcurrentUsers = 1;
+                options.BombardierDuration = 1;
+                options.BombardierTimeout = 30;
+                options.BombardierUseHttp2 = true;
+                options.BombardierRateLimit = 20;
+                options.BombardierNumberOfTotalRequests = 22;
+            });
+
+            var content = File.ReadAllText("Assets/getPetById.json");
+            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+
+            var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
+
+            Assert.NotNull(bombardierTests);
+            Assert.Single(bombardierTests);
+            Assert.Contains($" -m GET https://petstore3.swagger.io/api/v3/pet/10 -c 1 -H \"Authorization: Bearer 1234567890\" --http2 --timeout=30s --duration=1s --rate=20 --requests=22", bombardierTests.FirstOrDefault().Command);
+            Assert.Equal(HttpMethod.Get, bombardierTests.FirstOrDefault().Method);
+            Assert.Equal("/pet/10", bombardierTests.FirstOrDefault().Url.ToString());
+        }
+
+        [Fact]
+        public async Task GenerateBombardierTestDefaultBombardierOptionsTest_Successfull()
+        {
+
+            var bombardierTestsGenerator = new BombardierTestsGenerator();
+
+            var content = File.ReadAllText("Assets/getPetById.json");
+            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+
+            var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
+
+            Assert.NotNull(bombardierTests);
+            Assert.Single(bombardierTests);
+            Assert.Contains($" -m GET https://petstore3.swagger.io/api/v3/pet/10 -c 3 --http2 --timeout=30s --duration=5s", bombardierTests.FirstOrDefault().Command);
             Assert.Equal(HttpMethod.Get, bombardierTests.FirstOrDefault().Method);
             Assert.Equal("/pet/10", bombardierTests.FirstOrDefault().Url.ToString());
         }

@@ -87,27 +87,10 @@ namespace QAToolKit.Engine.Bombardier
                 process.WaitForExit();
             }
 
-            //Delete temp files
-            DeleteBodyFile(bombardierArguments);
-
             var testStop = DateTime.Now;
             var parsedBombardierOutput = ParseOutput(bombardrierOutput, bombardierArguments, testStart, testStop);
 
             return parsedBombardierOutput;
-        }
-
-        private void DeleteBodyFile(string arguments)
-        {
-            try
-            {
-                var file = StringHelper.Between(arguments, "-f \"", "\"");
-
-                if (string.IsNullOrEmpty(file) && File.Exists(file))
-                {
-                    File.Delete(file);
-                }
-            }
-            catch { }
         }
 
         private BombardierResult ParseOutput(StringBuilder sb, string command, DateTime testStart, DateTime testStop)

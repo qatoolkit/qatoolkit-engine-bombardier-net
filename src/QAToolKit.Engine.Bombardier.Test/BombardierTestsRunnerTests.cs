@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
@@ -66,7 +65,7 @@ namespace QAToolKit.Engine.Bombardier.Test
             Assert.True(bombardierResults.FirstOrDefault().TestStop.Subtract(bombardierResults.FirstOrDefault().TestStart).TotalSeconds == bombardierResults.FirstOrDefault().Duration);
         }
 
-       /* [Fact]
+        [Fact]
         public async Task BombardierPostTestWithOptionsTest_Successfull()
         {
 
@@ -76,6 +75,7 @@ namespace QAToolKit.Engine.Bombardier.Test
                 options.BombardierDuration = 1;
                 options.BombardierTimeout = 30;
                 options.BombardierUseHttp2 = true;
+                options.BombardierNumberOfTotalRequests = 1;
             });
 
             var content = File.ReadAllText("Assets/addPet.json");
@@ -97,15 +97,15 @@ namespace QAToolKit.Engine.Bombardier.Test
             Assert.True(bombardierResults.FirstOrDefault().Counter3xx == 0);
             Assert.True(bombardierResults.FirstOrDefault().Counter4xx == 0);
             Assert.True(bombardierResults.FirstOrDefault().Counter5xx == 0);
-            Assert.True(bombardierResults.FirstOrDefault().AverageLatency > 0);
-            Assert.True(bombardierResults.FirstOrDefault().MaxLatency > 0);
-            Assert.True(bombardierResults.FirstOrDefault().StdevLatency > 0);
-            Assert.True(bombardierResults.FirstOrDefault().AverageRequestsPerSecond > 0);
-            Assert.True(bombardierResults.FirstOrDefault().MaxRequestsPerSecond > 0);
-            Assert.True(bombardierResults.FirstOrDefault().StdevRequestsPerSecond > 0);
+            Assert.True(bombardierResults.FirstOrDefault().AverageLatency >= 0);
+            Assert.True(bombardierResults.FirstOrDefault().MaxLatency >= 0);
+            Assert.True(bombardierResults.FirstOrDefault().StdevLatency >= 0);
+            Assert.True(bombardierResults.FirstOrDefault().AverageRequestsPerSecond >= 0);
+            Assert.True(bombardierResults.FirstOrDefault().MaxRequestsPerSecond >= 0);
+            Assert.True(bombardierResults.FirstOrDefault().StdevRequestsPerSecond >= 0);
             Assert.True(bombardierResults.FirstOrDefault().TestStart.AddMinutes(60) > DateTime.Now);
             Assert.True(bombardierResults.FirstOrDefault().TestStop.AddMinutes(60) > DateTime.Now);
             Assert.True(bombardierResults.FirstOrDefault().TestStop.Subtract(bombardierResults.FirstOrDefault().TestStart).TotalSeconds == bombardierResults.FirstOrDefault().Duration);
-        }*/
+        }
     }
 }

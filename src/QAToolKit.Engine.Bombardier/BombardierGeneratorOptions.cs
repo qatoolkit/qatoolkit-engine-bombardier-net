@@ -29,15 +29,15 @@ namespace QAToolKit.Engine.Bombardier
         /// <summary>
         /// Bombardier concurrent users options
         /// </summary>
-        public int BombardierConcurrentUsers { get; set; }
+        public int BombardierConcurrentUsers { get; set; } = 3;
         /// <summary>
         /// Bombardier request timeout
         /// </summary>
-        public int BombardierTimeout { get; set; }
+        public int BombardierTimeout { get; set; } = 30;
         /// <summary>
         /// Bombardier test runner duration
         /// </summary>
-        public int BombardierDuration { get; set; }
+        public int BombardierDuration { get; set; } = 5;
         /// <summary>
         /// Bombardier rate limiting per second
         /// </summary>
@@ -45,11 +45,15 @@ namespace QAToolKit.Engine.Bombardier
         /// <summary>
         /// Bombardier use HTTP2 protocol
         /// </summary>
-        public bool BombardierUseHttp2 { get; set; }
+        public bool BombardierUseHttp2 { get; set; } = true;
         /// <summary>
         /// Use http or https protocols, default is false.
         /// </summary>
         public bool BombardierInsecure { get; set; } = false;
+        /// <summary>
+        /// Cap the test with number of requests
+        /// </summary>
+        public int? BombardierNumberOfTotalRequests { get; set; } = null;
         /// <summary>
         /// Set request body content type for Bombardier tests, default is 'application/json'
         /// </summary>

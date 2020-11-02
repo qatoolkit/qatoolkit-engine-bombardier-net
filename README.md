@@ -10,6 +10,8 @@ Major features:
 - Library takes `IList<HttpTestRequest>` object, which can be produced in your code or can be imported from other sources. One example can be QAToolKit Swagger library that can produce that object with many options. Check it out [here](https://github.com/qatoolkit/qatoolkit-source-swagger-net).
 - Generate a Bombardier report that can be exported to the format you want.
 
+Bombardier version [1.2.5](https://github.com/codesenberg/bombardier/releases/tag/v1.2.5) is used for `windows-amd64` and `linux-amd64`.
+
 ## Sample
 
 ```csharp
