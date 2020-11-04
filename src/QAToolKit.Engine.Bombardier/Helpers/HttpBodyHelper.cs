@@ -1,9 +1,6 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using QAToolKit.Core.HttpRequestTools;
+﻿using QAToolKit.Core.HttpRequestTools;
 using QAToolKit.Core.Models;
 using System;
-using System.Collections;
 using System.Linq;
 using System.Net.Http;
 
@@ -38,9 +35,12 @@ namespace QAToolKit.Engine.Bombardier.Helpers
                 if (useRequest == null)
                     return String.Empty;
 
-                var replacer = new HttpRequestDataReplacer(request, replacementValues);
+                var generator = new HttpRequestBodyGenerator(request, options =>
+                {
+                    options.AddReplacementValues(replacementValues);
+                });
 
-                return replacer.ReplaceRequestBodyModel(useContentType).ToString();
+                return generator.ReplaceRequestBodyModel(useContentType).ToString();
             }
         }
     }

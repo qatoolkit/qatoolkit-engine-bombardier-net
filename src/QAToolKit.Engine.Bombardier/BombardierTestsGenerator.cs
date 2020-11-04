@@ -31,6 +31,7 @@ namespace QAToolKit.Engine.Bombardier
         /// Generate a Bombardier script from requests
         /// </summary>
         /// <returns></returns>
+        /// <param name="restRequests"></param>
         public async Task<IEnumerable<BombardierTest>> Generate(IList<HttpRequest> restRequests)
         {
             var bombardierTests = new List<BombardierTest>();
@@ -64,7 +65,7 @@ namespace QAToolKit.Engine.Bombardier
 
                 bombardierTests.Add(new BombardierTest()
                 {
-                    Url = new Uri(request.Path, UriKind.RelativeOrAbsolute),
+                    Url = new Uri(HttpUrlHelper.GenerateUrlParameters(request, _bombardierGeneratorOptions), UriKind.Absolute),
                     Method = request.Method,
                     Command = scriptBuilder.ToString()
                 });

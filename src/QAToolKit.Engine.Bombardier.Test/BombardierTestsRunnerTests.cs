@@ -54,12 +54,12 @@ namespace QAToolKit.Engine.Bombardier.Test
             Assert.True(bombardierResults.FirstOrDefault().Counter3xx == 0);
             Assert.True(bombardierResults.FirstOrDefault().Counter4xx == 0);
             Assert.True(bombardierResults.FirstOrDefault().Counter5xx == 0);
-            Assert.True(bombardierResults.FirstOrDefault().AverageLatency > 0);
-            Assert.True(bombardierResults.FirstOrDefault().MaxLatency > 0);
-            Assert.True(bombardierResults.FirstOrDefault().StdevLatency > 0);
-            Assert.True(bombardierResults.FirstOrDefault().AverageRequestsPerSecond > 0);
-            Assert.True(bombardierResults.FirstOrDefault().MaxRequestsPerSecond > 0);
-            Assert.True(bombardierResults.FirstOrDefault().StdevRequestsPerSecond > 0);
+            Assert.True(bombardierResults.FirstOrDefault().AverageLatency >= 0);
+            Assert.True(bombardierResults.FirstOrDefault().MaxLatency >= 0);
+            Assert.True(bombardierResults.FirstOrDefault().StdevLatency >= 0);
+            Assert.True(bombardierResults.FirstOrDefault().AverageRequestsPerSecond >= 0);
+            Assert.True(bombardierResults.FirstOrDefault().MaxRequestsPerSecond >= 0);
+            Assert.True(bombardierResults.FirstOrDefault().StdevRequestsPerSecond >= 0);
             Assert.True(bombardierResults.FirstOrDefault().TestStart.AddMinutes(60) > DateTime.Now);
             Assert.True(bombardierResults.FirstOrDefault().TestStop.AddMinutes(60) > DateTime.Now);
             Assert.True(bombardierResults.FirstOrDefault().TestStop.Subtract(bombardierResults.FirstOrDefault().TestStart).TotalSeconds == bombardierResults.FirstOrDefault().Duration);

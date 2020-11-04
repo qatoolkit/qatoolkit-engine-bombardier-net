@@ -46,7 +46,7 @@ namespace QAToolKit.Engine.Bombardier.Test
             Assert.Single(bombardierTests);
             Assert.Contains(" -m GET https://petstore3.swagger.io/api/v3/pet/10 -c 1 --http2 --timeout=30s --duration=1s", bombardierTests.FirstOrDefault().Command);
             Assert.Equal(HttpMethod.Get, bombardierTests.FirstOrDefault().Method);
-            Assert.Equal("/pet/10", bombardierTests.FirstOrDefault().Url.ToString());
+            Assert.Equal("https://petstore3.swagger.io/api/v3/pet/10", bombardierTests.FirstOrDefault().Url.ToString());
         }
 
         [Fact]
@@ -81,7 +81,7 @@ namespace QAToolKit.Engine.Bombardier.Test
             Assert.Single(bombardierTests);
             Assert.Contains(" -m GET https://petstore3.swagger.io/api/v3/pet/10 -c 1 --http2 --timeout=30s --duration=10s --insecure", bombardierTests.FirstOrDefault().Command);
             Assert.Equal(HttpMethod.Get, bombardierTests.FirstOrDefault().Method);
-            Assert.Equal("/pet/10", bombardierTests.FirstOrDefault().Url.ToString());
+            Assert.Equal("https://petstore3.swagger.io/api/v3/pet/10", bombardierTests.FirstOrDefault().Url.ToString());
         }
 
         [Fact]
@@ -105,7 +105,7 @@ namespace QAToolKit.Engine.Bombardier.Test
             Assert.Single(bombardierTests);
             Assert.Contains(" -m GET https://petstore3.swagger.io/api/v3/pet/10 -c 1 --http1 --timeout=30s --duration=1s", bombardierTests.FirstOrDefault().Command);
             Assert.Equal(HttpMethod.Get, bombardierTests.FirstOrDefault().Method);
-            Assert.Equal("/pet/10", bombardierTests.FirstOrDefault().Url.ToString());
+            Assert.Equal("https://petstore3.swagger.io/api/v3/pet/10", bombardierTests.FirstOrDefault().Url.ToString());
         }
 
         [Fact]
@@ -130,7 +130,7 @@ namespace QAToolKit.Engine.Bombardier.Test
             Assert.Single(bombardierTests);
             Assert.Contains(" -m GET https://petstore3.swagger.io/api/v3/pet/10 -c 1 --http2 --timeout=30s --duration=1s --rate=20", bombardierTests.FirstOrDefault().Command);
             Assert.Equal(HttpMethod.Get, bombardierTests.FirstOrDefault().Method);
-            Assert.Equal("/pet/10", bombardierTests.FirstOrDefault().Url.ToString());
+            Assert.Equal("https://petstore3.swagger.io/api/v3/pet/10", bombardierTests.FirstOrDefault().Url.ToString());
         }
 
         [Fact]
@@ -156,7 +156,7 @@ namespace QAToolKit.Engine.Bombardier.Test
             Assert.Single(bombardierTests);
             Assert.Contains(" -m GET https://petstore3.swagger.io/api/v3/pet/10 -c 1 --http2 --timeout=30s --duration=1s --rate=20 --requests=22", bombardierTests.FirstOrDefault().Command);
             Assert.Equal(HttpMethod.Get, bombardierTests.FirstOrDefault().Method);
-            Assert.Equal("/pet/10", bombardierTests.FirstOrDefault().Url.ToString());
+            Assert.Equal("https://petstore3.swagger.io/api/v3/pet/10", bombardierTests.FirstOrDefault().Url.ToString());
         }
 
         [Fact]
@@ -183,7 +183,7 @@ namespace QAToolKit.Engine.Bombardier.Test
             Assert.Single(bombardierTests);
             Assert.Contains(" -m GET https://petstore3.swagger.io/api/v3/pet/10 -c 1 -H \"ApiKey: 1234\" --http2 --timeout=30s --duration=1s --rate=20 --requests=22", bombardierTests.FirstOrDefault().Command);
             Assert.Equal(HttpMethod.Get, bombardierTests.FirstOrDefault().Method);
-            Assert.Equal("/pet/10", bombardierTests.FirstOrDefault().Url.ToString());
+            Assert.Equal("https://petstore3.swagger.io/api/v3/pet/10", bombardierTests.FirstOrDefault().Url.ToString());
         }
 
         [Fact]
@@ -212,7 +212,7 @@ namespace QAToolKit.Engine.Bombardier.Test
             Assert.Single(bombardierTests);
             Assert.Contains($" -m GET https://petstore3.swagger.io/api/v3/pet/10 -c 1 -H \"Authorization: Basic {authHeader}\" --http2 --timeout=30s --duration=1s --rate=20 --requests=22", bombardierTests.FirstOrDefault().Command);
             Assert.Equal(HttpMethod.Get, bombardierTests.FirstOrDefault().Method);
-            Assert.Equal("/pet/10", bombardierTests.FirstOrDefault().Url.ToString());
+            Assert.Equal("https://petstore3.swagger.io/api/v3/pet/10", bombardierTests.FirstOrDefault().Url.ToString());
         }
 
         [Fact]
@@ -239,7 +239,7 @@ namespace QAToolKit.Engine.Bombardier.Test
             Assert.Single(bombardierTests);
             Assert.Contains($" -m GET https://petstore3.swagger.io/api/v3/pet/10 -c 1 -H \"Authorization: Bearer 1234567890\" --http2 --timeout=30s --duration=1s --rate=20 --requests=22", bombardierTests.FirstOrDefault().Command);
             Assert.Equal(HttpMethod.Get, bombardierTests.FirstOrDefault().Method);
-            Assert.Equal("/pet/10", bombardierTests.FirstOrDefault().Url.ToString());
+            Assert.Equal("https://petstore3.swagger.io/api/v3/pet/10", bombardierTests.FirstOrDefault().Url.ToString());
         }
 
         [Fact]
@@ -257,7 +257,7 @@ namespace QAToolKit.Engine.Bombardier.Test
             Assert.Single(bombardierTests);
             Assert.Contains($" -m GET https://petstore3.swagger.io/api/v3/pet/10 -c 3 --http2 --timeout=30s --duration=5s", bombardierTests.FirstOrDefault().Command);
             Assert.Equal(HttpMethod.Get, bombardierTests.FirstOrDefault().Method);
-            Assert.Equal("/pet/10", bombardierTests.FirstOrDefault().Url.ToString());
+            Assert.Equal("https://petstore3.swagger.io/api/v3/pet/10", bombardierTests.FirstOrDefault().Url.ToString());
         }
 
         [Fact]
@@ -287,7 +287,7 @@ namespace QAToolKit.Engine.Bombardier.Test
             Assert.Single(bombardierTests);
             Assert.Contains($@" -m POST https://petstore3.swagger.io/api/v3/pet -c 3 -H ""Content-Type: application/json"" -b ""{{\""id\"":1000,\""name\"":\""MJ\""}}"" --http2 --timeout=30s --duration=5s", bombardierTests.FirstOrDefault().Command);
             Assert.Equal(HttpMethod.Post, bombardierTests.FirstOrDefault().Method);
-            Assert.Equal("/pet", bombardierTests.FirstOrDefault().Url.ToString());
+            Assert.Equal("https://petstore3.swagger.io/api/v3/pet", bombardierTests.FirstOrDefault().Url.ToString());
         }
 
         [Fact]
@@ -317,7 +317,78 @@ namespace QAToolKit.Engine.Bombardier.Test
             Assert.Single(bombardierTests);
             Assert.Contains($@" -m POST https://petstore3.swagger.io/api/v3/pet -c 3 -H ""Content-Type: application/json"" -b ""{{\""id\"":999,\""name\"":\""my pet 999\""}}"" --http2 --timeout=30s --duration=5s", bombardierTests.FirstOrDefault().Command);
             Assert.Equal(HttpMethod.Post, bombardierTests.FirstOrDefault().Method);
-            Assert.Equal("/pet", bombardierTests.FirstOrDefault().Url.ToString());
+            Assert.Equal("https://petstore3.swagger.io/api/v3/pet", bombardierTests.FirstOrDefault().Url.ToString());
+        }
+
+        [Fact]
+        public async Task GenerateBombardierTestGetBikesReplacementTest_Successfull()
+        {
+            var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
+            {
+                options.AddReplacementValues(new ReplacementValue[] {
+                    new ReplacementValue(){
+                        Key = "api-version",
+                        Value = "2"
+                    }
+                });
+            });
+
+            var content = File.ReadAllText("Assets/GetAllBikes.json");
+            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+
+            var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
+
+            Assert.NotNull(bombardierTests);
+            Assert.Single(bombardierTests);
+            Assert.Contains($@" -m GET https://qatoolkitapi.azurewebsites.net/api/bicycles?api-version=2 -c 3 --http2 --timeout=30s --duration=5s", bombardierTests.FirstOrDefault().Command);
+            Assert.Equal(HttpMethod.Get, bombardierTests.FirstOrDefault().Method);
+            Assert.Equal("https://qatoolkitapi.azurewebsites.net/api/bicycles?api-version=2", bombardierTests.FirstOrDefault().Url.ToString());
+        }
+
+        [Fact]
+        public async Task GenerateBombardierTestGetBikesExampleTest_Successfull()
+        {
+            var bombardierTestsGenerator = new BombardierTestsGenerator();
+
+            var content = File.ReadAllText("Assets/GetAllBikes.json");
+            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+
+            var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
+
+            Assert.NotNull(bombardierTests);
+            Assert.Single(bombardierTests);
+            Assert.Contains($@" -m GET https://qatoolkitapi.azurewebsites.net/api/bicycles?api-version=1 -c 3 --http2 --timeout=30s --duration=5s", bombardierTests.FirstOrDefault().Command);
+            Assert.Equal(HttpMethod.Get, bombardierTests.FirstOrDefault().Method);
+            Assert.Equal("https://qatoolkitapi.azurewebsites.net/api/bicycles?api-version=1", bombardierTests.FirstOrDefault().Url.ToString());
+        }
+
+        [Fact]
+        public async Task GenerateBombardierTestGetBikesExampleWithFilterTest_Successfull()
+        {
+            var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
+            {
+                options.AddReplacementValues(new ReplacementValue[] {
+                    new ReplacementValue(){
+                        Key = "api-version",
+                        Value = "2"
+                    },
+                    new ReplacementValue(){
+                        Key = "bicycleType",
+                        Value = "1"
+                    }
+                });
+            });
+
+            var content = File.ReadAllText("Assets/GetAllBikes.json");
+            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+
+            var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
+
+            Assert.NotNull(bombardierTests);
+            Assert.Single(bombardierTests);
+            Assert.Contains($@" -m GET https://qatoolkitapi.azurewebsites.net/api/bicycles?bicycleType=1&api-version=2 -c 3 --http2 --timeout=30s --duration=5s", bombardierTests.FirstOrDefault().Command);
+            Assert.Equal(HttpMethod.Get, bombardierTests.FirstOrDefault().Method);
+            Assert.Equal("https://qatoolkitapi.azurewebsites.net/api/bicycles?bicycleType=1&api-version=2", bombardierTests.FirstOrDefault().Url.ToString());
         }
     }
 }
