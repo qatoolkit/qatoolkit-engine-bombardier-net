@@ -15,30 +15,27 @@ Bombardier version [1.2.5](https://github.com/codesenberg/bombardier/releases/ta
 ## Sample
 
 ```csharp
+//Generate requests from previously stored JSON file:
+var content = File.ReadAllText("Assets/getPetById.json");
+var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
 
-//Instantiate a Bombardier test generator, by specifying Bombardier options
+//Create bombardier tests generator
 var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
 {
-    //if your api endpoints you are testing are protected by Oauth2 access tokens
-    options.AddOAuth2Token("eyJhbGciOiJSUzI1N....", AuthenticationType.Customer);
-    //if your api endpoints are protected by simple "ApiKey: <apikey>" authentication header
-    options.AddApiKey("myAPIKey123423456");
-    //if your api endpoints are protected by basic authentication
-    options.AddBasicAuthentication("username", "password");
     options.BombardierConcurrentUsers = 1;
     options.BombardierDuration = 1;
     options.BombardierTimeout = 30;
     options.BombardierUseHttp2 = true;
 });
-//Generate Bombardier Tests
-var bombardierTests = await bombardierTestsGenerator.Generate(requests);
+
+//Generate bomardier tests
+var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
 
 //Run Bombardier Tests
-var bombardierTestsRunner = new BombardierTestsRunner(bombardierTests.ToList(),
-    options =>
-    {
-        options.ObfuscateAuthenticationHeader = false;
-    });
+var bombardierTestsRunner = new BombardierTestsRunner(bombardierTests.ToList(), options =>
+{
+    options.ObfuscateAuthenticationHeader = true;
+});
 var bombardierResults = await bombardierTestsRunner.Run();
 ```
 
@@ -82,23 +79,61 @@ Use `AddApiKey` if your APIs are protected by simple API Key. Pass Api Key in th
 ##### 1.3 AddBasicAuthentication
 Use `AddBasicAuthentication` if your APIs are protected by basic authentication. Pass username and password in the method. A basic `Authentication` HTTP header will be generated. This is not best practice, but it's here if you need it.
 
+##### 1.4 AddReplacementValues
+When you use `AddReplacementValues` values those can set or replace URL and HTTP body parameters before executing the tests. Replacement values have precedence over the `example` values that are set in Swagger file.
+
 #### 2. Bombardier parameters
 
-You can set 5 Bombardier properties:
+You can also set those `BombardierGeneratorOptions` options:
 
-- `BombardierConcurrentUsers`: How many concurrent users should be used in Bombardier tests.
-- `BombardierDuration`: How long the Bombardier tests should execute in seconds. Use this depending on the type of test you want to perform and should not be used with `BombardierRateLimit`.
-- `BombardierTimeout`: What is the Bombardier timeout to wait for the requests to finish.
-- `BombardierUseHttp2`: Use HTTP2?
-- `BombardierRateLimit`: Rate limit Bombardier tests per second. Use this depending on the type of test you want to perform and should not be used with `BombardierDuration`.
-
+- `BombardierConcurrentUsers`: How many concurrent users should be used in Bombardier tests. Default is `3`.
+- `BombardierDuration`: How long the Bombardier tests should execute in seconds. Use this depending on the type of test you want to perform and should not be used with `BombardierRateLimit`. Default is `30` seconds.
+- `BombardierTimeout`: What is the Bombardier timeout to wait for the requests to finish. Default is `30` seconds.
+- `BombardierUseHttp2`: Use HTTP2 protocol. Otherwise HTTP1 is used. By default this is set to `true`.
+- `BombardierRateLimit`: Rate limit Bombardier tests per second. Use this depending on the type of test you want to perform and should not be used with `BombardierDuration`. By default rate limit is not set.
+- `BombardierNumberOfTotalRequests`: Limit the test to run only certain amount of requests. By default total number of requests is not set.
+- `BombardierInsecure`: Instead of HTTPS use HTTP protocol. Default value is `false`.
+- `BombardierBodyContentType`: Force only certain HTTP Content type. By default is set to `application/json`.
+ 
 #### 3. Obfuscate Auth tokens for Bombardier output
 
 Output is obfuscated by default, but you can turn it off with `options.ObfuscateAuthenticationHeader = false;` in `BombardierTestsRunner` options.
 
 ## How to use
 
-TO-DO
+In the sample code above we generate HTTP requests from previously generated object which was serialized to JSON.
+
+If you use Swagger files, you need to check the `QAToolKit.Source.Swagger` NuGet package, where you can generate that object from the Swagger file.
+
+Let's replace
+
+```csharp
+//Generate requests from previously stored JSON file:
+var content = File.ReadAllText("Assets/getPetById.json");
+var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+```
+
+with
+
+```csharp
+//Setup Swagger source
+var urlSource = new SwaggerUrlSource(options =>
+{
+    options.AddBaseUrl(new Uri("https://qatoolkitapi.azurewebsites.net/"));
+    options.AddRequestFilters(new RequestFilter()
+    {
+        EndpointNameWhitelist = new string[] { "GetAllBikes" }
+    });
+    options.UseSwaggerExampleValues = true;
+});
+
+//Load requests object
+var requests = await urlSource.Load(new Uri[] {
+    new Uri("https://qatoolkitapi.azurewebsites.net/swagger/v1/swagger.json")
+});
+```
+
+in the sample code above. Check the [QAToolKit.Source.Swagger](https://github.com/qatoolkit/qatoolkit-source-swagger-net) library for more details.
 
 ## TO-DO
 

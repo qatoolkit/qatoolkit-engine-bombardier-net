@@ -41,7 +41,7 @@ namespace QAToolKit.Engine.Bombardier
         /// <summary>
         /// Bombardier rate limiting per second
         /// </summary>
-        public int BombardierRateLimit { get; set; }
+        public int? BombardierRateLimit { get; set; } = null;
         /// <summary>
         /// Bombardier use HTTP2 protocol
         /// </summary>

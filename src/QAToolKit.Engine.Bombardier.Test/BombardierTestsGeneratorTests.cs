@@ -390,5 +390,67 @@ namespace QAToolKit.Engine.Bombardier.Test
             Assert.Equal(HttpMethod.Get, bombardierTests.FirstOrDefault().Method);
             Assert.Equal("https://qatoolkitapi.azurewebsites.net/api/bicycles?bicycleType=1&api-version=2", bombardierTests.FirstOrDefault().Url.ToString());
         }
+
+        [Fact]
+        public async Task GenerateBombardierTestGetBikesExampleWithFilterAndTotalRequestTest_Successfull()
+        {
+            var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
+            {
+                options.AddReplacementValues(new ReplacementValue[] {
+                    new ReplacementValue(){
+                        Key = "api-version",
+                        Value = "1"
+                    },
+                    new ReplacementValue(){
+                        Key = "bicycleType",
+                        Value = "1"
+                    }
+                });
+                options.BombardierNumberOfTotalRequests = 10;
+            });
+
+            var content = File.ReadAllText("Assets/GetAllBikes.json");
+            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+
+            var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
+
+            Assert.NotNull(bombardierTests);
+            Assert.Single(bombardierTests);
+            Assert.Contains($@" -m GET https://qatoolkitapi.azurewebsites.net/api/bicycles?bicycleType=1&api-version=1 -c 3 --http2 --timeout=30s --duration=5s --requests=10", bombardierTests.FirstOrDefault().Command);
+            Assert.Equal(HttpMethod.Get, bombardierTests.FirstOrDefault().Method);
+            Assert.Equal("https://qatoolkitapi.azurewebsites.net/api/bicycles?bicycleType=1&api-version=1", bombardierTests.FirstOrDefault().Url.ToString());
+        }
+
+        [Fact]
+        public async Task GenerateBombardierTestGetBikesExampleWithFilterAndTotalRequestInsecureTest_Successfull()
+        {
+            var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
+            {
+                options.AddReplacementValues(new ReplacementValue[] {
+                    new ReplacementValue(){
+                        Key = "api-version",
+                        Value = "2"
+                    },
+                    new ReplacementValue(){
+                        Key = "bicycleType",
+                        Value = "1"
+                    }
+                });
+                options.BombardierNumberOfTotalRequests = 10;
+                options.BombardierInsecure = true;
+                options.BombardierUseHttp2 = false;
+            });
+
+            var content = File.ReadAllText("Assets/GetAllBikes.json");
+            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+
+            var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
+
+            Assert.NotNull(bombardierTests);
+            Assert.Single(bombardierTests);
+            Assert.Contains($@" -m GET https://qatoolkitapi.azurewebsites.net/api/bicycles?bicycleType=1&api-version=2 -c 3 --http1 --timeout=30s --duration=5s --insecure --requests=10", bombardierTests.FirstOrDefault().Command);
+            Assert.Equal(HttpMethod.Get, bombardierTests.FirstOrDefault().Method);
+            Assert.Equal("https://qatoolkitapi.azurewebsites.net/api/bicycles?bicycleType=1&api-version=2", bombardierTests.FirstOrDefault().Url.ToString());
+        }
     }
 }

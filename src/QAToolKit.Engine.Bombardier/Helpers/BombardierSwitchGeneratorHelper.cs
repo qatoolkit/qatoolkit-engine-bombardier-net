@@ -45,7 +45,7 @@ namespace QAToolKit.Engine.Bombardier.Helpers
         /// <returns></returns>
         internal static string GenerateRateLimitSwitch(BombardierGeneratorOptions bombardierOptions)
         {
-            if (bombardierOptions.BombardierRateLimit > 0)
+            if (bombardierOptions.BombardierRateLimit != null)
             {
                 return $" --rate={bombardierOptions.BombardierRateLimit}";
             }
