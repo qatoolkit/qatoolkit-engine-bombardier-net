@@ -452,5 +452,91 @@ namespace QAToolKit.Engine.Bombardier.Test
             Assert.Equal(HttpMethod.Get, bombardierTests.FirstOrDefault().Method);
             Assert.Equal("https://qatoolkitapi.azurewebsites.net/api/bicycles?bicycleType=1&api-version=2", bombardierTests.FirstOrDefault().Url.ToString());
         }
+
+        [Fact]
+        public async Task GenerateBombardierTestPostNewBikeTest_Successfull()
+        {
+
+            var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
+            {
+                options.AddReplacementValues(new ReplacementValue[] {
+                    new ReplacementValue(){
+                        Key = "Bicycle",
+                        Value = @"{""id"":66,""name"":""my bike"",""brand"":""cannondale"",""BicycleType"":1}"
+                    }
+                });
+            });
+
+            var content = File.ReadAllText("Assets/AddBike.json");
+            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+
+            var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
+
+            Assert.NotNull(bombardierTests);
+            Assert.Single(bombardierTests);
+            Assert.Contains($@" -m POST https://qatoolkitapi.azurewebsites.net/api/bicycles?api-version=1 -c 3 -H ""Content-Type: application/json"" -b ""{{\""id\"":66,\""name\"":\""my bike\"",\""brand\"":\""cannondale\"",\""BicycleType\"":1}}"" --http2 --timeout=30s --duration=5s", bombardierTests.FirstOrDefault().Command);
+            Assert.Equal(HttpMethod.Post, bombardierTests.FirstOrDefault().Method);
+            Assert.Equal("https://qatoolkitapi.azurewebsites.net/api/bicycles?api-version=1", bombardierTests.FirstOrDefault().Url.ToString());
+        }
+
+        [Fact]
+        public async Task GenerateBombardierTestPutUpdateBikeTest_Successfull()
+        {
+
+            var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
+            {
+                options.AddReplacementValues(new ReplacementValue[] {
+                    new ReplacementValue(){
+                        Key = "Bicycle",
+                        Value = @"{""id"":66,""name"":""my bike"",""brand"":""cannondale"",""BicycleType"":1}"
+                    },
+                    new ReplacementValue(){
+                        Key = "id",
+                        Value = "1"
+                    }
+                });
+            });
+
+            var content = File.ReadAllText("Assets/UpdateBike.json");
+            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+
+            var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
+
+            Assert.NotNull(bombardierTests);
+            Assert.Single(bombardierTests);
+            Assert.Contains($@" -m PUT https://qatoolkitapi.azurewebsites.net/api/bicycles/1?api-version=1 -c 3 -H ""Content-Type: application/json"" -b ""{{\""id\"":66,\""name\"":\""my bike\"",\""brand\"":\""cannondale\"",\""BicycleType\"":1}}"" --http2 --timeout=30s --duration=5s", bombardierTests.FirstOrDefault().Command);
+            Assert.Equal(HttpMethod.Put, bombardierTests.FirstOrDefault().Method);
+            Assert.Equal("https://qatoolkitapi.azurewebsites.net/api/bicycles/1?api-version=1", bombardierTests.FirstOrDefault().Url.ToString());
+        }
+
+        [Fact]
+        public async Task GenerateBombardierTestPutUpdateBikeIntValueTest_Successfull()
+        {
+
+            var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
+            {
+                options.AddReplacementValues(new ReplacementValue[] {
+                    new ReplacementValue(){
+                        Key = "Bicycle",
+                        Value = @"{""id"":66,""name"":""my bike"",""brand"":""cannondale"",""BicycleType"":1}"
+                    },
+                    new ReplacementValue(){
+                        Key = "id",
+                        Value = 1
+                    }
+                });
+            });
+
+            var content = File.ReadAllText("Assets/UpdateBike.json");
+            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+
+            var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
+
+            Assert.NotNull(bombardierTests);
+            Assert.Single(bombardierTests);
+            Assert.Contains($@" -m PUT https://qatoolkitapi.azurewebsites.net/api/bicycles/1?api-version=1 -c 3 -H ""Content-Type: application/json"" -b ""{{\""id\"":66,\""name\"":\""my bike\"",\""brand\"":\""cannondale\"",\""BicycleType\"":1}}"" --http2 --timeout=30s --duration=5s", bombardierTests.FirstOrDefault().Command);
+            Assert.Equal(HttpMethod.Put, bombardierTests.FirstOrDefault().Method);
+            Assert.Equal("https://qatoolkitapi.azurewebsites.net/api/bicycles/1?api-version=1", bombardierTests.FirstOrDefault().Url.ToString());
+        }
     }
 }
