@@ -42,6 +42,8 @@ namespace QAToolKit.Engine.Bombardier.Test
 
             var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
 
+            _logger.LogInformation(JsonConvert.SerializeObject(bombardierTests, Formatting.Indented));
+
             Assert.NotNull(bombardierTests);
             Assert.Single(bombardierTests);
             Assert.Contains(" -m GET https://petstore3.swagger.io/api/v3/pet/10 -c 1 --http2 --timeout=30s --duration=1s", bombardierTests.FirstOrDefault().Command);

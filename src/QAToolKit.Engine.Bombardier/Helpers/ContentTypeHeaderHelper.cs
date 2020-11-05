@@ -24,7 +24,7 @@ namespace QAToolKit.Engine.Bombardier.Helpers
             }
             else
             {
-                var contentType = request.RequestBodies.FirstOrDefault(content => content.ContentType == ContentType.Enumeration.Json);
+                var contentType = request.RequestBodies.FirstOrDefault(content => content.ContentType == useContentType);
 
                 if (contentType != null)
                 {

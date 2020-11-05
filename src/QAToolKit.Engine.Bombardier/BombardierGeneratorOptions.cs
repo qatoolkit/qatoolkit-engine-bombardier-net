@@ -75,10 +75,7 @@ namespace QAToolKit.Engine.Bombardier
         /// <returns></returns>
         public BombardierGeneratorOptions AddReplacementValues(ReplacementValue[] replacementValues)
         {
-            if (replacementValues == null)
-                throw new ArgumentException(nameof(replacementValues));
-
-            ReplacementValues = replacementValues;
+            ReplacementValues = replacementValues ?? throw new ArgumentException(nameof(replacementValues));
             return this;
         }
 

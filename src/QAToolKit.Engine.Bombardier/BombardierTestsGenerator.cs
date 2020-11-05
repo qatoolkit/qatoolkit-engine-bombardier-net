@@ -56,7 +56,7 @@ namespace QAToolKit.Engine.Bombardier
             {
                 scriptBuilder.AppendLine($"{bombardierFullPath} " +
                     $"-m {request.Method.ToString().ToUpper()} {HttpUrlHelper.GenerateUrlParameters(request, _bombardierGeneratorOptions)}" +
-                    $"{BombardierSwitchGeneratorHelper.GenerateConcurrentSwitch(request, _bombardierGeneratorOptions)}" +
+                    $"{BombardierSwitchGeneratorHelper.GenerateConcurrentSwitch(_bombardierGeneratorOptions)}" +
                     $"{AuthorizationHeaderHelper.GenerateAuthHeader(request, _bombardierGeneratorOptions)}" +
                     $"{ContentTypeHeaderHelper.GenerateContentTypeHeader(request, _bombardierGeneratorOptions.BombardierBodyContentType)}" +
                     $"{BombardierSwitchGeneratorHelper.GenerateBodySwitch(request, _bombardierGeneratorOptions)}" +

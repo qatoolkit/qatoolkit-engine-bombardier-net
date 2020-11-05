@@ -47,6 +47,8 @@ namespace QAToolKit.Engine.Bombardier.Test
             });
             var bombardierResults = await bombardierTestsRunner.Run();
 
+            _logger.LogInformation(JsonConvert.SerializeObject(bombardierResults, Formatting.Indented));
+
             Assert.NotNull(bombardierResults);
             Assert.Single(bombardierResults);
             Assert.True(bombardierResults.FirstOrDefault().Counter1xx == 0);
@@ -99,6 +101,8 @@ namespace QAToolKit.Engine.Bombardier.Test
                 options.ObfuscateAuthenticationHeader = true;
             });
             var bombardierResults = await bombardierTestsRunner.Run();
+
+            _logger.LogInformation(JsonConvert.SerializeObject(bombardierResults, Formatting.Indented));
 
             Assert.NotNull(bombardierResults);
             Assert.Single(bombardierResults);

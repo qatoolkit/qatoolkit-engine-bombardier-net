@@ -86,10 +86,9 @@ namespace QAToolKit.Engine.Bombardier.Helpers
         /// <summary>
         /// Generate concurrent users bombardier switch
         /// </summary>
-        /// <param name="request"></param>
         /// <param name="bombardierGeneratorOptions"></param>
         /// <returns></returns>
-        internal static object GenerateConcurrentSwitch(HttpRequest request, BombardierGeneratorOptions bombardierGeneratorOptions)
+        internal static object GenerateConcurrentSwitch(BombardierGeneratorOptions bombardierGeneratorOptions)
         {
             return $" -c {bombardierGeneratorOptions.BombardierConcurrentUsers}";
         }
