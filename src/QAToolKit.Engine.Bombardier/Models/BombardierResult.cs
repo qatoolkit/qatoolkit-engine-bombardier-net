@@ -1,7 +1,7 @@
 ﻿using QAToolKit.Core.Interfaces;
 using System;
 
-namespace QAToolKit.Engine.Bombardier
+namespace QAToolKit.Engine.Bombardier.Models
 {
     /// <summary>
     /// Results of Bombardier test

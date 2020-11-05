@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 
-namespace QAToolKit.Engine.Bombardier
+namespace QAToolKit.Engine.Bombardier.Models
 {
     /// <summary>
     /// Bombardier test

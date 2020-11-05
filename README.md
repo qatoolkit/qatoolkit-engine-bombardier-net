@@ -137,7 +137,7 @@ in the sample code above. Check the [QAToolKit.Source.Swagger](https://github.co
 
 ## TO-DO
 
-N/A
+- Currently tested for GET, POST, PUT and DELETE HTTP methods. Need to extend support.
 
 ## License
 

@@ -1,6 +1,7 @@
 ﻿using QAToolKit.Core.Interfaces;
 using QAToolKit.Core.Models;
 using QAToolKit.Engine.Bombardier.Helpers;
+using QAToolKit.Engine.Bombardier.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -34,6 +35,9 @@ namespace QAToolKit.Engine.Bombardier
         /// <param name="restRequests"></param>
         public async Task<IEnumerable<BombardierTest>> Generate(IList<HttpRequest> restRequests)
         {
+            if (restRequests == null)
+                throw new ArgumentNullException(nameof(restRequests));
+
             var bombardierTests = new List<BombardierTest>();
             var scriptBuilder = new StringBuilder();
 

@@ -538,5 +538,31 @@ namespace QAToolKit.Engine.Bombardier.Test
             Assert.Equal(HttpMethod.Put, bombardierTests.FirstOrDefault().Method);
             Assert.Equal("https://qatoolkitapi.azurewebsites.net/api/bicycles/1?api-version=1", bombardierTests.FirstOrDefault().Url.ToString());
         }
+
+        [Fact]
+        public async Task GenerateBombardierTestDeleteBikeTest_Successfull()
+        {
+
+            var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
+            {
+                options.AddReplacementValues(new ReplacementValue[] {
+                    new ReplacementValue(){
+                        Key = "id",
+                        Value = 1
+                    }
+                });
+            });
+
+            var content = File.ReadAllText("Assets/DeleteBike.json");
+            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+
+            var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
+
+            Assert.NotNull(bombardierTests);
+            Assert.Single(bombardierTests);
+            Assert.Contains($@" -m DELETE https://qatoolkitapi.azurewebsites.net/api/bicycles/1?api-version=1 -c 3 --http2 --timeout=30s --duration=5s", bombardierTests.FirstOrDefault().Command);
+            Assert.Equal(HttpMethod.Delete, bombardierTests.FirstOrDefault().Method);
+            Assert.Equal("https://qatoolkitapi.azurewebsites.net/api/bicycles/1?api-version=1", bombardierTests.FirstOrDefault().Url.ToString());
+        }
     }
 }

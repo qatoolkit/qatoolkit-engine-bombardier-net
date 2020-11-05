@@ -1,4 +1,5 @@
 ﻿using QAToolKit.Core.Helpers;
+using QAToolKit.Engine.Bombardier.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -47,7 +48,7 @@ namespace QAToolKit.Engine.Bombardier
 
             foreach (var test in _bombardierTests)
             {
-                bombardierResult.Add(await Run(test.Command));
+                bombardierResult.Add(await Run(test.Command).ConfigureAwait(false));
             }
 
             return bombardierResult;
@@ -80,7 +81,7 @@ namespace QAToolKit.Engine.Bombardier
 
                 while (!process.StandardOutput.EndOfStream)
                 {
-                    bombardrierOutput.AppendLine(await process.StandardOutput.ReadLineAsync());
+                    bombardrierOutput.AppendLine(await process.StandardOutput.ReadLineAsync().ConfigureAwait(false));
                 }
 
                 process.WaitForExit();

@@ -32,7 +32,7 @@ namespace QAToolKit.Engine.Bombardier.Helpers
                 }
                 else
                 {
-                    throw new Exception($"Content type header '{useContentType}' not found in the HttpRequest.");
+                    return String.Empty;
                 }
             }
         }

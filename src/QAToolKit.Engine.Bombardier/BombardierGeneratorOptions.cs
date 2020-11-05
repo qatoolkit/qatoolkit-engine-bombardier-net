@@ -1,4 +1,5 @@
 ﻿using QAToolKit.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
@@ -74,6 +75,9 @@ namespace QAToolKit.Engine.Bombardier
         /// <returns></returns>
         public BombardierGeneratorOptions AddReplacementValues(ReplacementValue[] replacementValues)
         {
+            if (replacementValues == null)
+                throw new ArgumentException(nameof(replacementValues));
+
             ReplacementValues = replacementValues;
             return this;
         }
@@ -86,6 +90,11 @@ namespace QAToolKit.Engine.Bombardier
         /// <returns></returns>
         public BombardierGeneratorOptions AddOAuth2Token(string token, AuthenticationType authenticationType)
         {
+            if (string.IsNullOrEmpty(token))
+                throw new ArgumentException(nameof(token));
+            if (authenticationType == null)
+                throw new ArgumentException(nameof(authenticationType));
+
             AccessTokens.Add(authenticationType, token);
             return this;
         }
@@ -97,6 +106,9 @@ namespace QAToolKit.Engine.Bombardier
         /// <returns></returns>
         public BombardierGeneratorOptions AddApiKey(string apiKey)
         {
+            if (string.IsNullOrEmpty(apiKey))
+                throw new ArgumentException(nameof(apiKey));
+
             ApiKey = apiKey;
             return this;
         }
@@ -109,6 +121,11 @@ namespace QAToolKit.Engine.Bombardier
         /// <returns></returns>
         public BombardierGeneratorOptions AddBasicAuthentication(string userName, string password)
         {
+            if (string.IsNullOrEmpty(userName))
+                throw new ArgumentException(nameof(userName));
+            if (string.IsNullOrEmpty(password))
+                throw new ArgumentException(nameof(password));
+
             UserName = userName;
             Password = password;
             return this;

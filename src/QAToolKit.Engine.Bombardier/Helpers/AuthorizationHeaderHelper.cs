@@ -1,4 +1,5 @@
 ﻿using QAToolKit.Core.Models;
+using QAToolKit.Engine.Bombardier.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,7 +64,7 @@ namespace QAToolKit.Engine.Bombardier.Helpers
             }
             else
             {
-                throw new Exception($"One of the access token is missing (AuthenticationType {authenticationType.Value()} required).");
+                throw new QAToolKitBombardierException($"One of the access token is missing (AuthenticationType {authenticationType.Value()} required).");
             }
 
             return authHeader;
@@ -81,7 +82,7 @@ namespace QAToolKit.Engine.Bombardier.Helpers
             }
             else
             {
-                throw new Exception($"User name and password for basic authentication are missing and are required).");
+                throw new QAToolKitBombardierException($"User name and password for basic authentication are missing and are required).");
             }
 
             return authHeader;
@@ -97,7 +98,7 @@ namespace QAToolKit.Engine.Bombardier.Helpers
             }
             else
             {
-                throw new Exception($"Api Key is missing and is required.");
+                throw new QAToolKitBombardierException($"Api Key is missing and is required.");
             }
 
             return authHeader;

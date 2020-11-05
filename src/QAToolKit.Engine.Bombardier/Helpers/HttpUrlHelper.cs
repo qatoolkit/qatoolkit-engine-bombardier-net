@@ -1,6 +1,5 @@
 ﻿using QAToolKit.Core.HttpRequestTools;
 using QAToolKit.Core.Models;
-using System;
 
 namespace QAToolKit.Engine.Bombardier.Helpers
 {
