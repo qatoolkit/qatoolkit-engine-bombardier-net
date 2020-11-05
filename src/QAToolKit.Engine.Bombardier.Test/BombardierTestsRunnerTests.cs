@@ -23,7 +23,9 @@ namespace QAToolKit.Engine.Bombardier.Test
             _logger = loggerFactory.CreateLogger<BombardierTestsRunnerTests>();
         }
 
+#if DEBUG
         [Fact]
+#endif
         public async Task BombardierGetTestWithOptionsTest_Successfull()
         {
 
@@ -67,7 +69,9 @@ namespace QAToolKit.Engine.Bombardier.Test
             Assert.True(bombardierResults.FirstOrDefault().TestStop.Subtract(bombardierResults.FirstOrDefault().TestStart).TotalSeconds == bombardierResults.FirstOrDefault().Duration);
         }
 
+#if DEBUG
         [Fact]
+#endif
         public async Task BombardierPostTestWithOptionsTest_Successfull()
         {
 
