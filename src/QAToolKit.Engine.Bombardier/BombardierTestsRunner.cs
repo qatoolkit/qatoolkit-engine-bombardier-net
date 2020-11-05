@@ -1,9 +1,9 @@
 ﻿using QAToolKit.Core.Helpers;
+using QAToolKit.Engine.Bombardier.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -15,7 +15,7 @@ namespace QAToolKit.Engine.Bombardier
     /// </summary>
     public class BombardierTestsRunner
     {
-        private readonly IList<BombardierTest> _bombardierTests;
+        private readonly IEnumerable<BombardierTest> _bombardierTests;
         private readonly BombardierOutputOptions _bombardierParserOptions;
 
         /// <summary>
@@ -23,7 +23,7 @@ namespace QAToolKit.Engine.Bombardier
         /// </summary>
         /// <param name="bombardierTests"></param>
         /// <param name="options"></param>
-        public BombardierTestsRunner(IList<BombardierTest> bombardierTests, Action<BombardierOutputOptions> options = null)
+        public BombardierTestsRunner(IEnumerable<BombardierTest> bombardierTests, Action<BombardierOutputOptions> options = null)
         {
             _bombardierTests = bombardierTests;
             _bombardierParserOptions = new BombardierOutputOptions();
@@ -42,13 +42,13 @@ namespace QAToolKit.Engine.Bombardier
         /// Run Bombardier tests
         /// </summary>
         /// <returns></returns>
-        public async Task<IList<BombardierResult>> Run()
+        public async Task<IEnumerable<BombardierResult>> Run()
         {
             var bombardierResult = new List<BombardierResult>();
 
             foreach (var test in _bombardierTests)
             {
-                bombardierResult.Add(await Run(test.Command));
+                bombardierResult.Add(await Run(test.Command).ConfigureAwait(false));
             }
 
             return bombardierResult;
@@ -81,33 +81,16 @@ namespace QAToolKit.Engine.Bombardier
 
                 while (!process.StandardOutput.EndOfStream)
                 {
-                    bombardrierOutput.AppendLine(await process.StandardOutput.ReadLineAsync());
+                    bombardrierOutput.AppendLine(await process.StandardOutput.ReadLineAsync().ConfigureAwait(false));
                 }
 
                 process.WaitForExit();
             }
 
-            //Delete temp files
-            DeleteBodyFile(bombardierArguments);
-
             var testStop = DateTime.Now;
             var parsedBombardierOutput = ParseOutput(bombardrierOutput, bombardierArguments, testStart, testStop);
 
             return parsedBombardierOutput;
-        }
-
-        private void DeleteBodyFile(string arguments)
-        {
-            try
-            {
-                var file = StringHelper.Between(arguments, "-f \"", "\"");
-
-                if (string.IsNullOrEmpty(file) && File.Exists(file))
-                {
-                    File.Delete(file);
-                }
-            }
-            catch { }
         }
 
         private BombardierResult ParseOutput(StringBuilder sb, string command, DateTime testStart, DateTime testStop)
@@ -156,24 +139,13 @@ namespace QAToolKit.Engine.Bombardier
             CultureInfo cultures = new CultureInfo("en-US");
             var digitString = Regex.Match(latency, @"\d+.\d+");
             var unitString = Regex.Replace(latency, @"\d+.\d+", "");
-            decimal digit;
-
-            switch (unitString)
+            var digit = unitString switch
             {
-                case "s":
-                    digit = Convert.ToDecimal(digitString.Value, cultures) * 1000;
-                    break;
-                case "ms":
-                    digit = Convert.ToDecimal(digitString.Value, cultures);
-                    break;
-                case "us":
-                    digit = Convert.ToDecimal(digitString.Value, cultures) / 1000;
-                    break;
-                default:
-                    digit = Convert.ToDecimal(digitString.Value, cultures);
-                    break;
-            }
-
+                "s" => Convert.ToDecimal(digitString.Value, cultures) * 1000,
+                "ms" => Convert.ToDecimal(digitString.Value, cultures),
+                "us" => Convert.ToDecimal(digitString.Value, cultures) / 1000,
+                _ => Convert.ToDecimal(digitString.Value, cultures),
+            };
             return digit;
         }
 

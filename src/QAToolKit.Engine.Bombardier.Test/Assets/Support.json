@@ -1,0 +1,337 @@
+﻿[
+  {
+    "BasePath": "https://petstore3.swagger.io/sales/support/v2",
+    "Path": "/SupportTicket",
+    "OperationId": "getSupportTicketsList",
+    "Method": {
+      "Method": "GET"
+    },
+    "Summary": null,
+    "Description": "Get a list of helpdesks and their attachments\n\nAffected systems: DSystem\n",
+    "Tags": [
+      "Support Ticket"
+    ],
+    "Parameters": [
+      {
+        "Name": "CaseId",
+        "Type": "string",
+        "Nullable": false,
+        "Value": null,
+        "Required": true,
+        "Location": 2
+      },
+      {
+        "Name": "Area",
+        "Type": "string",
+        "Nullable": false,
+        "Value": null,
+        "Required": false,
+        "Location": 2
+      }
+    ],
+    "RequestBodies": [],
+    "Responses": [
+      {
+        "StatusCode": 200,
+        "Type": 3,
+        "Properties": [
+          {
+            "Name": "CaseId",
+            "Description": "Case id",
+            "Format": "guid",
+            "Type": "string",
+            "Value": null,
+            "Required": false,
+            "Properties": null
+          },
+          {
+            "Name": "Title",
+            "Description": "Case title",
+            "Format": null,
+            "Type": "string",
+            "Value": null,
+            "Required": false,
+            "Properties": null
+          },
+          {
+            "Name": "Status",
+            "Description": "Case status",
+            "Format": null,
+            "Type": "string",
+            "Value": null,
+            "Required": false,
+            "Properties": null
+          },
+          {
+            "Name": "IdentityId",
+            "Description": "Identity id",
+            "Format": "guid",
+            "Type": "string",
+            "Value": null,
+            "Required": false,
+            "Properties": null
+          },
+          {
+            "Name": "CreatedOn",
+            "Description": "Datetime the case was created on",
+            "Format": "date",
+            "Type": "string",
+            "Value": null,
+            "Required": false,
+            "Properties": null
+          },
+          {
+            "Name": "Tickets",
+            "Description": null,
+            "Format": null,
+            "Type": "array",
+            "Value": null,
+            "Required": false,
+            "Properties": [
+              {
+                "Name": null,
+                "Description": null,
+                "Format": null,
+                "Type": "object",
+                "Value": null,
+                "Required": false,
+                "Properties": [
+                  {
+                    "Name": "ParentCase",
+                    "Description": "Case id this support ticket is connected",
+                    "Format": "guid",
+                    "Type": "string",
+                    "Value": null,
+                    "Required": false,
+                    "Properties": null
+                  },
+                  {
+                    "Name": "Subject",
+                    "Description": "Support ticket subject",
+                    "Format": null,
+                    "Type": "string",
+                    "Value": null,
+                    "Required": false,
+                    "Properties": null
+                  },
+                  {
+                    "Name": "Message",
+                    "Description": "Support ticket message",
+                    "Format": null,
+                    "Type": "string",
+                    "Value": null,
+                    "Required": false,
+                    "Properties": null
+                  },
+                  {
+                    "Name": "Direction",
+                    "Description": "Message direction:0-Inbound (web -> System) or 1-Outbound (System -> web)",
+                    "Format": null,
+                    "Type": "enum",
+                    "Value": null,
+                    "Required": false,
+                    "Properties": [
+                      {
+                        "Name": null,
+                        "Description": null,
+                        "Format": null,
+                        "Type": "string",
+                        "Value": "0",
+                        "Required": false,
+                        "Properties": null
+                      },
+                      {
+                        "Name": null,
+                        "Description": null,
+                        "Format": null,
+                        "Type": "string",
+                        "Value": "1",
+                        "Required": false,
+                        "Properties": null
+                      }
+                    ]
+                  },
+                  {
+                    "Name": "Attachments",
+                    "Description": null,
+                    "Format": null,
+                    "Type": "array",
+                    "Value": null,
+                    "Required": false,
+                    "Properties": [
+                      {
+                        "Name": null,
+                        "Description": null,
+                        "Format": null,
+                        "Type": "object",
+                        "Value": null,
+                        "Required": false,
+                        "Properties": [
+                          {
+                            "Name": "FileId",
+                            "Description": "Attachment file id",
+                            "Format": "guid",
+                            "Type": "string",
+                            "Value": null,
+                            "Required": false,
+                            "Properties": null
+                          },
+                          {
+                            "Name": "FileUri",
+                            "Description": "Attachment file uri",
+                            "Format": "uri",
+                            "Type": "string",
+                            "Value": null,
+                            "Required": false,
+                            "Properties": null
+                          },
+                          {
+                            "Name": "FileName",
+                            "Description": "Attachment file name",
+                            "Format": null,
+                            "Type": "string",
+                            "Value": null,
+                            "Required": false,
+                            "Properties": null
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "StatusCode": 400,
+        "Type": 2,
+        "Properties": [
+          {
+            "Name": "ErrorMessage",
+            "Description": "Error Message",
+            "Format": null,
+            "Type": "string",
+            "Value": null,
+            "Required": false,
+            "Properties": null
+          },
+          {
+            "Name": "ErrorCode",
+            "Description": "Error code",
+            "Format": null,
+            "Type": "string",
+            "Value": null,
+            "Required": false,
+            "Properties": null
+          },
+          {
+            "Name": "Identifier",
+            "Description": "Identifier, internal bus identifier",
+            "Format": null,
+            "Type": "string",
+            "Value": null,
+            "Required": false,
+            "Properties": null
+          },
+          {
+            "Name": "Details",
+            "Description": "Error details",
+            "Format": null,
+            "Type": "string",
+            "Value": null,
+            "Required": false,
+            "Properties": null
+          }
+        ]
+      },
+      {
+        "StatusCode": 404,
+        "Type": 2,
+        "Properties": [
+          {
+            "Name": "ErrorMessage",
+            "Description": "Error Message",
+            "Format": null,
+            "Type": "string",
+            "Value": null,
+            "Required": false,
+            "Properties": null
+          },
+          {
+            "Name": "ErrorCode",
+            "Description": "Error code",
+            "Format": null,
+            "Type": "string",
+            "Value": null,
+            "Required": false,
+            "Properties": null
+          },
+          {
+            "Name": "Identifier",
+            "Description": "Identifier, internal bus identifier",
+            "Format": null,
+            "Type": "string",
+            "Value": null,
+            "Required": false,
+            "Properties": null
+          },
+          {
+            "Name": "Details",
+            "Description": "Error details",
+            "Format": null,
+            "Type": "string",
+            "Value": null,
+            "Required": false,
+            "Properties": null
+          }
+        ]
+      },
+      {
+        "StatusCode": 500,
+        "Type": 2,
+        "Properties": [
+          {
+            "Name": "ErrorMessage",
+            "Description": "Error Message",
+            "Format": null,
+            "Type": "string",
+            "Value": null,
+            "Required": false,
+            "Properties": null
+          },
+          {
+            "Name": "ErrorCode",
+            "Description": "Error code",
+            "Format": null,
+            "Type": "string",
+            "Value": null,
+            "Required": false,
+            "Properties": null
+          },
+          {
+            "Name": "Identifier",
+            "Description": "Identifier, internal bus identifier",
+            "Format": null,
+            "Type": "string",
+            "Value": null,
+            "Required": false,
+            "Properties": null
+          },
+          {
+            "Name": "Details",
+            "Description": "Error details",
+            "Format": null,
+            "Type": "string",
+            "Value": null,
+            "Required": false,
+            "Properties": null
+          }
+        ]
+      }
+    ],
+    "TestTypes": [],
+    "AuthenticationTypes": []
+  }
+]

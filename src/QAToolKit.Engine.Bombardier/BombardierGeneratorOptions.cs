@@ -1,4 +1,5 @@
 ﻿using QAToolKit.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
@@ -29,35 +30,54 @@ namespace QAToolKit.Engine.Bombardier
         /// <summary>
         /// Bombardier concurrent users options
         /// </summary>
-        public int BombardierConcurrentUsers { get; set; }
+        public int BombardierConcurrentUsers { get; set; } = 3;
         /// <summary>
         /// Bombardier request timeout
         /// </summary>
-        public int BombardierTimeout { get; set; }
+        public int BombardierTimeout { get; set; } = 30;
         /// <summary>
         /// Bombardier test runner duration
         /// </summary>
-        public int BombardierDuration { get; set; }
+        public int BombardierDuration { get; set; } = 5;
         /// <summary>
         /// Bombardier rate limiting per second
         /// </summary>
-        public int BombardierRateLimit { get; set; }
+        public int? BombardierRateLimit { get; set; } = null;
         /// <summary>
         /// Bombardier use HTTP2 protocol
         /// </summary>
-        public bool BombardierUseHttp2 { get; set; }
+        public bool BombardierUseHttp2 { get; set; } = true;
         /// <summary>
         /// Use http or https protocols, default is false.
         /// </summary>
         public bool BombardierInsecure { get; set; } = false;
         /// <summary>
+        /// Cap the test with number of requests
+        /// </summary>
+        public int? BombardierNumberOfTotalRequests { get; set; } = null;
+        /// <summary>
         /// Set request body content type for Bombardier tests, default is 'application/json'
         /// </summary>
-        public string BombardierBodyContentType { get; set; } = "application/json";
+        public ContentType.Enumeration BombardierBodyContentType { get; set; } = ContentType.Enumeration.Json;
         /// <summary>
         /// What is the type of the test
         /// </summary>
         internal TestType TestType { get; } = TestType.LoadTest;
+        /// <summary>
+        /// Key/value pairs of replacement values
+        /// </summary>
+        internal Dictionary<string, object> ReplacementValues { get; private set; }
+
+        /// <summary>
+        /// Use replacement values
+        /// </summary>
+        /// <param name="replacementValues"></param>
+        /// <returns></returns>
+        public BombardierGeneratorOptions AddReplacementValues(Dictionary<string, object> replacementValues)
+        {
+            ReplacementValues = replacementValues ?? throw new ArgumentException(nameof(replacementValues));
+            return this;
+        }
 
         /// <summary>
         /// Add Oauth2 token to the bombardier generator
@@ -67,6 +87,11 @@ namespace QAToolKit.Engine.Bombardier
         /// <returns></returns>
         public BombardierGeneratorOptions AddOAuth2Token(string token, AuthenticationType authenticationType)
         {
+            if (string.IsNullOrEmpty(token))
+                throw new ArgumentException(nameof(token));
+            if (authenticationType == null)
+                throw new ArgumentException(nameof(authenticationType));
+
             AccessTokens.Add(authenticationType, token);
             return this;
         }
@@ -78,6 +103,9 @@ namespace QAToolKit.Engine.Bombardier
         /// <returns></returns>
         public BombardierGeneratorOptions AddApiKey(string apiKey)
         {
+            if (string.IsNullOrEmpty(apiKey))
+                throw new ArgumentException(nameof(apiKey));
+
             ApiKey = apiKey;
             return this;
         }
@@ -90,6 +118,11 @@ namespace QAToolKit.Engine.Bombardier
         /// <returns></returns>
         public BombardierGeneratorOptions AddBasicAuthentication(string userName, string password)
         {
+            if (string.IsNullOrEmpty(userName))
+                throw new ArgumentException(nameof(userName));
+            if (string.IsNullOrEmpty(password))
+                throw new ArgumentException(nameof(password));
+
             UserName = userName;
             Password = password;
             return this;
