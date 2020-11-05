@@ -15,7 +15,7 @@ namespace QAToolKit.Engine.Bombardier
     /// </summary>
     public class BombardierTestsRunner
     {
-        private readonly IList<BombardierTest> _bombardierTests;
+        private readonly IEnumerable<BombardierTest> _bombardierTests;
         private readonly BombardierOutputOptions _bombardierParserOptions;
 
         /// <summary>
@@ -23,7 +23,7 @@ namespace QAToolKit.Engine.Bombardier
         /// </summary>
         /// <param name="bombardierTests"></param>
         /// <param name="options"></param>
-        public BombardierTestsRunner(IList<BombardierTest> bombardierTests, Action<BombardierOutputOptions> options = null)
+        public BombardierTestsRunner(IEnumerable<BombardierTest> bombardierTests, Action<BombardierOutputOptions> options = null)
         {
             _bombardierTests = bombardierTests;
             _bombardierParserOptions = new BombardierOutputOptions();
@@ -42,7 +42,7 @@ namespace QAToolKit.Engine.Bombardier
         /// Run Bombardier tests
         /// </summary>
         /// <returns></returns>
-        public async Task<IList<BombardierResult>> Run()
+        public async Task<IEnumerable<BombardierResult>> Run()
         {
             var bombardierResult = new List<BombardierResult>();
 

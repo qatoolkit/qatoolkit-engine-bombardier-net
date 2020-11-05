@@ -1,6 +1,7 @@
 ﻿using QAToolKit.Core.HttpRequestTools;
 using QAToolKit.Core.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 
@@ -19,7 +20,7 @@ namespace QAToolKit.Engine.Bombardier.Helpers
         /// <param name="useContentType"></param>
         /// <param name="replacementValues"></param>
         /// <returns></returns>
-        internal static string GenerateHttpRequestBody(HttpRequest request, ContentType.Enumeration useContentType, ReplacementValue[] replacementValues)
+        internal static string GenerateHttpRequestBody(HttpRequest request, ContentType.Enumeration useContentType, Dictionary<string, object> replacementValues)
         {
             if (request.Method == HttpMethod.Get)
             {

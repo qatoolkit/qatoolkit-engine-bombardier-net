@@ -66,14 +66,14 @@ namespace QAToolKit.Engine.Bombardier
         /// <summary>
         /// Key/value pairs of replacement values
         /// </summary>
-        internal ReplacementValue[] ReplacementValues { get; private set; }
+        internal Dictionary<string, object> ReplacementValues { get; private set; }
 
         /// <summary>
         /// Use replacement values
         /// </summary>
         /// <param name="replacementValues"></param>
         /// <returns></returns>
-        public BombardierGeneratorOptions AddReplacementValues(ReplacementValue[] replacementValues)
+        public BombardierGeneratorOptions AddReplacementValues(Dictionary<string, object> replacementValues)
         {
             ReplacementValues = replacementValues ?? throw new ArgumentException(nameof(replacementValues));
             return this;

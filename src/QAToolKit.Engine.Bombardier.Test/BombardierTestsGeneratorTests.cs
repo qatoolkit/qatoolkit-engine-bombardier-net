@@ -38,7 +38,7 @@ namespace QAToolKit.Engine.Bombardier.Test
             });
 
             var content = File.ReadAllText("Assets/getPetById.json");
-            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+            var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
 
             var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
 
@@ -62,20 +62,14 @@ namespace QAToolKit.Engine.Bombardier.Test
                 options.BombardierTimeout = 30;
                 options.BombardierUseHttp2 = true;
                 options.BombardierInsecure = true;
-                options.AddReplacementValues(new ReplacementValue[] {
-                    new ReplacementValue(){
-                        Key = "id",
-                        Value = 1000
-                    },
-                    new ReplacementValue(){
-                        Key = "name",
-                        Value = "MJ"
-                    }
-                });
+                options.AddReplacementValues(new Dictionary<string, object> {
+                        {"id",1000},
+                        {"name","MJ"}
+                    });
             });
 
             var content = File.ReadAllText("Assets/getPetById.json");
-            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+            var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
 
             var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
 
@@ -99,7 +93,7 @@ namespace QAToolKit.Engine.Bombardier.Test
             });
 
             var content = File.ReadAllText("Assets/getPetById.json");
-            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+            var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
 
             var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
 
@@ -124,7 +118,7 @@ namespace QAToolKit.Engine.Bombardier.Test
             });
 
             var content = File.ReadAllText("Assets/getPetById.json");
-            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+            var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
 
             var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
 
@@ -150,7 +144,7 @@ namespace QAToolKit.Engine.Bombardier.Test
             });
 
             var content = File.ReadAllText("Assets/getPetById.json");
-            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+            var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
 
             var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
 
@@ -177,7 +171,7 @@ namespace QAToolKit.Engine.Bombardier.Test
             });
 
             var content = File.ReadAllText("Assets/getPetById.json");
-            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+            var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
 
             var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
 
@@ -204,7 +198,7 @@ namespace QAToolKit.Engine.Bombardier.Test
             });
 
             var content = File.ReadAllText("Assets/getPetById.json");
-            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+            var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
 
             var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
 
@@ -233,7 +227,7 @@ namespace QAToolKit.Engine.Bombardier.Test
             });
 
             var content = File.ReadAllText("Assets/getPetById.json");
-            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+            var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
 
             var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
 
@@ -251,7 +245,7 @@ namespace QAToolKit.Engine.Bombardier.Test
             var bombardierTestsGenerator = new BombardierTestsGenerator();
 
             var content = File.ReadAllText("Assets/getPetById.json");
-            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+            var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
 
             var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
 
@@ -268,20 +262,14 @@ namespace QAToolKit.Engine.Bombardier.Test
 
             var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
             {
-                options.AddReplacementValues(new ReplacementValue[] {
-                    new ReplacementValue(){
-                        Key = "id",
-                        Value = 1000
-                    },
-                    new ReplacementValue(){
-                        Key = "name",
-                        Value = "MJ"
-                    }
-                });
+                options.AddReplacementValues(new Dictionary<string, object> {
+                        {"id",1000},
+                        {"name","MJ"}
+                    });
             });
 
             var content = File.ReadAllText("Assets/addPet.json");
-            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+            var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
 
             var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
 
@@ -298,20 +286,14 @@ namespace QAToolKit.Engine.Bombardier.Test
 
             var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
             {
-                options.AddReplacementValues(new ReplacementValue[] {
-                    new ReplacementValue(){
-                        Key = "companyId",
-                        Value = "1241451"
-                    },
-                    new ReplacementValue(){
-                        Key = "companyName",
-                        Value = "MJ"
-                    }
-                });
+                options.AddReplacementValues(new Dictionary<string, object> {
+                        {"companyId","1241451"},
+                        {"companyName","MJ"}
+                    });
             });
 
             var content = File.ReadAllText("Assets/addPet.json");
-            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+            var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
 
             var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
 
@@ -327,16 +309,13 @@ namespace QAToolKit.Engine.Bombardier.Test
         {
             var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
             {
-                options.AddReplacementValues(new ReplacementValue[] {
-                    new ReplacementValue(){
-                        Key = "api-version",
-                        Value = "2"
-                    }
-                });
+                options.AddReplacementValues(new Dictionary<string, object> {
+                        {"api-version","2"}
+                    });
             });
 
             var content = File.ReadAllText("Assets/GetAllBikes.json");
-            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+            var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
 
             var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
 
@@ -353,7 +332,7 @@ namespace QAToolKit.Engine.Bombardier.Test
             var bombardierTestsGenerator = new BombardierTestsGenerator();
 
             var content = File.ReadAllText("Assets/GetAllBikes.json");
-            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+            var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
 
             var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
 
@@ -369,20 +348,14 @@ namespace QAToolKit.Engine.Bombardier.Test
         {
             var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
             {
-                options.AddReplacementValues(new ReplacementValue[] {
-                    new ReplacementValue(){
-                        Key = "api-version",
-                        Value = "2"
-                    },
-                    new ReplacementValue(){
-                        Key = "bicycleType",
-                        Value = "1"
-                    }
-                });
+                options.AddReplacementValues(new Dictionary<string, object> {
+                        {"api-version","2"},
+                        {"bicycleType","1"}
+                    });
             });
 
             var content = File.ReadAllText("Assets/GetAllBikes.json");
-            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+            var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
 
             var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
 
@@ -398,21 +371,15 @@ namespace QAToolKit.Engine.Bombardier.Test
         {
             var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
             {
-                options.AddReplacementValues(new ReplacementValue[] {
-                    new ReplacementValue(){
-                        Key = "api-version",
-                        Value = "1"
-                    },
-                    new ReplacementValue(){
-                        Key = "bicycleType",
-                        Value = "1"
-                    }
+                options.AddReplacementValues(new Dictionary<string, object> {
+                        {"api-version","1"},
+                        {"bicycleType","1"}
                 });
                 options.BombardierNumberOfTotalRequests = 10;
             });
 
             var content = File.ReadAllText("Assets/GetAllBikes.json");
-            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+            var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
 
             var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
 
@@ -428,15 +395,9 @@ namespace QAToolKit.Engine.Bombardier.Test
         {
             var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
             {
-                options.AddReplacementValues(new ReplacementValue[] {
-                    new ReplacementValue(){
-                        Key = "api-version",
-                        Value = "2"
-                    },
-                    new ReplacementValue(){
-                        Key = "bicycleType",
-                        Value = "1"
-                    }
+                options.AddReplacementValues(new Dictionary<string, object> {
+                        {"api-version","2"},
+                        {"bicycleType","1"}
                 });
                 options.BombardierNumberOfTotalRequests = 10;
                 options.BombardierInsecure = true;
@@ -444,7 +405,7 @@ namespace QAToolKit.Engine.Bombardier.Test
             });
 
             var content = File.ReadAllText("Assets/GetAllBikes.json");
-            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+            var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
 
             var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
 
@@ -461,16 +422,13 @@ namespace QAToolKit.Engine.Bombardier.Test
 
             var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
             {
-                options.AddReplacementValues(new ReplacementValue[] {
-                    new ReplacementValue(){
-                        Key = "Bicycle",
-                        Value = @"{""id"":66,""name"":""my bike"",""brand"":""cannondale"",""BicycleType"":1}"
-                    }
+                options.AddReplacementValues(new Dictionary<string, object> {
+                        {"Bicycle",@"{""id"":66,""name"":""my bike"",""brand"":""cannondale"",""BicycleType"":1}"}
                 });
             });
 
             var content = File.ReadAllText("Assets/AddBike.json");
-            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+            var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
 
             var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
 
@@ -487,20 +445,14 @@ namespace QAToolKit.Engine.Bombardier.Test
 
             var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
             {
-                options.AddReplacementValues(new ReplacementValue[] {
-                    new ReplacementValue(){
-                        Key = "Bicycle",
-                        Value = @"{""id"":66,""name"":""my bike"",""brand"":""cannondale"",""BicycleType"":1}"
-                    },
-                    new ReplacementValue(){
-                        Key = "id",
-                        Value = "1"
-                    }
+                options.AddReplacementValues(new Dictionary<string, object> {
+                        {"Bicycle",@"{""id"":66,""name"":""my bike"",""brand"":""cannondale"",""BicycleType"":1}"},
+                        {"id","1" }
                 });
             });
 
             var content = File.ReadAllText("Assets/UpdateBike.json");
-            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+            var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
 
             var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
 
@@ -517,20 +469,14 @@ namespace QAToolKit.Engine.Bombardier.Test
 
             var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
             {
-                options.AddReplacementValues(new ReplacementValue[] {
-                    new ReplacementValue(){
-                        Key = "Bicycle",
-                        Value = @"{""id"":66,""name"":""my bike"",""brand"":""cannondale"",""BicycleType"":1}"
-                    },
-                    new ReplacementValue(){
-                        Key = "id",
-                        Value = 1
-                    }
+                options.AddReplacementValues(new Dictionary<string, object> {
+                        {"Bicycle",@"{""id"":66,""name"":""my bike"",""brand"":""cannondale"",""BicycleType"":1}"},
+                        {"id",1 }
                 });
             });
 
             var content = File.ReadAllText("Assets/UpdateBike.json");
-            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+            var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
 
             var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
 
@@ -547,16 +493,13 @@ namespace QAToolKit.Engine.Bombardier.Test
 
             var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
             {
-                options.AddReplacementValues(new ReplacementValue[] {
-                    new ReplacementValue(){
-                        Key = "id",
-                        Value = 1
-                    }
+                options.AddReplacementValues(new Dictionary<string, object> {
+                        {"id",1 }
                 });
             });
 
             var content = File.ReadAllText("Assets/DeleteBike.json");
-            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+            var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
 
             var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
 
@@ -565,6 +508,47 @@ namespace QAToolKit.Engine.Bombardier.Test
             Assert.Contains($@" -m DELETE https://qatoolkitapi.azurewebsites.net/api/bicycles/1?api-version=1 -c 3 --http2 --timeout=30s --duration=5s", bombardierTests.FirstOrDefault().Command);
             Assert.Equal(HttpMethod.Delete, bombardierTests.FirstOrDefault().Method);
             Assert.Equal("https://qatoolkitapi.azurewebsites.net/api/bicycles/1?api-version=1", bombardierTests.FirstOrDefault().Url.ToString());
+        }
+
+        [Fact]
+        public async Task GenerateBombardierTestGetSupportTest_Successfull()
+        {
+
+            var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
+            {
+                options.AddReplacementValues(new Dictionary<string, object> {
+                        {"CaseId",1}
+                });
+            });
+
+            var content = File.ReadAllText("Assets/Support.json");
+            var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
+
+            var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
+
+            Assert.NotNull(bombardierTests);
+            Assert.Single(bombardierTests);
+            Assert.Contains($@" -m GET https://petstore3.swagger.io/sales/support/v2/SupportTicket?CaseId=1 -c 3 --http2 --timeout=30s --duration=5s", bombardierTests.FirstOrDefault().Command);
+            Assert.Equal(HttpMethod.Get, bombardierTests.FirstOrDefault().Method);
+            Assert.Equal("https://petstore3.swagger.io/sales/support/v2/SupportTicket?CaseId=1", bombardierTests.FirstOrDefault().Url.ToString());
+        }
+
+        [Fact]
+        public async Task GenerateBombardierTestGetSupportNoIdTest_Successfull()
+        {
+
+            var bombardierTestsGenerator = new BombardierTestsGenerator();
+
+            var content = File.ReadAllText("Assets/Support.json");
+            var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
+
+            var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
+
+            Assert.NotNull(bombardierTests);
+            Assert.Single(bombardierTests);
+            Assert.Contains($@" -m GET https://petstore3.swagger.io/sales/support/v2/SupportTicket?CaseId={{CaseId}} -c 3 --http2 --timeout=30s --duration=5s", bombardierTests.FirstOrDefault().Command);
+            Assert.Equal(HttpMethod.Get, bombardierTests.FirstOrDefault().Method);
+            Assert.Equal("https://petstore3.swagger.io/sales/support/v2/SupportTicket?CaseId={CaseId}", bombardierTests.FirstOrDefault().Url.ToString());
         }
     }
 }

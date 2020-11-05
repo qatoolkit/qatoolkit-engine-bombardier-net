@@ -5,6 +5,7 @@ using QAToolKit.Engine.Bombardier.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace QAToolKit.Engine.Bombardier
     /// <summary>
     /// Bombardier test generator
     /// </summary>
-    public class BombardierTestsGenerator : IGenerator<IList<HttpRequest>, IEnumerable<BombardierTest>>
+    public class BombardierTestsGenerator : IGenerator<IEnumerable<HttpRequest>, IEnumerable<BombardierTest>>
     {
         private readonly BombardierGeneratorOptions _bombardierGeneratorOptions;
 
@@ -33,7 +34,7 @@ namespace QAToolKit.Engine.Bombardier
         /// </summary>
         /// <returns></returns>
         /// <param name="restRequests"></param>
-        public async Task<IEnumerable<BombardierTest>> Generate(IList<HttpRequest> restRequests)
+        public Task<IEnumerable<BombardierTest>> Generate(IEnumerable<HttpRequest> restRequests)
         {
             if (restRequests == null)
                 throw new ArgumentNullException(nameof(restRequests));
@@ -75,7 +76,7 @@ namespace QAToolKit.Engine.Bombardier
                 });
             }
 
-            return bombardierTests;
+            return Task.FromResult(bombardierTests.AsEnumerable());
         }
     }
 }

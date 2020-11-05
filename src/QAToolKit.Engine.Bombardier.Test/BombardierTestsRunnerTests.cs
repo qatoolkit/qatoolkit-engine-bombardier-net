@@ -36,7 +36,7 @@ namespace QAToolKit.Engine.Bombardier.Test
             });
 
             var content = File.ReadAllText("Assets/getPetById.json");
-            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+            var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
 
             var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
 
@@ -78,15 +78,9 @@ namespace QAToolKit.Engine.Bombardier.Test
                 options.BombardierTimeout = 30;
                 options.BombardierUseHttp2 = true;
                 options.BombardierNumberOfTotalRequests = 1;
-                options.AddReplacementValues(new ReplacementValue[] {
-                    new ReplacementValue(){
-                        Key = "id",
-                        Value = 1241451
-                    },
-                    new ReplacementValue(){
-                        Key = "name",
-                        Value = "MJ"
-                    }
+                options.AddReplacementValues(new Dictionary<string, object> {
+                        {"id",1241451},
+                        { "name","MJ"}
                 });
             });
 

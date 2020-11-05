@@ -1,13 +1,13 @@
 # QAToolKit.Engine.Bombardier
 ![.NET Core](https://github.com/qatoolkit/qatoolkit-engine-bombardier-net/workflows/.NET%20Core/badge.svg?branch=main)
 
-`QAToolKit.Engine.Bombardier` is a .NET standard library, which takes `IList<HttpTestRequest>` object and runs load tests with tool called [Bombardier](https://github.com/codesenberg/bombardier).
+`QAToolKit.Engine.Bombardier` is a .NET standard library, which takes `IEnumerable<HttpTestRequest>` object and runs load tests with tool called [Bombardier](https://github.com/codesenberg/bombardier).
 
 Library is a thin wrapper, that generates requests and parses results so you can export them to whatever format you prefer.
 
 Major features:
 
-- Library takes `IList<HttpTestRequest>` object, which can be produced in your code or can be imported from other sources. One example can be QAToolKit Swagger library that can produce that object with many options. Check it out [here](https://github.com/qatoolkit/qatoolkit-source-swagger-net).
+- Library takes `IEnumerable<HttpTestRequest>` object, which can be produced in your code or can be imported from other sources. One example can be QAToolKit Swagger library that can produce that object with many options. Check it out [here](https://github.com/qatoolkit/qatoolkit-source-swagger-net).
 - Generate a Bombardier report that can be exported to the format you want.
 
 Bombardier version [1.2.5](https://github.com/codesenberg/bombardier/releases/tag/v1.2.5) is used for `windows-amd64` and `linux-amd64`.
@@ -17,7 +17,7 @@ Bombardier version [1.2.5](https://github.com/codesenberg/bombardier/releases/ta
 ```csharp
 //Generate requests from previously stored JSON file:
 var content = File.ReadAllText("Assets/getPetById.json");
-var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
 
 //Create bombardier tests generator
 var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
@@ -110,7 +110,7 @@ Let's replace
 ```csharp
 //Generate requests from previously stored JSON file:
 var content = File.ReadAllText("Assets/getPetById.json");
-var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
 ```
 
 with
