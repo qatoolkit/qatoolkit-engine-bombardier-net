@@ -3,12 +3,12 @@
 
 `QAToolKit.Engine.Bombardier` is a .NET standard library, which takes `IEnumerable<HttpTestRequest>` object and runs load tests with tool called [Bombardier](https://github.com/codesenberg/bombardier).
 
-Library is a thin wrapper, that generates requests and parses results so you can export them to whatever format you prefer.
+Library is a thin wrapper, that generates requests and parses results to JSON. You can process or import that JSON in other tools. We plan to release an exporter to CSV, HTML and maybe other formats.
 
 Major features:
 
-- Library takes `IEnumerable<HttpTestRequest>` object, which can be produced in your code or can be imported from other sources. One example can be QAToolKit Swagger library that can produce that object with many options. Check it out [here](https://github.com/qatoolkit/qatoolkit-source-swagger-net).
-- Generate a Bombardier report that can be exported to the format you want.
+- Library takes `IEnumerable<HttpTestRequest>` object, which can be produced in your code or can be imported from other sources. One example can be `QAToolKit Swagger` library that can produce that object with many options. Check it out [here](https://github.com/qatoolkit/qatoolkit-source-swagger-net).
+- Generate a Bombardier report in JSON format.
 
 Bombardier version [1.2.5](https://github.com/codesenberg/bombardier/releases/tag/v1.2.5) is used for `windows-amd64` and `linux-amd64`.
 
@@ -81,6 +81,19 @@ Use `AddBasicAuthentication` if your APIs are protected by basic authentication.
 
 ##### 1.4 AddReplacementValues
 When you use `AddReplacementValues` values those can set or replace URL and HTTP body parameters before executing the tests. Replacement values have precedence over the `example` values that are set in Swagger file.
+
+For example, you can add replacement values dictionary to the `BombardierTestsGenerator`.
+
+```csharp
+var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
+{
+    options.AddReplacementValues(new Dictionary<string, object> {
+            {"api-version","2"},
+            {"bicycleType","1"}
+    });
+    ...
+});
+```
 
 #### 2. Bombardier parameters
 

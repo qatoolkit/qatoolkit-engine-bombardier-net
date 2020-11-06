@@ -440,6 +440,29 @@ namespace QAToolKit.Engine.Bombardier.Test
         }
 
         [Fact]
+        public async Task GenerateBombardierTestPostNewBikeCaseInsensitiveTest_Successfull()
+        {
+
+            var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
+            {
+                options.AddReplacementValues(new Dictionary<string, object> {
+                        {"bicycle",@"{""id"":66,""name"":""my bike"",""brand"":""cannondale"",""BicycleType"":1}"}
+                });
+            });
+
+            var content = File.ReadAllText("Assets/AddBike.json");
+            var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
+
+            var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
+
+            Assert.NotNull(bombardierTests);
+            Assert.Single(bombardierTests);
+            Assert.Contains($@" -m POST https://qatoolkitapi.azurewebsites.net/api/bicycles?api-version=1 -c 3 -H ""Content-Type: application/json"" -b ""{{\""id\"":66,\""name\"":\""my bike\"",\""brand\"":\""cannondale\"",\""BicycleType\"":1}}"" --http2 --timeout=30s --duration=5s", bombardierTests.FirstOrDefault().Command);
+            Assert.Equal(HttpMethod.Post, bombardierTests.FirstOrDefault().Method);
+            Assert.Equal("https://qatoolkitapi.azurewebsites.net/api/bicycles?api-version=1", bombardierTests.FirstOrDefault().Url.ToString());
+        }
+
+        [Fact]
         public async Task GenerateBombardierTestPutUpdateBikeTest_Successfull()
         {
 
