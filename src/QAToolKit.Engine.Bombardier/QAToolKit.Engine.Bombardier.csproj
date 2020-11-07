@@ -8,7 +8,7 @@
 		<IsPackable>true</IsPackable>
 		<PackageVersion>$(Version)</PackageVersion>
 		<PackageId>QAToolKit.Engine.Bombardier</PackageId>
-		<Authors>QAToolKit</Authors>
+		<Authors>Miha Jakovac</Authors>
 		<Description>
 			QAToolKit Bombardier library for running load tests.
 		</Description>
@@ -29,6 +29,9 @@
 		<None Include="..\..\qatoolkit-64x64.png" Pack="true" PackagePath="\" />
 		<None Include="..\..\LICENSE" Pack="true" PackagePath="" />
 		<None Include="..\..\README.md" Pack="false" PackagePath="" />
+		<None Include="..\..\QAToolKit.Engine.Bombardier.targets" Pack="true" PackagePath="build" />
+		<None Include="$(ProjectDir)..\..\bombardier\linux\bombardier" Pack="true" PackagePath="build\bombardier\linux" />
+		<None Include="$(ProjectDir)..\..\bombardier\win\bombardier.exe" Pack="true" PackagePath="build\bombardier\win" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -38,19 +41,4 @@
 	</ItemGroup>
 
 	<Import Project="..\..\QAToolKit.Engine.Bombardier.targets" />
-
-	<ItemGroup>
-		<None Include="$(SolutionDir)bombardier\linux\bombardier">
-			<Pack>true</Pack>
-			<PackagePath>build\bombardier\linux</PackagePath>
-		</None>
-		<None Include="$(SolutionDir)bombardier\win\bombardier.exe">
-			<Pack>true</Pack>
-			<PackagePath>build\bombardier\win</PackagePath>
-		</None>
-		<None Include="..\..\QAToolKit.Engine.Bombardier.targets">
-			<Pack>true</Pack>
-			<PackagePath>build</PackagePath>
-		</None>
-	</ItemGroup>
 </Project>
