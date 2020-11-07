@@ -4,6 +4,8 @@
 		<TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.1</TargetFrameworks>
 		<LangVersion>latest</LangVersion>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<ProjectGuid>778988ae-c303-4738-a9d6-3dfb80a882ab</ProjectGuid>
+		
 		<!-- NuGet Metadata -->
 		<IsPackable>true</IsPackable>
 		<PackageVersion>$(Version)</PackageVersion>
