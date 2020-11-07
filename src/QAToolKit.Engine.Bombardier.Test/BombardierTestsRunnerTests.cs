@@ -115,5 +115,53 @@ namespace QAToolKit.Engine.Bombardier.Test
             Assert.True(bombardierResults.FirstOrDefault().TestStop.AddMinutes(60) > DateTime.Now);
             Assert.True(bombardierResults.FirstOrDefault().TestStop.Subtract(bombardierResults.FirstOrDefault().TestStart).TotalSeconds == bombardierResults.FirstOrDefault().Duration);
         }
+
+        [IgnoreOnGithubFact]
+        public async Task BombardierPostTestWithBodyAndOptionsTest_Successfull()
+        {
+
+            var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
+            {
+                options.BombardierConcurrentUsers = 1;
+                options.BombardierDuration = 1;
+                options.BombardierTimeout = 30;
+                options.BombardierUseHttp2 = true;
+                options.AddReplacementValues(new Dictionary<string, object> {
+                    {"Bicycle",@"{""id"":66,""name"":""my bike"",""brand"":""cannondale"",""BicycleType"":1}"}
+                });
+            });
+
+            var content = File.ReadAllText("Assets/AddBike.json");
+            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
+
+            var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
+
+            //Run Bombardier Tests
+            var bombardierTestsRunner = new BombardierTestsRunner(bombardierTests.ToList(), options =>
+            {
+                options.ObfuscateAuthenticationHeader = true;
+            });
+            var bombardierResults = await bombardierTestsRunner.Run();
+
+            _logger.LogInformation(JsonConvert.SerializeObject(bombardierResults, Formatting.Indented));
+
+            Assert.NotNull(bombardierResults);
+            Assert.Single(bombardierResults);
+            Assert.Equal("-m POST https://qatoolkitapi.azurewebsites.net/api/bicycles?api-version=1 -c 1 -H \"Content-Type: application/json\" -b \"{\\\"id\\\":66,\\\"name\\\":\\\"my bike\\\",\\\"brand\\\":\\\"cannondale\\\",\\\"BicycleType\\\":1}\" --http2 --timeout=30s --duration=1s", bombardierResults.FirstOrDefault().Command);
+            Assert.True(bombardierResults.FirstOrDefault().Counter1xx == 0);
+            Assert.True(bombardierResults.FirstOrDefault().Counter2xx > 0);
+            Assert.True(bombardierResults.FirstOrDefault().Counter3xx == 0);
+            Assert.True(bombardierResults.FirstOrDefault().Counter4xx == 0);
+            Assert.True(bombardierResults.FirstOrDefault().Counter5xx == 0);
+            Assert.True(bombardierResults.FirstOrDefault().AverageLatency >= 0);
+            Assert.True(bombardierResults.FirstOrDefault().MaxLatency >= 0);
+            Assert.True(bombardierResults.FirstOrDefault().StdevLatency >= 0);
+            Assert.True(bombardierResults.FirstOrDefault().AverageRequestsPerSecond >= 0);
+            Assert.True(bombardierResults.FirstOrDefault().MaxRequestsPerSecond >= 0);
+            Assert.True(bombardierResults.FirstOrDefault().StdevRequestsPerSecond >= 0);
+            Assert.True(bombardierResults.FirstOrDefault().TestStart.AddMinutes(60) > DateTime.Now);
+            Assert.True(bombardierResults.FirstOrDefault().TestStop.AddMinutes(60) > DateTime.Now);
+            Assert.True(bombardierResults.FirstOrDefault().TestStop.Subtract(bombardierResults.FirstOrDefault().TestStart).TotalSeconds == bombardierResults.FirstOrDefault().Duration);
+        }
     }
 }
