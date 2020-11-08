@@ -95,43 +95,36 @@ namespace QAToolKit.Engine.Bombardier
 
         private BombardierResult ParseOutput(StringBuilder sb, string command, DateTime testStart, DateTime testStop)
         {
-            try
+            var results = new BombardierResult
             {
-                var results = new BombardierResult
-                {
-                    TestStart = testStart,
-                    TestStop = testStop,
-                    Duration = testStop.Subtract(testStart).TotalSeconds
-                };
+                TestStart = testStart,
+                TestStop = testStop,
+                Duration = testStop.Subtract(testStart).TotalSeconds
+            };
 
-                var str = sb.ToString();
+            var str = sb.ToString();
 
-                results.Command = ObfuscateAuthenticationHeader(command);
-                results.Counter1xx = Convert.ToInt32(StringHelper.RemoveAllNonNumericChars(StringHelper.Between(str, "1xx - ", ",")));
-                results.Counter2xx = Convert.ToInt32(StringHelper.RemoveAllNonNumericChars(StringHelper.Between(str, "2xx - ", ",")));
-                results.Counter3xx = Convert.ToInt32(StringHelper.RemoveAllNonNumericChars(StringHelper.Between(str, "3xx - ", ",")));
-                results.Counter4xx = Convert.ToInt32(StringHelper.RemoveAllNonNumericChars(StringHelper.Between(str, "4xx - ", ",")));
-                results.Counter5xx = Convert.ToInt32(StringHelper.RemoveAllNonNumericChars(StringHelper.Between(str, "5xx - ", " ")));
+            results.Command = ObfuscateAuthenticationHeader(command.Replace(@"\""", @""""));
+            results.Counter1xx = Convert.ToInt32(StringHelper.RemoveAllNonNumericChars(StringHelper.Between(str, "1xx - ", ",")));
+            results.Counter2xx = Convert.ToInt32(StringHelper.RemoveAllNonNumericChars(StringHelper.Between(str, "2xx - ", ",")));
+            results.Counter3xx = Convert.ToInt32(StringHelper.RemoveAllNonNumericChars(StringHelper.Between(str, "3xx - ", ",")));
+            results.Counter4xx = Convert.ToInt32(StringHelper.RemoveAllNonNumericChars(StringHelper.Between(str, "4xx - ", ",")));
+            results.Counter5xx = Convert.ToInt32(StringHelper.RemoveAllNonNumericChars(StringHelper.Between(str, "5xx - ", " ")));
 
-                var reqsPerSec = StringHelper.ReplaceMultipleSpacesWithOne(StringHelper.Between(str, "Reqs/sec", Environment.NewLine).TrimStart().TrimEnd()).Split(' ');
+            var reqsPerSec = StringHelper.ReplaceMultipleSpacesWithOne(StringHelper.Between(str, "Reqs/sec", Environment.NewLine).TrimStart().TrimEnd()).Split(' ');
 
-                CultureInfo cultures = new CultureInfo("en-US");
-                results.AverageRequestsPerSecond = Convert.ToDecimal(reqsPerSec[0], cultures);
-                results.StdevRequestsPerSecond = Convert.ToDecimal(reqsPerSec[1], cultures);
-                results.MaxRequestsPerSecond = Convert.ToDecimal(reqsPerSec[2], cultures);
+            CultureInfo cultures = new CultureInfo("en-US");
+            results.AverageRequestsPerSecond = Convert.ToDecimal(reqsPerSec[0], cultures);
+            results.StdevRequestsPerSecond = Convert.ToDecimal(reqsPerSec[1], cultures);
+            results.MaxRequestsPerSecond = Convert.ToDecimal(reqsPerSec[2], cultures);
 
-                var latencies = StringHelper.ReplaceMultipleSpacesWithOne(StringHelper.Between(str, "Latency   ", Environment.NewLine).TrimStart().TrimEnd()).Split(' ');
+            var latencies = StringHelper.ReplaceMultipleSpacesWithOne(StringHelper.Between(str, "Latency   ", Environment.NewLine).TrimStart().TrimEnd()).Split(' ');
 
-                results.AverageLatency = GetLatencyMiliseconds(latencies[0]);
-                results.StdevLatency = GetLatencyMiliseconds(latencies[1]);
-                results.MaxLatency = GetLatencyMiliseconds(latencies[2]);
+            results.AverageLatency = GetLatencyMiliseconds(latencies[0]);
+            results.StdevLatency = GetLatencyMiliseconds(latencies[1]);
+            results.MaxLatency = GetLatencyMiliseconds(latencies[2]);
 
-                return results;
-            }
-            catch
-            {
-                throw;
-            }
+            return results;
         }
 
         private decimal GetLatencyMiliseconds(string latency)

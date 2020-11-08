@@ -1,6 +1,10 @@
 # QAToolKit.Engine.Bombardier
 ![.NET Core](https://github.com/qatoolkit/qatoolkit-engine-bombardier-net/workflows/.NET%20Core/badge.svg?branch=main)
+![CodeQL Analyze](https://github.com/qatoolkit/qatoolkit-engine-bombardier-net/workflows/CodeQL%20Analyze/badge.svg)
+![Sonarqube Analyze](https://github.com/qatoolkit/qatoolkit-engine-bombardier-net/workflows/Sonarqube%20Analyze/badge.svg)
+![](https://img.shields.io/nuget/v/QAToolKit.Engine.Bombardier?label=QAToolKit.Engine.Bombardier)
 
+## Description
 `QAToolKit.Engine.Bombardier` is a .NET standard library, which takes `IEnumerable<HttpTestRequest>` object and runs load tests with tool called [Bombardier](https://github.com/codesenberg/bombardier).
 
 Library is a thin wrapper, that generates requests and parses results to JSON. You can process or import that JSON in other tools. We plan to release an exporter to CSV, HTML and maybe other formats.
@@ -148,8 +152,9 @@ var requests = await urlSource.Load(new Uri[] {
 
 in the sample code above. Check the [QAToolKit.Source.Swagger](https://github.com/qatoolkit/qatoolkit-source-swagger-net) library for more details.
 
-## TO-DO
+## To-do
 
+- **This library is an early alpha version**
 - Currently tested for GET, POST, PUT and DELETE HTTP methods. Need to extend support.
 
 ## License

@@ -147,7 +147,7 @@ namespace QAToolKit.Engine.Bombardier.Test
 
             Assert.NotNull(bombardierResults);
             Assert.Single(bombardierResults);
-            Assert.Equal("-m POST https://qatoolkitapi.azurewebsites.net/api/bicycles?api-version=1 -c 1 -H \"Content-Type: application/json\" -b \"{\\\"id\\\":66,\\\"name\\\":\\\"my bike\\\",\\\"brand\\\":\\\"cannondale\\\",\\\"BicycleType\\\":1}\" --http2 --timeout=30s --duration=1s", bombardierResults.FirstOrDefault().Command);
+            Assert.Equal(@"-m POST https://qatoolkitapi.azurewebsites.net/api/bicycles?api-version=1 -c 1 -H ""Content-Type: application/json"" -b ""{""id"":66,""name"":""my bike"",""brand"":""cannondale"",""BicycleType"":1}"" --http2 --timeout=30s --duration=1s", bombardierResults.FirstOrDefault().Command);
             Assert.True(bombardierResults.FirstOrDefault().Counter1xx == 0);
             Assert.True(bombardierResults.FirstOrDefault().Counter2xx > 0);
             Assert.True(bombardierResults.FirstOrDefault().Counter3xx == 0);

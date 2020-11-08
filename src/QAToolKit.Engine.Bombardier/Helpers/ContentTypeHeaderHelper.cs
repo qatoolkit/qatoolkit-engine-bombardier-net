@@ -8,7 +8,7 @@ namespace QAToolKit.Engine.Bombardier.Helpers
     /// <summary>
     /// Content type header helper
     /// </summary>
-    public class ContentTypeHeaderHelper
+    internal static class ContentTypeHeaderHelper
     {
         /// <summary>
         /// Generate content type header
