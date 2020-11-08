@@ -10,7 +10,7 @@ namespace QAToolKit.Engine.Bombardier.Helpers
     /// <summary>
     /// Http body helper
     /// </summary>
-    public static class HttpBodyHelper
+    internal static class HttpBodyHelper
     {
 
         /// <summary>

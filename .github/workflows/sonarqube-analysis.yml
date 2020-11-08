@@ -20,9 +20,8 @@ jobs:
         sonarProjectName:  qatoolkit_qatoolkit-engine-bombardier-net
         sonarOrganization: qatoolkit
         dotnetBuildArguments: ./src/QAToolKit.Engine.Bombardier/QAToolKit.Engine.Bombardier.csproj
-        dotnetDisableTests: true
-        # Optional extra command arguments the the SonarScanner 'begin' command
-        sonarBeginArguments: /d:sonar.verbose="true" /d:sonar.language="cs"
+        dotnetTestArguments: ./src/QAToolKit.Engine.Bombardier.Test/QAToolKit.Engine.Bombardier.Test.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+        sonarBeginArguments: /d:sonar.verbose="true" /d:sonar.language="cs" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" /d:sonar.coverage.exclusions="**Tests.cs"
         sonarHostname: "https://sonarcloud.io"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

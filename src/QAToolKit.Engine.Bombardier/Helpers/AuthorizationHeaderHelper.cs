@@ -10,7 +10,7 @@ namespace QAToolKit.Engine.Bombardier.Helpers
     /// <summary>
     /// Authorization Header Helper
     /// </summary>
-    public static class AuthorizationHeaderHelper
+    internal static class AuthorizationHeaderHelper
     {
 
         /// <summary>
