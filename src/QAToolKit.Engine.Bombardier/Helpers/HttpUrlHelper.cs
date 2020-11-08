@@ -6,7 +6,7 @@ namespace QAToolKit.Engine.Bombardier.Helpers
     /// <summary>
     /// Http Url helper
     /// </summary>
-    public static class HttpUrlHelper
+    internal static class HttpUrlHelper
     {
         /// <summary>
         /// Generate and replace URL parameters with replacement values
