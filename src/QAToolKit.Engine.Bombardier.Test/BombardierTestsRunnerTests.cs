@@ -116,7 +116,7 @@ namespace QAToolKit.Engine.Bombardier.Test
             Assert.True(bombardierResults.FirstOrDefault().TestStop.Subtract(bombardierResults.FirstOrDefault().TestStart).TotalSeconds == bombardierResults.FirstOrDefault().Duration);
         }
 
-        [IgnoreOnGithubFact]
+        [Fact]
         public async Task BombardierPostTestWithBodyAndOptionsTest_Successfull()
         {
 
