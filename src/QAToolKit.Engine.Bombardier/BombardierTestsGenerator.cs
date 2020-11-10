@@ -40,7 +40,6 @@ namespace QAToolKit.Engine.Bombardier
                 throw new ArgumentNullException(nameof(source));
 
             var bombardierTests = new List<BombardierTest>();
-            var scriptBuilder = new StringBuilder();
 
             string bombardierFullPath;
 
@@ -55,7 +54,8 @@ namespace QAToolKit.Engine.Bombardier
 
             foreach (var request in source)
             {
-                scriptBuilder.AppendLine($"{bombardierFullPath} " +
+                var scriptBuilder = new StringBuilder();
+                scriptBuilder.Append($"{bombardierFullPath} " +
                     $"-m {request.Method.ToString().ToUpper()} {HttpUrlHelper.GenerateUrlParameters(request, _bombardierGeneratorOptions)}" +
                     $"{BombardierSwitchGeneratorHelper.GenerateConcurrentSwitch(_bombardierGeneratorOptions)}" +
                     $"{AuthorizationHeaderHelper.GenerateAuthHeader(request, _bombardierGeneratorOptions)}" +

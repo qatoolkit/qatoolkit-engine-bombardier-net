@@ -617,5 +617,51 @@ namespace QAToolKit.Engine.Bombardier.Test
             Assert.Equal(HttpMethod.Post, bombardierTests.FirstOrDefault().Method);
             Assert.Equal("https://qatoolkitapi.azurewebsites.net/api/bicycles?api-version=1", bombardierTests.FirstOrDefault().Url.ToString());
         }
+
+        [Fact]
+        public async Task GenerateBombardierTestDoesNotEndWithNewLineTest1_Successfull()
+        {
+            var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
+            {
+                options.BombardierNumberOfTotalRequests = 10;
+                options.BombardierInsecure = true;
+                options.BombardierUseHttp2 = false;
+            });
+
+            var content = File.ReadAllText("Assets/AddBike.json");
+            var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
+
+            var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
+
+            Assert.NotNull(bombardierTests);
+            Assert.Single(bombardierTests);
+            Assert.Contains($@" -m POST https://qatoolkitapi.azurewebsites.net/api/bicycles?api-version=1 -c 3 -H ""Content-Type: application/json"" -b ""{{\""id\"":1,\""name\"":\""Foil\"",\""brand\"":\""Cannondale\""}}"" --http1 --timeout=30s --duration=5s --insecure --requests=10", bombardierTests.FirstOrDefault().Command);
+            Assert.Equal(HttpMethod.Post, bombardierTests.FirstOrDefault().Method);
+            Assert.Equal("https://qatoolkitapi.azurewebsites.net/api/bicycles?api-version=1", bombardierTests.FirstOrDefault().Url.ToString());
+            Assert.DoesNotContain(Environment.NewLine, bombardierTests.FirstOrDefault().Command);
+        }
+
+        [Fact]
+        public async Task GenerateBombardierTestDoesNotEndWithNewLineTest2_Successfull()
+        {
+            var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
+            {
+                options.BombardierNumberOfTotalRequests = 10;
+                options.BombardierInsecure = true;
+                options.BombardierUseHttp2 = false;
+            });
+
+            var content = File.ReadAllText("Assets/AddBike.json");
+            var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
+
+            var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
+
+            Assert.NotNull(bombardierTests);
+            Assert.Single(bombardierTests);
+            Assert.Contains($@" -m POST https://qatoolkitapi.azurewebsites.net/api/bicycles?api-version=1 -c 3 -H ""Content-Type: application/json"" -b ""{{\""id\"":1,\""name\"":\""Foil\"",\""brand\"":\""Cannondale\""}}"" --http1 --timeout=30s --duration=5s --insecure --requests=10", bombardierTests.FirstOrDefault().Command);
+            Assert.Equal(HttpMethod.Post, bombardierTests.FirstOrDefault().Method);
+            Assert.Equal("https://qatoolkitapi.azurewebsites.net/api/bicycles?api-version=1", bombardierTests.FirstOrDefault().Url.ToString());
+            Assert.DoesNotContain(Environment.NewLine, bombardierTests.FirstOrDefault().Command);
+        }
     }
 }
