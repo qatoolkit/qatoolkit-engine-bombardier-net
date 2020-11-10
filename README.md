@@ -1,11 +1,13 @@
 # QAToolKit.Engine.Bombardier
-![.NET Core](https://github.com/qatoolkit/qatoolkit-engine-bombardier-net/workflows/.NET%20Core/badge.svg?branch=main)
-![CodeQL Analyze](https://github.com/qatoolkit/qatoolkit-engine-bombardier-net/workflows/CodeQL%20Analyze/badge.svg)
-![Sonarqube Analyze](https://github.com/qatoolkit/qatoolkit-engine-bombardier-net/workflows/Sonarqube%20Analyze/badge.svg)
-![](https://img.shields.io/nuget/v/QAToolKit.Engine.Bombardier?label=QAToolKit.Engine.Bombardier)
+![https://github.com/qatoolkit/qatoolkit-engine-bombardier-net/actions](https://github.com/qatoolkit/qatoolkit-engine-bombardier-net/workflows/.NET%20Core/badge.svg?branch=main)
+![https://github.com/qatoolkit/qatoolkit-engine-bombardier-net/security/code-scanning](https://github.com/qatoolkit/qatoolkit-engine-bombardier-net/workflows/CodeQL%20Analyze/badge.svg)
+![https://sonarcloud.io/dashboard?id=qatoolkit_qatoolkit-engine-bombardier-net](https://github.com/qatoolkit/qatoolkit-engine-bombardier-net/workflows/Sonarqube%20Analyze/badge.svg)
+![https://www.nuget.org/packages/QAToolKit.Engine.Bombardier/](https://img.shields.io/nuget/v/QAToolKit.Engine.Bombardier?label=QAToolKit.Engine.Bombardier)
 
 ## Description
 `QAToolKit.Engine.Bombardier` is a .NET standard library, which takes `IEnumerable<HttpTestRequest>` object and runs load tests with tool called [Bombardier](https://github.com/codesenberg/bombardier).
+
+Supported .NET frameworks and standards: `netstandard2.0`, `netstandard2.1`, `netcoreapp3.1`, `net5.0`
 
 Library is a thin wrapper, that generates requests and parses results to JSON. You can process or import that JSON in other tools. We plan to release an exporter to CSV, HTML and maybe other formats.
 
