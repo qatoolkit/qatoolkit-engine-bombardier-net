@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.1</TargetFrameworks>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.1;net5.0</TargetFrameworks>
 		<LangVersion>latest</LangVersion>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<ProjectGuid>778988ae-c303-4738-a9d6-3dfb80a882ab</ProjectGuid>
@@ -38,8 +38,8 @@
 
 	<ItemGroup>
 		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-		<PackageReference Include="QAToolKit.Core" Version="0.2.4" />
-		<PackageReference Include="System.Text.Encodings.Web" Version="4.7.1" />
+		<PackageReference Include="QAToolKit.Core" Version="0.3.0" />
+		<PackageReference Include="System.Text.Encodings.Web" Version="5.0.0" />
 	</ItemGroup>
 
 	<Import Project="..\..\QAToolKit.Engine.Bombardier.targets" />
