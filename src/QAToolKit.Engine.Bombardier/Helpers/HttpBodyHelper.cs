@@ -38,7 +38,10 @@ namespace QAToolKit.Engine.Bombardier.Helpers
 
                 var generator = new HttpRequestBodyGenerator(request, options =>
                 {
-                    options.AddReplacementValues(replacementValues);
+                    if (replacementValues != null)
+                    {
+                        options.AddReplacementValues(replacementValues);
+                    }
                 });
 
                 return generator.ReplaceRequestBodyModel(useContentType).ToString();
