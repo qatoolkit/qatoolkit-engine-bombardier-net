@@ -33,14 +33,13 @@ namespace QAToolKit.Engine.Bombardier
         /// Generate a Bombardier script from requests
         /// </summary>
         /// <returns></returns>
-        /// <param name="httpRequests"></param>
-        public Task<IEnumerable<BombardierTest>> Generate(IEnumerable<HttpRequest> httpRequests)
+        /// <param name="source"></param>
+        public Task<IEnumerable<BombardierTest>> Generate(IEnumerable<HttpRequest> source)
         {
-            if (httpRequests == null)
-                throw new ArgumentNullException(nameof(httpRequests));
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
 
             var bombardierTests = new List<BombardierTest>();
-            var scriptBuilder = new StringBuilder();
 
             string bombardierFullPath;
 
@@ -53,9 +52,10 @@ namespace QAToolKit.Engine.Bombardier
                 bombardierFullPath = Path.Combine("./bombardier", "linux", "bombardier");
             }
 
-            foreach (var request in httpRequests)
+            foreach (var request in source)
             {
-                scriptBuilder.AppendLine($"{bombardierFullPath} " +
+                var scriptBuilder = new StringBuilder();
+                scriptBuilder.Append($"{bombardierFullPath} " +
                     $"-m {request.Method.ToString().ToUpper()} {HttpUrlHelper.GenerateUrlParameters(request, _bombardierGeneratorOptions)}" +
                     $"{BombardierSwitchGeneratorHelper.GenerateConcurrentSwitch(_bombardierGeneratorOptions)}" +
                     $"{AuthorizationHeaderHelper.GenerateAuthHeader(request, _bombardierGeneratorOptions)}" +
