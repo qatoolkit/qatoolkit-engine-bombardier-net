@@ -1,8 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net5.0</TargetFrameworks>
-	<LangVersion>8.0</LangVersion>
+    <TargetFramework>net5.0</TargetFramework>
+	<LangVersion>latest</LangVersion>
+	<IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
