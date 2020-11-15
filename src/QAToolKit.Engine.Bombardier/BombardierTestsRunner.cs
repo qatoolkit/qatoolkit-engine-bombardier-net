@@ -25,17 +25,9 @@ namespace QAToolKit.Engine.Bombardier
         /// <param name="options"></param>
         public BombardierTestsRunner(IEnumerable<BombardierTest> bombardierTests, Action<BombardierOutputOptions> options = null)
         {
-            _bombardierTests = bombardierTests;
+            _bombardierTests = bombardierTests ?? throw new ArgumentNullException(nameof(bombardierTests));
             _bombardierParserOptions = new BombardierOutputOptions();
-
-            if (options == null)
-            {
-                _bombardierParserOptions.ObfuscateAuthenticationHeader = true;
-            }
-            else
-            {
-                options?.Invoke(_bombardierParserOptions);
-            }
+            options?.Invoke(_bombardierParserOptions);
         }
 
         /// <summary>

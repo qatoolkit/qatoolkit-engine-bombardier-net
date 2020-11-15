@@ -26,8 +26,10 @@ namespace QAToolKit.Engine.Bombardier.Test
         [IgnoreOnGithubFact]
         public async Task BombardierGetTestWithOptionsTest_Successfull()
         {
+            var content = File.ReadAllText("Assets/getPetById.json");
+            var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
 
-            var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
+            var bombardierTestsGenerator = new BombardierTestsGenerator(httpRequest, options =>
             {
                 options.BombardierConcurrentUsers = 1;
                 options.BombardierDuration = 1;
@@ -35,10 +37,7 @@ namespace QAToolKit.Engine.Bombardier.Test
                 options.BombardierUseHttp2 = true;
             });
 
-            var content = File.ReadAllText("Assets/getPetById.json");
-            var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
-
-            var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
+            var bombardierTests = await bombardierTestsGenerator.Generate();
 
             //Run Bombardier Tests
             var bombardierTestsRunner = new BombardierTestsRunner(bombardierTests.ToList(), options =>
@@ -70,8 +69,10 @@ namespace QAToolKit.Engine.Bombardier.Test
         [IgnoreOnGithubFact]
         public async Task BombardierPostTestWithOptionsTest_Successfull()
         {
+            var content = File.ReadAllText("Assets/addPet.json");
+            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
 
-            var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
+            var bombardierTestsGenerator = new BombardierTestsGenerator(httpRequest, options =>
             {
                 options.BombardierConcurrentUsers = 1;
                 options.BombardierDuration = 1;
@@ -84,10 +85,7 @@ namespace QAToolKit.Engine.Bombardier.Test
                 });
             });
 
-            var content = File.ReadAllText("Assets/addPet.json");
-            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
-
-            var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
+            var bombardierTests = await bombardierTestsGenerator.Generate();
 
             //Run Bombardier Tests
             var bombardierTestsRunner = new BombardierTestsRunner(bombardierTests.ToList(), options =>
@@ -119,8 +117,10 @@ namespace QAToolKit.Engine.Bombardier.Test
         [IgnoreOnGithubFact]
         public async Task BombardierPostTestWithBodyAndOptionsTest_Successfull()
         {
+            var content = File.ReadAllText("Assets/AddBike.json");
+            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
 
-            var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
+            var bombardierTestsGenerator = new BombardierTestsGenerator(httpRequest, options =>
             {
                 options.BombardierConcurrentUsers = 1;
                 options.BombardierDuration = 1;
@@ -131,10 +131,7 @@ namespace QAToolKit.Engine.Bombardier.Test
                 });
             });
 
-            var content = File.ReadAllText("Assets/AddBike.json");
-            var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
-
-            var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
+            var bombardierTests = await bombardierTestsGenerator.Generate();
 
             //Run Bombardier Tests
             var bombardierTestsRunner = new BombardierTestsRunner(bombardierTests.ToList(), options =>

@@ -1,4 +1,5 @@
 ﻿using QAToolKit.Core.Models;
+using QAToolKit.Engine.Bombardier.Exceptions;
 using System;
 
 namespace QAToolKit.Engine.Bombardier.Helpers
@@ -31,6 +32,12 @@ namespace QAToolKit.Engine.Bombardier.Helpers
         /// <returns></returns>
         internal static string GenerateTotalRequestsSwitch(BombardierGeneratorOptions bombardierOptions)
         {
+            if(bombardierOptions.BombardierRateLimit != null &&
+               bombardierOptions.BombardierNumberOfTotalRequests != null)
+            {
+                throw new QAToolKitBombardierException("BombardierRateLimit and BombardierNumberOfTotalRequests settings are mutually exclusive. Please use one or the other.");
+            }
+
             if (bombardierOptions.BombardierNumberOfTotalRequests != null)
             {
                 return $" --requests={bombardierOptions.BombardierNumberOfTotalRequests}";
@@ -45,6 +52,12 @@ namespace QAToolKit.Engine.Bombardier.Helpers
         /// <returns></returns>
         internal static string GenerateRateLimitSwitch(BombardierGeneratorOptions bombardierOptions)
         {
+            if (bombardierOptions.BombardierRateLimit != null &&
+                bombardierOptions.BombardierNumberOfTotalRequests != null)
+            {
+                throw new QAToolKitBombardierException("BombardierRateLimit and BombardierNumberOfTotalRequests settings are mutually exclusive. Please use one or the other.");
+            }
+
             if (bombardierOptions.BombardierRateLimit != null)
             {
                 return $" --rate={bombardierOptions.BombardierRateLimit}";

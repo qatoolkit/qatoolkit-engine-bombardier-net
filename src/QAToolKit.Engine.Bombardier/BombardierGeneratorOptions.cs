@@ -38,7 +38,7 @@ namespace QAToolKit.Engine.Bombardier
         /// <summary>
         /// Bombardier test runner duration
         /// </summary>
-        public int BombardierDuration { get; set; } = 5;
+        public int BombardierDuration { get; set; } = 10;
         /// <summary>
         /// Bombardier rate limiting per second
         /// </summary>
