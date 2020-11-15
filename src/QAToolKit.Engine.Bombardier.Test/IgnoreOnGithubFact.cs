@@ -1,16 +1,19 @@
 using System;
 using Xunit;
 
-public sealed class IgnoreOnGithubFact : FactAttribute
+namespace QAToolKit.Engine.Bombardier.Test
 {
-    public IgnoreOnGithubFact()
+    public class IgnoreOnGithubFact : FactAttribute
     {
-        if (IsGitHubAction())
+        public IgnoreOnGithubFact()
         {
-            Skip = "Ignore the test when run in Github agent.";
+            if (IsGitHubAction())
+            {
+                Skip = "Ignore the test when run in Github agent.";
+            }
         }
-    }
 
-    private static bool IsGitHubAction()
-        => Environment.GetEnvironmentVariable("GITHUB_ACTION") != null;
+        private static bool IsGitHubAction()
+            => Environment.GetEnvironmentVariable("GITHUB_ACTION") != null;
+    }
 }
