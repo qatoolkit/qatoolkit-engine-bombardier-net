@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.1;net5.0</TargetFrameworks>
-		<LangVersion>8.0</LangVersion>
+		<LangVersion>latest</LangVersion>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<ProjectGuid>778988ae-c303-4738-a9d6-3dfb80a882ab</ProjectGuid>
 		
