@@ -15,32 +15,42 @@ namespace QAToolKit.Engine.Bombardier
     /// <summary>
     /// Bombardier test generator
     /// </summary>
-    public class BombardierTestsGenerator : IGenerator<IEnumerable<HttpRequest>, IEnumerable<BombardierTest>>
+    public class BombardierTestsGenerator
     {
+        private readonly IEnumerable<HttpRequest> _httpRequests;
         private readonly BombardierGeneratorOptions _bombardierGeneratorOptions;
 
         /// <summary>
         /// Bombardier test generator constructor
         /// </summary>
+        /// <param name="httpRequests"></param>
         /// <param name="options"></param>
-        public BombardierTestsGenerator(Action<BombardierGeneratorOptions> options = null)
+        public BombardierTestsGenerator(IEnumerable<HttpRequest> httpRequests, Action<BombardierGeneratorOptions> options = null)
         {
+            _httpRequests = httpRequests ?? throw new ArgumentNullException(nameof(httpRequests));
             _bombardierGeneratorOptions = new BombardierGeneratorOptions();
             options?.Invoke(_bombardierGeneratorOptions);
         }
 
         /// <summary>
-        /// Generate a Bombardier script from requests
+        /// Generate a Bombardier scripts from requests
         /// </summary>
         /// <returns></returns>
-        /// <param name="source"></param>
-        public Task<IEnumerable<BombardierTest>> Generate(IEnumerable<HttpRequest> source)
+        public Task<IEnumerable<BombardierTest>> Generate()
         {
-            if (source == null)
-                throw new ArgumentNullException(nameof(source));
+            string bombardierFullPath = GetBombardierPath();
 
             var bombardierTests = new List<BombardierTest>();
+            foreach (var request in _httpRequests)
+            {
+                bombardierTests.Add(GenerateScript(bombardierFullPath, request));
+            }
 
+            return Task.FromResult(bombardierTests.AsEnumerable());
+        }
+
+        private static string GetBombardierPath()
+        {
             string bombardierFullPath;
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -52,31 +62,32 @@ namespace QAToolKit.Engine.Bombardier
                 bombardierFullPath = Path.Combine("./bombardier", "linux", "bombardier");
             }
 
-            foreach (var request in source)
+            return bombardierFullPath;
+        }
+
+        private BombardierTest GenerateScript(string bombardierFullPath, HttpRequest request)
+        {
+            var scriptBuilder = new StringBuilder();
+            scriptBuilder.Append($"{bombardierFullPath} " +
+                $"-m {request.Method.ToString().ToUpper()} {HttpUrlHelper.GenerateUrlParameters(request, _bombardierGeneratorOptions)}" +
+                $"{BombardierSwitchGeneratorHelper.GenerateConcurrentSwitch(_bombardierGeneratorOptions)}" +
+                $"{AuthorizationHeaderHelper.GenerateAuthHeader(request, _bombardierGeneratorOptions)}" +
+                $"{ContentTypeHeaderHelper.GenerateContentTypeHeader(request, _bombardierGeneratorOptions.BombardierBodyContentType)}" +
+                $"{BombardierSwitchGeneratorHelper.GenerateBodySwitch(request, _bombardierGeneratorOptions)}" +
+                $"{BombardierSwitchGeneratorHelper.GenerateHttpProtocolSwitch(_bombardierGeneratorOptions)}" +
+                $"{BombardierSwitchGeneratorHelper.GenerateTimeoutSwitch(_bombardierGeneratorOptions)}" +
+                $"{BombardierSwitchGeneratorHelper.GenerateDurationSwitch(_bombardierGeneratorOptions)}" +
+                $"{BombardierSwitchGeneratorHelper.GenerateInsecureSwitch(_bombardierGeneratorOptions)}" +
+                $"{BombardierSwitchGeneratorHelper.GenerateRateLimitSwitch(_bombardierGeneratorOptions)}" +
+                $"{BombardierSwitchGeneratorHelper.GenerateTotalRequestsSwitch(_bombardierGeneratorOptions)}");
+
+            return new BombardierTest()
             {
-                var scriptBuilder = new StringBuilder();
-                scriptBuilder.Append($"{bombardierFullPath} " +
-                    $"-m {request.Method.ToString().ToUpper()} {HttpUrlHelper.GenerateUrlParameters(request, _bombardierGeneratorOptions)}" +
-                    $"{BombardierSwitchGeneratorHelper.GenerateConcurrentSwitch(_bombardierGeneratorOptions)}" +
-                    $"{AuthorizationHeaderHelper.GenerateAuthHeader(request, _bombardierGeneratorOptions)}" +
-                    $"{ContentTypeHeaderHelper.GenerateContentTypeHeader(request, _bombardierGeneratorOptions.BombardierBodyContentType)}" +
-                    $"{BombardierSwitchGeneratorHelper.GenerateBodySwitch(request, _bombardierGeneratorOptions)}" +
-                    $"{BombardierSwitchGeneratorHelper.GenerateHttpProtocolSwitch(_bombardierGeneratorOptions)}" +
-                    $"{BombardierSwitchGeneratorHelper.GenerateTimeoutSwitch(_bombardierGeneratorOptions)}" +
-                    $"{BombardierSwitchGeneratorHelper.GenerateDurationSwitch(_bombardierGeneratorOptions)}" +
-                    $"{BombardierSwitchGeneratorHelper.GenerateInsecureSwitch(_bombardierGeneratorOptions)}" +
-                    $"{BombardierSwitchGeneratorHelper.GenerateRateLimitSwitch(_bombardierGeneratorOptions)}" +
-                    $"{BombardierSwitchGeneratorHelper.GenerateTotalRequestsSwitch(_bombardierGeneratorOptions)}");
-
-                bombardierTests.Add(new BombardierTest()
-                {
-                    Url = new Uri(HttpUrlHelper.GenerateUrlParameters(request, _bombardierGeneratorOptions), UriKind.Absolute),
-                    Method = request.Method,
-                    Command = scriptBuilder.ToString()
-                });
-            }
-
-            return Task.FromResult(bombardierTests.AsEnumerable());
+                Url = new Uri(HttpUrlHelper.GenerateUrlParameters(request, _bombardierGeneratorOptions), UriKind.Absolute),
+                Method = request.Method,
+                Command = scriptBuilder.ToString(),
+                OperationId = request.OperationId ?? null
+            };
         }
     }
 }

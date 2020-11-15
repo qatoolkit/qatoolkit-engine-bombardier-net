@@ -20,5 +20,9 @@ namespace QAToolKit.Engine.Bombardier.Models
         /// Bombardier command
         /// </summary>
         public string Command { get; set; }
+        /// <summary>
+        /// Operation Id
+        /// </summary>
+        public string OperationId { get; set; }
     }
 }
