@@ -20,7 +20,7 @@
 		<PackageIcon>qatoolkit-64x64.png</PackageIcon>
 		<RepositoryUrl>https://github.com/qatoolkit/qatoolkit-engine-bombardier-net</RepositoryUrl>
 		<PackageTags>qatoolkit-engine-bombardier-net;.net;c#;f#;load-tests;bombardier;dotnet;netstandard;net5</PackageTags>
-		<Configurations>Debug;Release;Debug With Project References</Configurations>
+		<Configurations>Debug;Release</Configurations>
 	</PropertyGroup>
 
 	<PropertyGroup>
