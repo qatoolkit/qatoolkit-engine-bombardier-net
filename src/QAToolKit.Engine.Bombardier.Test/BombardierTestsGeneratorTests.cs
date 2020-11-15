@@ -553,7 +553,7 @@ namespace QAToolKit.Engine.Bombardier.Test
         }
 
         [Fact]
-        public async Task GenerateBombardierTestGetBikesInsecureTest_Successfull()
+        public async Task GenerateBombardierTestGetAllBikesInsecureTest_Successfull()
         {
             var content = File.ReadAllText("Assets/GetAllBikes.json");
             var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
@@ -575,7 +575,7 @@ namespace QAToolKit.Engine.Bombardier.Test
         }
 
         [Fact]
-        public async Task GenerateBombardierTestAddBikeInsecureTest_Successfull()
+        public async Task GenerateBombardierTestAddNewBikeInsecureTest_Successfull()
         {
             var content = File.ReadAllText("Assets/AddBike.json");
             var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
@@ -597,7 +597,7 @@ namespace QAToolKit.Engine.Bombardier.Test
         }
 
         [Fact]
-        public async Task GenerateBombardierTestDoesNotEndWithNewLineTest1_Successfull()
+        public async Task GenerateBombardierTestDoesNotEndWithNewLineTest_Successfull()
         {
             var content = File.ReadAllText("Assets/AddBike.json");
             var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
@@ -622,7 +622,7 @@ namespace QAToolKit.Engine.Bombardier.Test
         }
 
         [Fact]
-        public async Task GenerateBombardierTestDoesNotEndWithNewLineTest2_Successfull()
+        public async Task GenerateBombardierTestDoesNotEndWithNewLineTestAlternative_Successfull()
         {
             var content = File.ReadAllText("Assets/AddBike.json");
             var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
