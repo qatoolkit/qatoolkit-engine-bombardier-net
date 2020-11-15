@@ -26,7 +26,7 @@ var content = File.ReadAllText("Assets/getPetById.json");
 var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
 
 //Create bombardier tests generator
-var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
+var bombardierTestsGenerator = new BombardierTestsGenerator(httpRequest, options =>
 {
     options.BombardierConcurrentUsers = 1;
     options.BombardierDuration = 1;
@@ -35,7 +35,7 @@ var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
 });
 
 //Generate bomardier tests
-var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
+var bombardierTests = await bombardierTestsGenerator.Generate();
 
 //Run Bombardier Tests
 var bombardierTestsRunner = new BombardierTestsRunner(bombardierTests.ToList(), options =>
@@ -105,7 +105,7 @@ var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
 
 You can also set those `BombardierGeneratorOptions` options:
 
-- `BombardierConcurrentUsers`: How many concurrent users should be used in Bombardier tests. Default is `3`.
+- `BombardierConcurrentUsers`: How many concurrent users should be used in Bombardier tests. Default is `10`.
 - `BombardierDuration`: How long the Bombardier tests should execute in seconds. Use this depending on the type of test you want to perform and should not be used with `BombardierRateLimit`. Default is `30` seconds.
 - `BombardierTimeout`: What is the Bombardier timeout to wait for the requests to finish. Default is `30` seconds.
 - `BombardierUseHttp2`: Use HTTP2 protocol. Otherwise HTTP1 is used. By default this is set to `true`.
