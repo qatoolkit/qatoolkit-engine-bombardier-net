@@ -1,8 +1,6 @@
 name: Build .NET Library
 
 on:
-  push:
-    branches: [ develop ]
   pull_request:
     branches: [ develop, main ]
   release:
@@ -29,7 +27,7 @@ jobs:
     - name: Install dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build --configuration Release
     - name: Test
       run: dotnet test --no-restore --verbosity normal
     - name: Upload a Build Artifact

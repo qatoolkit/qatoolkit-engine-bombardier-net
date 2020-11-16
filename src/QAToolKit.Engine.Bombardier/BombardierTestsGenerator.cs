@@ -1,5 +1,4 @@
-﻿using QAToolKit.Core.Interfaces;
-using QAToolKit.Core.Models;
+﻿using QAToolKit.Core.Models;
 using QAToolKit.Engine.Bombardier.Helpers;
 using QAToolKit.Engine.Bombardier.Models;
 using System;

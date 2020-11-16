@@ -2,7 +2,7 @@
 using System;
 using Xunit.Abstractions;
 
-namespace QAToolKit.Core.Test
+namespace QAToolKit.Engine.Bombardier.Test
 {
     public class XunitLoggerProvider : ILoggerProvider
     {

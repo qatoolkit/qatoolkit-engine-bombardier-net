@@ -32,7 +32,7 @@ namespace QAToolKit.Engine.Bombardier.Helpers
         /// <returns></returns>
         internal static string GenerateTotalRequestsSwitch(BombardierGeneratorOptions bombardierOptions)
         {
-            if(bombardierOptions.BombardierRateLimit != null &&
+            if (bombardierOptions.BombardierRateLimit != null &&
                bombardierOptions.BombardierNumberOfTotalRequests != null)
             {
                 throw new QAToolKitBombardierException("BombardierRateLimit and BombardierNumberOfTotalRequests settings are mutually exclusive. Please use one or the other.");

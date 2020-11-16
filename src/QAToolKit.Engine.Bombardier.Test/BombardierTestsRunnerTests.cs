@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using QAToolKit.Core.Models;
-using QAToolKit.Core.Test;
 using System;
 using System.Collections.Generic;
 using System.IO;

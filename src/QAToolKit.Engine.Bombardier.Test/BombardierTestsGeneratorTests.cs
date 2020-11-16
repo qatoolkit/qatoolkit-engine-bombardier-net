@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using QAToolKit.Core.Models;
-using QAToolKit.Core.Test;
 using QAToolKit.Engine.Bombardier.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -554,7 +553,7 @@ namespace QAToolKit.Engine.Bombardier.Test
         }
 
         [Fact]
-        public async Task GenerateBombardierTestGetBikesInsecureTest_Successfull()
+        public async Task GenerateBombardierTestGetAllBikesInsecureTest_Successfull()
         {
             var content = File.ReadAllText("Assets/GetAllBikes.json");
             var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
@@ -576,7 +575,7 @@ namespace QAToolKit.Engine.Bombardier.Test
         }
 
         [Fact]
-        public async Task GenerateBombardierTestAddBikeInsecureTest_Successfull()
+        public async Task GenerateBombardierTestAddNewBikeInsecureTest_Successfull()
         {
             var content = File.ReadAllText("Assets/AddBike.json");
             var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
@@ -598,7 +597,7 @@ namespace QAToolKit.Engine.Bombardier.Test
         }
 
         [Fact]
-        public async Task GenerateBombardierTestDoesNotEndWithNewLineTest1_Successfull()
+        public async Task GenerateBombardierTestDoesNotEndWithNewLineTest_Successfull()
         {
             var content = File.ReadAllText("Assets/AddBike.json");
             var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
@@ -623,7 +622,7 @@ namespace QAToolKit.Engine.Bombardier.Test
         }
 
         [Fact]
-        public async Task GenerateBombardierTestDoesNotEndWithNewLineTest2_Successfull()
+        public async Task GenerateBombardierTestDoesNotEndWithNewLineTestAlternative_Successfull()
         {
             var content = File.ReadAllText("Assets/AddBike.json");
             var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
@@ -770,93 +769,29 @@ namespace QAToolKit.Engine.Bombardier.Test
         }
 
         [Fact]
-        public async Task GenerateBombardierTestGetBikesInsecureTest_Successfull()
+        public async Task GenerateBombardierTestGeneratorCreationTest_Success()
         {
-            var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
-            {
-                options.BombardierNumberOfTotalRequests = 10;
-                options.BombardierInsecure = true;
-                options.BombardierUseHttp2 = false;
-            });
-
-            var content = File.ReadAllText("Assets/GetAllBikes.json");
+            var content = File.ReadAllText("Assets/getPetById.json");
             var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
 
-            var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
+            var bombardierTestsGenerator = new BombardierTestsGenerator(httpRequest);
+
+            var bombardierTests = await bombardierTestsGenerator.Generate();
 
             Assert.NotNull(bombardierTests);
             Assert.Single(bombardierTests);
-            Assert.Contains($@" -m GET https://qatoolkitapi.azurewebsites.net/api/bicycles?api-version=1 -c 3 --http1 --timeout=30s --duration=5s --insecure --requests=10", bombardierTests.FirstOrDefault().Command);
+            Assert.Contains(" -m GET https://petstore3.swagger.io/api/v3/pet/10 -c 3 --http2 --timeout=30s --duration=10s", bombardierTests.FirstOrDefault().Command);
             Assert.Equal(HttpMethod.Get, bombardierTests.FirstOrDefault().Method);
-            Assert.Equal("https://qatoolkitapi.azurewebsites.net/api/bicycles?api-version=1", bombardierTests.FirstOrDefault().Url.ToString());
+            Assert.Equal("https://petstore3.swagger.io/api/v3/pet/10", bombardierTests.FirstOrDefault().Url.ToString());
         }
 
         [Fact]
-        public async Task GenerateBombardierTestAddBikeInsecureTest_Successfull()
+        public void GenerateBombardierTestGeneratorCreationTest_Fails()
         {
-            var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
-            {
-                options.BombardierNumberOfTotalRequests = 10;
-                options.BombardierInsecure = true;
-                options.BombardierUseHttp2 = false;
-            });
-
-            var content = File.ReadAllText("Assets/AddBike.json");
+            var content = File.ReadAllText("Assets/getPetById.json");
             var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
 
-            var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
-
-            Assert.NotNull(bombardierTests);
-            Assert.Single(bombardierTests);
-            Assert.Contains($@" -m POST https://qatoolkitapi.azurewebsites.net/api/bicycles?api-version=1 -c 3 -H ""Content-Type: application/json"" -b ""{{\""id\"":1,\""name\"":\""Foil\"",\""brand\"":\""Cannondale\""}}"" --http1 --timeout=30s --duration=5s --insecure --requests=10", bombardierTests.FirstOrDefault().Command);
-            Assert.Equal(HttpMethod.Post, bombardierTests.FirstOrDefault().Method);
-            Assert.Equal("https://qatoolkitapi.azurewebsites.net/api/bicycles?api-version=1", bombardierTests.FirstOrDefault().Url.ToString());
-        }
-
-        [Fact]
-        public async Task GenerateBombardierTestDoesNotEndWithNewLineTest1_Successfull()
-        {
-            var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
-            {
-                options.BombardierNumberOfTotalRequests = 10;
-                options.BombardierInsecure = true;
-                options.BombardierUseHttp2 = false;
-            });
-
-            var content = File.ReadAllText("Assets/AddBike.json");
-            var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
-
-            var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
-
-            Assert.NotNull(bombardierTests);
-            Assert.Single(bombardierTests);
-            Assert.Contains($@" -m POST https://qatoolkitapi.azurewebsites.net/api/bicycles?api-version=1 -c 3 -H ""Content-Type: application/json"" -b ""{{\""id\"":1,\""name\"":\""Foil\"",\""brand\"":\""Cannondale\""}}"" --http1 --timeout=30s --duration=5s --insecure --requests=10", bombardierTests.FirstOrDefault().Command);
-            Assert.Equal(HttpMethod.Post, bombardierTests.FirstOrDefault().Method);
-            Assert.Equal("https://qatoolkitapi.azurewebsites.net/api/bicycles?api-version=1", bombardierTests.FirstOrDefault().Url.ToString());
-            Assert.DoesNotContain(Environment.NewLine, bombardierTests.FirstOrDefault().Command);
-        }
-
-        [Fact]
-        public async Task GenerateBombardierTestDoesNotEndWithNewLineTest2_Successfull()
-        {
-            var bombardierTestsGenerator = new BombardierTestsGenerator(options =>
-            {
-                options.BombardierNumberOfTotalRequests = 10;
-                options.BombardierInsecure = true;
-                options.BombardierUseHttp2 = false;
-            });
-
-            var content = File.ReadAllText("Assets/AddBike.json");
-            var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
-
-            var bombardierTests = await bombardierTestsGenerator.Generate(httpRequest);
-
-            Assert.NotNull(bombardierTests);
-            Assert.Single(bombardierTests);
-            Assert.Contains($@" -m POST https://qatoolkitapi.azurewebsites.net/api/bicycles?api-version=1 -c 3 -H ""Content-Type: application/json"" -b ""{{\""id\"":1,\""name\"":\""Foil\"",\""brand\"":\""Cannondale\""}}"" --http1 --timeout=30s --duration=5s --insecure --requests=10", bombardierTests.FirstOrDefault().Command);
-            Assert.Equal(HttpMethod.Post, bombardierTests.FirstOrDefault().Method);
-            Assert.Equal("https://qatoolkitapi.azurewebsites.net/api/bicycles?api-version=1", bombardierTests.FirstOrDefault().Url.ToString());
-            Assert.DoesNotContain(Environment.NewLine, bombardierTests.FirstOrDefault().Command);
+            Assert.Throws<ArgumentNullException>(() => new BombardierTestsGenerator(null));
         }
     }
 }
