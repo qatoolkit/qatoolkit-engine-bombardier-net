@@ -767,5 +767,31 @@ namespace QAToolKit.Engine.Bombardier.Test
 
             await Assert.ThrowsAsync<QAToolKitBombardierException>(async () => await bombardierTestsGenerator.Generate());
         }
+
+        [Fact]
+        public async Task GenerateBombardierTestGeneratorCreationTest_Success()
+        {
+            var content = File.ReadAllText("Assets/getPetById.json");
+            var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
+
+            var bombardierTestsGenerator = new BombardierTestsGenerator(httpRequest);
+
+            var bombardierTests = await bombardierTestsGenerator.Generate();
+
+            Assert.NotNull(bombardierTests);
+            Assert.Single(bombardierTests);
+            Assert.Contains(" -m GET https://petstore3.swagger.io/api/v3/pet/10 -c 3 --http2 --timeout=30s --duration=10s", bombardierTests.FirstOrDefault().Command);
+            Assert.Equal(HttpMethod.Get, bombardierTests.FirstOrDefault().Method);
+            Assert.Equal("https://petstore3.swagger.io/api/v3/pet/10", bombardierTests.FirstOrDefault().Url.ToString());
+        }
+
+        [Fact]
+        public void GenerateBombardierTestGeneratorCreationTest_Fails()
+        {
+            var content = File.ReadAllText("Assets/getPetById.json");
+            var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
+
+            Assert.Throws<ArgumentNullException>(() => new BombardierTestsGenerator(null));
+        }
     }
 }

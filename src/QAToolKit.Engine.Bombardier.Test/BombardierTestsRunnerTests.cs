@@ -22,7 +22,7 @@ namespace QAToolKit.Engine.Bombardier.Test
             _logger = loggerFactory.CreateLogger<BombardierTestsRunnerTests>();
         }
 
-        //[IgnoreOnGithubFact]
+        [IgnoreOnGithubFact]
         public async Task BombardierGetTestWithOptionsTest_Successfull()
         {
             var content = File.ReadAllText("Assets/getPetById.json");
@@ -65,7 +65,7 @@ namespace QAToolKit.Engine.Bombardier.Test
             Assert.True(bombardierResults.FirstOrDefault().TestStop.Subtract(bombardierResults.FirstOrDefault().TestStart).TotalSeconds == bombardierResults.FirstOrDefault().Duration);
         }
 
-        //[IgnoreOnGithubFact]
+        [IgnoreOnGithubFact]
         public async Task BombardierPostTestWithOptionsTest_Successfull()
         {
             var content = File.ReadAllText("Assets/addPet.json");
@@ -113,7 +113,7 @@ namespace QAToolKit.Engine.Bombardier.Test
             Assert.True(bombardierResults.FirstOrDefault().TestStop.Subtract(bombardierResults.FirstOrDefault().TestStart).TotalSeconds == bombardierResults.FirstOrDefault().Duration);
         }
 
-        //[IgnoreOnGithubFact]
+        [IgnoreOnGithubFact]
         public async Task BombardierPostTestWithBodyAndOptionsTest_Successfull()
         {
             var content = File.ReadAllText("Assets/AddBike.json");
