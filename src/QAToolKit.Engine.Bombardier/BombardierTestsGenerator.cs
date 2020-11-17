@@ -85,7 +85,7 @@ namespace QAToolKit.Engine.Bombardier
                 Url = new Uri(HttpUrlHelper.GenerateUrlParameters(request, _bombardierGeneratorOptions), UriKind.Absolute),
                 Method = request.Method,
                 Command = scriptBuilder.ToString(),
-                OperationId = request.OperationId ?? null
+                OperationId = request.OperationId
             };
         }
     }
