@@ -1,8 +1,8 @@
 # QAToolKit.Engine.Bombardier
-![https://github.com/qatoolkit/qatoolkit-engine-bombardier-net/actions](https://github.com/qatoolkit/qatoolkit-engine-bombardier-net/workflows/.NET%20Core/badge.svg?branch=main)
-![https://github.com/qatoolkit/qatoolkit-engine-bombardier-net/security/code-scanning](https://github.com/qatoolkit/qatoolkit-engine-bombardier-net/workflows/CodeQL%20Analyze/badge.svg)
-![https://sonarcloud.io/dashboard?id=qatoolkit_qatoolkit-engine-bombardier-net](https://github.com/qatoolkit/qatoolkit-engine-bombardier-net/workflows/Sonarqube%20Analyze/badge.svg)
-![https://www.nuget.org/packages/QAToolKit.Engine.Bombardier/](https://img.shields.io/nuget/v/QAToolKit.Engine.Bombardier?label=QAToolKit.Engine.Bombardier)
+[![Build .NET Library](https://github.com/qatoolkit/qatoolkit-engine-bombardier-net/workflows/.NET%20Core/badge.svg?branch=main)](https://github.com/qatoolkit/qatoolkit-engine-bombardier-net/actions)
+[![CodeQL](https://github.com/qatoolkit/qatoolkit-engine-bombardier-net/workflows/CodeQL%20Analyze/badge.svg)](https://github.com/qatoolkit/qatoolkit-engine-bombardier-net/security/code-scanning)
+[![Sonarcloud Quality gate](https://github.com/qatoolkit/qatoolkit-engine-bombardier-net/workflows/Sonarqube%20Analyze/badge.svg)](https://sonarcloud.io/dashboard?id=qatoolkit_qatoolkit-engine-bombardier-net)
+[![NuGet package](https://img.shields.io/nuget/v/QAToolKit.Engine.Bombardier?label=QAToolKit.Engine.Bombardier)](https://www.nuget.org/packages/QAToolKit.Engine.Bombardier/)
 
 ## Description
 `QAToolKit.Engine.Bombardier` is a .NET standard library, which takes `IEnumerable<HttpTestRequest>` object and runs load tests with tool called [Bombardier](https://github.com/codesenberg/bombardier).
