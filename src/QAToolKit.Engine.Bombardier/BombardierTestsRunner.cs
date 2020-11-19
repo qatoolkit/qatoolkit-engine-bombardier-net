@@ -119,7 +119,7 @@ namespace QAToolKit.Engine.Bombardier
             return results;
         }
 
-        private decimal GetLatencyMiliseconds(string latency)
+        private static decimal GetLatencyMiliseconds(string latency)
         {
             CultureInfo cultures = new CultureInfo("en-US");
             var digitString = Regex.Match(latency, @"\d+.\d+");

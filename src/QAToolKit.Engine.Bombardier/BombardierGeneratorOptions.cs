@@ -75,7 +75,7 @@ namespace QAToolKit.Engine.Bombardier
         /// <returns></returns>
         public BombardierGeneratorOptions AddReplacementValues(Dictionary<string, object> replacementValues)
         {
-            ReplacementValues = replacementValues ?? throw new ArgumentException(nameof(replacementValues));
+            ReplacementValues = replacementValues ?? throw new ArgumentException($"{nameof(replacementValues)} is null.");
             return this;
         }
 
@@ -88,9 +88,9 @@ namespace QAToolKit.Engine.Bombardier
         public BombardierGeneratorOptions AddOAuth2Token(string token, AuthenticationType authenticationType)
         {
             if (string.IsNullOrEmpty(token))
-                throw new ArgumentException(nameof(token));
+                throw new ArgumentException($"{nameof(token)} is null.");
             if (authenticationType == null)
-                throw new ArgumentException(nameof(authenticationType));
+                throw new ArgumentException($"{nameof(authenticationType)} is null.");
 
             AccessTokens.Add(authenticationType, token);
             return this;
@@ -104,7 +104,7 @@ namespace QAToolKit.Engine.Bombardier
         public BombardierGeneratorOptions AddApiKey(string apiKey)
         {
             if (string.IsNullOrEmpty(apiKey))
-                throw new ArgumentException(nameof(apiKey));
+                throw new ArgumentException($"{nameof(apiKey)} is null.");
 
             ApiKey = apiKey;
             return this;
@@ -119,9 +119,9 @@ namespace QAToolKit.Engine.Bombardier
         public BombardierGeneratorOptions AddBasicAuthentication(string userName, string password)
         {
             if (string.IsNullOrEmpty(userName))
-                throw new ArgumentException(nameof(userName));
+                throw new ArgumentException($"{nameof(userName)} is null.");
             if (string.IsNullOrEmpty(password))
-                throw new ArgumentException(nameof(password));
+                throw new ArgumentException($"{nameof(password)} is null.");
 
             UserName = userName;
             Password = password;
