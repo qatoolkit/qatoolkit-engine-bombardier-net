@@ -1,8 +1,8 @@
 # QAToolKit.Engine.Bombardier
-![https://github.com/qatoolkit/qatoolkit-engine-bombardier-net/actions](https://github.com/qatoolkit/qatoolkit-engine-bombardier-net/workflows/.NET%20Core/badge.svg?branch=main)
-![https://github.com/qatoolkit/qatoolkit-engine-bombardier-net/security/code-scanning](https://github.com/qatoolkit/qatoolkit-engine-bombardier-net/workflows/CodeQL%20Analyze/badge.svg)
-![https://sonarcloud.io/dashboard?id=qatoolkit_qatoolkit-engine-bombardier-net](https://github.com/qatoolkit/qatoolkit-engine-bombardier-net/workflows/Sonarqube%20Analyze/badge.svg)
-![https://www.nuget.org/packages/QAToolKit.Engine.Bombardier/](https://img.shields.io/nuget/v/QAToolKit.Engine.Bombardier?label=QAToolKit.Engine.Bombardier)
+[![Build .NET Library](https://github.com/qatoolkit/qatoolkit-engine-bombardier-net/workflows/.NET%20Core/badge.svg?branch=main)](https://github.com/qatoolkit/qatoolkit-engine-bombardier-net/actions)
+[![CodeQL](https://github.com/qatoolkit/qatoolkit-engine-bombardier-net/workflows/CodeQL%20Analyze/badge.svg)](https://github.com/qatoolkit/qatoolkit-engine-bombardier-net/security/code-scanning)
+[![Sonarcloud Quality gate](https://github.com/qatoolkit/qatoolkit-engine-bombardier-net/workflows/Sonarqube%20Analyze/badge.svg)](https://sonarcloud.io/dashboard?id=qatoolkit_qatoolkit-engine-bombardier-net)
+[![NuGet package](https://img.shields.io/nuget/v/QAToolKit.Engine.Bombardier?label=QAToolKit.Engine.Bombardier)](https://www.nuget.org/packages/QAToolKit.Engine.Bombardier/)
 
 ## Description
 `QAToolKit.Engine.Bombardier` is a .NET standard library, which takes `IEnumerable<HttpTestRequest>` object and runs load tests with tool called [Bombardier](https://github.com/codesenberg/bombardier).
@@ -29,6 +29,7 @@ var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(conten
 var bombardierTestsGenerator = new BombardierTestsGenerator(httpRequest, options =>
 {
     options.BombardierConcurrentUsers = 1;
+
     options.BombardierDuration = 1;
     options.BombardierTimeout = 30;
     options.BombardierUseHttp2 = true;
@@ -70,7 +71,45 @@ Results sample `bombardierResults`:
 ]
 ```
 
-As you can see you get a lot of metrics from the tests.
+As you can see you get a lot of metrics from the tests. You can use xUnit to assert the numbers, or you can use `BombardierTestAsserter` like this:
+
+```csharp
+var asserter = new BombardierTestAsserter(bombardierResults.FirstOrDefault());
+var assertResults = asserter
+    .NumberOf1xxResponses((x) => x == 0)
+    .NumberOf2xxResponses((x) => x >= 0)
+    .NumberOf3xxResponses((x) => x == 0)
+    .NumberOf4xxResponses((x) => x == 0)
+    .NumberOf5xxResponses((x) => x == 0)
+    .AverageLatency((x) => x >= 0)
+    .AverageRequestsPerSecond((x) => x >= 0)
+    .MaximumLatency((x) => x >= 0)
+    .MaximumRequestsPerSecond((x) => x >= 0)
+    .AssertAll();
+```
+
+Asserter produces a list of `AssertResult`:
+
+```csharp
+    /// <summary>
+    /// Assert result object
+    /// </summary>
+    public class AssertResult
+    {
+        /// <summary>
+        /// Assert name
+        /// </summary>
+        public string Name { get; set; }
+        /// <summary>
+        /// Is assert true
+        /// </summary>
+        public bool IsTrue { get; set; }
+        /// <summary>
+        /// Assert message
+        /// </summary>
+        public string Message { get; set; }
+    }
+```
 
 ## Description
 
@@ -158,6 +197,7 @@ in the sample code above. Check the [QAToolKit.Source.Swagger](https://github.co
 
 - **This library is an early alpha version**
 - Currently tested for GET, POST, PUT and DELETE HTTP methods. Need to extend support.
+- NTLM authentication is currently not possible because of the Bombardier limitations.
 
 ## License
 
