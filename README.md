@@ -29,6 +29,7 @@ var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(conten
 var bombardierTestsGenerator = new BombardierTestsGenerator(httpRequest, options =>
 {
     options.BombardierConcurrentUsers = 1;
+
     options.BombardierDuration = 1;
     options.BombardierTimeout = 30;
     options.BombardierUseHttp2 = true;
@@ -196,6 +197,7 @@ in the sample code above. Check the [QAToolKit.Source.Swagger](https://github.co
 
 - **This library is an early alpha version**
 - Currently tested for GET, POST, PUT and DELETE HTTP methods. Need to extend support.
+- NTLM authentication is currently not possible because of the Bombardier limitations.
 
 ## License
 
