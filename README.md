@@ -70,7 +70,45 @@ Results sample `bombardierResults`:
 ]
 ```
 
-As you can see you get a lot of metrics from the tests.
+As you can see you get a lot of metrics from the tests. You can use xUnit to assert the numbers, or you can use `BombardierTestAsserter` like this:
+
+```csharp
+var asserter = new BombardierTestAsserter(bombardierResults.FirstOrDefault());
+var assertResults = asserter
+    .NumberOf1xxResponses((x) => x == 0)
+    .NumberOf2xxResponses((x) => x >= 0)
+    .NumberOf3xxResponses((x) => x == 0)
+    .NumberOf4xxResponses((x) => x == 0)
+    .NumberOf5xxResponses((x) => x == 0)
+    .AverageLatency((x) => x >= 0)
+    .AverageRequestsPerSecond((x) => x >= 0)
+    .MaximumLatency((x) => x >= 0)
+    .MaximumRequestsPerSecond((x) => x >= 0)
+    .AssertAll();
+```
+
+Asserter produces a list of `AssertResult`:
+
+```csharp
+    /// <summary>
+    /// Assert result object
+    /// </summary>
+    public class AssertResult
+    {
+        /// <summary>
+        /// Assert name
+        /// </summary>
+        public string Name { get; set; }
+        /// <summary>
+        /// Is assert true
+        /// </summary>
+        public bool IsTrue { get; set; }
+        /// <summary>
+        /// Assert message
+        /// </summary>
+        public string Message { get; set; }
+    }
+```
 
 ## Description
 
