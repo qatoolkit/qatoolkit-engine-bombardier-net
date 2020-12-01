@@ -23,7 +23,7 @@ namespace QAToolKit.Engine.Bombardier.Helpers
         {
             //Check if Swagger operation description contains certain auth tags
             string authHeader;
-            if (request.Description.Contains(AuthenticationType.Oauth2.Value()) || bombardierOptions.AccessTokens.Any())
+            if (request.Description.Contains(AuthenticationType.OAuth2.Value()) || bombardierOptions.AccessTokens.Any())
             {
                 if (request.Description.Contains(AuthenticationType.Customer.Value()) && !request.Description.Contains(AuthenticationType.Administrator.Value()))
                 {
