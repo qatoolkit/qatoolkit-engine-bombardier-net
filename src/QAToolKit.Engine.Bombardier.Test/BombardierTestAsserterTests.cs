@@ -50,15 +50,15 @@ namespace QAToolKit.Engine.Bombardier.Test
 
             var asserter = new BombardierTestAsserter(bombardierResults.FirstOrDefault());
             var assertResults = asserter
-                .NumberOf1xxResponses((x) => x == 0)
-                .NumberOf2xxResponses((x) => x >= 0)
-                .NumberOf3xxResponses((x) => x == 0)
-                .NumberOf4xxResponses((x) => x == 0)
-                .NumberOf5xxResponses((x) => x == 0)
-                .AverageLatency((x) => x >= 0)
+                .NumberOf1xxResponses(x => x == 0)
+                .NumberOf2xxResponses(x => x >= 0)
+                .NumberOf3xxResponses(x => x == 0)
+                .NumberOf4xxResponses(x => x == 0)
+                .NumberOf5xxResponses(x => x == 0)
+                .AverageLatency(x => x >= 0)
                 .AverageRequestsPerSecond((x) => x >= 0)
-                .MaximumLatency((x) => x >= 0)
-                .MaximumRequestsPerSecond((x) => x >= 0)
+                .MaximumLatency(x => x >= 0)
+                .MaximumRequestsPerSecond(x => x >= 0)
                 .AssertAll();
 
             foreach (var result in assertResults)
@@ -97,15 +97,15 @@ namespace QAToolKit.Engine.Bombardier.Test
 
             var asserter = new BombardierTestAsserter(bombardierResults.FirstOrDefault());
             var assertResults = asserter
-                .NumberOf1xxResponses((x) => x == 0)
-                .NumberOf2xxResponses((x) => x >= 0)
-                .NumberOf3xxResponses((x) => x == 0)
-                .NumberOf4xxResponses((x) => x == 0)
-                .NumberOf5xxResponses((x) => x == 0)
-                .AverageLatency((x) => x >= 0)
-                .AverageRequestsPerSecond((x) => x >= 0)
-                .MaximumLatency((x) => x >= 0)
-                .MaximumRequestsPerSecond((x) => x >= 0)
+                .NumberOf1xxResponses(x => x == 0)
+                .NumberOf2xxResponses(x => x >= 0)
+                .NumberOf3xxResponses(x => x == 0)
+                .NumberOf4xxResponses(x => x == 0)
+                .NumberOf5xxResponses(x => x == 0)
+                .AverageLatency(x => x >= 0)
+                .AverageRequestsPerSecond(x => x >= 0)
+                .MaximumLatency(x => x >= 0)
+                .MaximumRequestsPerSecond(x => x >= 0)
                 .AssertAll();
 
             foreach (var result in assertResults)
@@ -148,15 +148,15 @@ namespace QAToolKit.Engine.Bombardier.Test
 
             var asserter = new BombardierTestAsserter(bombardierResults.FirstOrDefault());
             var assertResults = asserter
-                .NumberOf1xxResponses((x) => x == 0)
-                .NumberOf2xxResponses((x) => x >= 0)
-                .NumberOf3xxResponses((x) => x == 0)
-                .NumberOf4xxResponses((x) => x == 0)
-                .NumberOf5xxResponses((x) => x == 0)
-                .AverageLatency((x) => x >= 0)
-                .AverageRequestsPerSecond((x) => x >= 0)
-                .MaximumLatency((x) => x >= 0)
-                .MaximumRequestsPerSecond((x) => x >= 0)
+                .NumberOf1xxResponses(x => x == 0)
+                .NumberOf2xxResponses(x => x >= 0)
+                .NumberOf3xxResponses(x => x == 0)
+                .NumberOf4xxResponses(x => x == 0)
+                .NumberOf5xxResponses(x => x == 0)
+                .AverageLatency(x => x >= 0)
+                .AverageRequestsPerSecond(x => x >= 0)
+                .MaximumLatency(x => x >= 0)
+                .MaximumRequestsPerSecond(x => x >= 0)
                 .AssertAll();
 
             foreach (var result in assertResults)
@@ -176,15 +176,15 @@ namespace QAToolKit.Engine.Bombardier.Test
         {
             var asserter = new BombardierTestAsserter(new BombardierResult());
             var assertResults = asserter
-                .NumberOf1xxResponses((x) => x == 0)
-                .NumberOf2xxResponses((x) => x >= 0)
-                .NumberOf3xxResponses((x) => x == 0)
-                .NumberOf4xxResponses((x) => x == 0)
-                .NumberOf5xxResponses((x) => x == 0)
-                .AverageLatency((x) => x >= 0)
+                .NumberOf1xxResponses(x => x == 0)
+                .NumberOf2xxResponses(x => x >= 0)
+                .NumberOf3xxResponses(x => x == 0)
+                .NumberOf4xxResponses(x => x == 0)
+                .NumberOf5xxResponses(x => x == 0)
+                .AverageLatency(x => x >= 0)
                 .AverageRequestsPerSecond((x) => x >= 0)
-                .MaximumLatency((x) => x >= 0)
-                .MaximumRequestsPerSecond((x) => x >= 0)
+                .MaximumLatency(x => x >= 0)
+                .MaximumRequestsPerSecond(x => x >= 0)
                 .AssertAll();
 
             foreach (var result in assertResults)
