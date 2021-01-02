@@ -3,6 +3,7 @@
 [![CodeQL](https://github.com/qatoolkit/qatoolkit-engine-bombardier-net/workflows/CodeQL%20Analyze/badge.svg)](https://github.com/qatoolkit/qatoolkit-engine-bombardier-net/security/code-scanning)
 [![Sonarcloud Quality gate](https://github.com/qatoolkit/qatoolkit-engine-bombardier-net/workflows/Sonarqube%20Analyze/badge.svg)](https://sonarcloud.io/dashboard?id=qatoolkit_qatoolkit-engine-bombardier-net)
 [![NuGet package](https://img.shields.io/nuget/v/QAToolKit.Engine.Bombardier?label=QAToolKit.Engine.Bombardier)](https://www.nuget.org/packages/QAToolKit.Engine.Bombardier/)
+[![Discord](https://img.shields.io/discord/787220825127780354?color=%23267CB9&label=Discord%20chat)](https://discord.gg/hYs6ayYQC5)
 
 ## Description
 `QAToolKit.Engine.Bombardier` is a .NET standard library, which takes `IEnumerable<HttpTestRequest>` object and runs load tests with tool called [Bombardier](https://github.com/codesenberg/bombardier).
@@ -17,6 +18,10 @@ Major features:
 - Generate a Bombardier report in JSON format.
 
 Bombardier version [1.2.5](https://github.com/codesenberg/bombardier/releases/tag/v1.2.5) is used for `windows-amd64` and `linux-amd64`.
+
+Get in touch with me on:
+
+[![Discord](https://img.shields.io/discord/787220825127780354?color=%23267CB9&label=Discord%20chat)](https://discord.gg/hYs6ayYQC5)
 
 ## Sample
 
@@ -203,7 +208,7 @@ in the sample code above. Check the [QAToolKit.Source.Swagger](https://github.co
 
 MIT License
 
-Copyright (c) 2020 Miha Jakovac
+Copyright (c) 2020-2021 Miha Jakovac
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
