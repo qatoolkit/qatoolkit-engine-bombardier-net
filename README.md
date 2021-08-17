@@ -27,7 +27,7 @@ Get in touch with me on:
 
 ```csharp
 //Generate requests from previously stored JSON file:
-var content = File.ReadAllText("Assets/getPetById.json");
+var content = File.ReadAllText("Assets/GetAllBikes.json");
 var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
 
 //Create bombardier tests generator
@@ -172,7 +172,7 @@ Let's replace
 
 ```csharp
 //Generate requests from previously stored JSON file:
-var content = File.ReadAllText("Assets/getPetById.json");
+var content = File.ReadAllText("Assets/GetAllBikes.json");
 var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
 ```
 
