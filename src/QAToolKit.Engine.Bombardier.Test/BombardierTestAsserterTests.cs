@@ -26,7 +26,7 @@ namespace QAToolKit.Engine.Bombardier.Test
         [IgnoreOnGithubFact]
         public async Task BombardierGetTestWithOptionsTest_Successfull()
         {
-            var content = File.ReadAllText("Assets/getPetById.json");
+            var content = File.ReadAllText("Assets/GetAllBikes.json");
             var httpRequest = JsonConvert.DeserializeObject<IEnumerable<HttpRequest>>(content);
 
             var bombardierTestsGenerator = new BombardierTestsGenerator(httpRequest, options =>
@@ -70,7 +70,7 @@ namespace QAToolKit.Engine.Bombardier.Test
         [IgnoreOnGithubFact]
         public async Task BombardierPostTestWithOptionsTest_Successfull()
         {
-            var content = File.ReadAllText("Assets/addPet.json");
+            var content = File.ReadAllText("Assets/AddBike.json");
             var httpRequest = JsonConvert.DeserializeObject<IList<HttpRequest>>(content);
 
             var bombardierTestsGenerator = new BombardierTestsGenerator(httpRequest, options =>
