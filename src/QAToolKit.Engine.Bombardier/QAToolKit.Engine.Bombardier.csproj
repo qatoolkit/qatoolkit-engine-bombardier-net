@@ -38,8 +38,8 @@
 
 	<ItemGroup>
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-		<PackageReference Include="QAToolKit.Core" Version="0.3.9" />
-		<PackageReference Include="System.Text.Encodings.Web" Version="5.0.1" />
+		<PackageReference Include="QAToolKit.Core" Version="0.3.13" />
+		<PackageReference Include="System.Text.Encodings.Web" Version="6.0.0" />
 	</ItemGroup>
 
 	<Import Project="..\..\QAToolKit.Engine.Bombardier.targets" />
