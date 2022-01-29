@@ -31,7 +31,7 @@ namespace QAToolKit.Engine.Bombardier.Helpers
                 if (useContentType != ContentType.Enumeration.Json)
                     useContentType = ContentType.Enumeration.Json;
 
-                var useRequest = request.RequestBodies.FirstOrDefault(content => content.ContentType == useContentType);
+                var useRequest = request.RequestBodies.FirstOrDefault(content => ContentType.ToEnum(content.ContentType) == useContentType);
 
                 if (useRequest == null)
                     return String.Empty;
