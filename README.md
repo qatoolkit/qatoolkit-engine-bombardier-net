@@ -8,7 +8,7 @@
 ## Description
 `QAToolKit.Engine.Bombardier` is a .NET standard library, which takes `IEnumerable<HttpTestRequest>` object and runs load tests with tool called [Bombardier](https://github.com/codesenberg/bombardier).
 
-Supported .NET frameworks and standards: `netstandard2.0`, `netstandard2.1`, `netcoreapp3.1`, `net5.0`
+Supported .NET frameworks and standards: `netstandard2.0`, `netstandard2.1`, `net7.0`
 
 Library is a thin wrapper, that generates requests and parses results to JSON. You can process or import that JSON in other tools. We plan to release an exporter to CSV, HTML and maybe other formats.
 
@@ -208,7 +208,7 @@ in the sample code above. Check the [QAToolKit.Source.Swagger](https://github.co
 
 MIT License
 
-Copyright (c) 2020-2021 Miha Jakovac
+Copyright (c) 2020-2023 Miha Jakovac
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
